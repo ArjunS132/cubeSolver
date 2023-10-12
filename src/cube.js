@@ -24,7 +24,7 @@ export default class Cube {
         });
     }
 
-    rotateLeft() {
+    rotateLeft(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
@@ -47,7 +47,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                          initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
@@ -57,6 +57,7 @@ export default class Cube {
                                          initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
+                                         this.blocks[4].blockGroup.rotateOnWorldAxis( this.xAxis, angle.rotation - prev);
                                          prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -76,7 +77,7 @@ export default class Cube {
         return tween
     }
 
-    rotateLeftInverted() {
+    rotateLeftInverted(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
@@ -99,7 +100,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: -Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                          initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
@@ -109,6 +110,7 @@ export default class Cube {
                                          initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
                                          initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev );
+                                         this.blocks[4].blockGroup.rotateOnWorldAxis( this.xAxis, angle.rotation - prev);
                                          prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -128,10 +130,7 @@ export default class Cube {
         return tween
     }
 
-
-    rotateDown() {
-        console.log(" in rotated down " );
-        console.log(this.blocks[0])
+    rotateDown(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
@@ -154,7 +153,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
@@ -164,6 +163,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    this.blocks[10].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -183,7 +183,7 @@ export default class Cube {
         return tween
     }
 
-    rotateDownInverted() {
+    rotateDownInverted(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
@@ -207,17 +207,18 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: -Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
-                                         initialPositions[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[2].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[3].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[4].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         initialPositions[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
-                                         prev = angle.rotation;
+                                    initialPositions[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[2].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[3].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[4].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    initialPositions[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev );
+                                    this.blocks[10].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
                                 })
                                 .onComplete( () => {
                                     var temp = this.blocks[0];
@@ -236,9 +237,7 @@ export default class Cube {
         return tween
     }
 
-    rotateUp() {
-        console.log(" in rotated down " );
-        console.log(this.blocks[0])
+    rotateUp(speed) {
         var initialPositions = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
@@ -261,7 +260,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: - Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
@@ -271,6 +270,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    this.blocks[16].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -290,9 +290,7 @@ export default class Cube {
         return tween
     }
 
-    rotateUpInverted() {
-        console.log(" in rotated down " );
-        console.log(this.blocks[0])
+    rotateUpInverted(speed) {
         var initialPositions = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
@@ -315,7 +313,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
@@ -325,6 +323,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    this.blocks[16].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -344,7 +343,7 @@ export default class Cube {
         return tween
     }
 
-    rotateRight() {
+    rotateRight(speed) {
         var initialPositions = [ this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
@@ -367,7 +366,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: -Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
@@ -377,6 +376,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    this.blocks[22].blockGroup.rotateOnWorldAxis( this.xAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -396,7 +396,7 @@ export default class Cube {
         return tween
     }
 
-    rotateRightInverted() {
+    rotateRightInverted(speed) {
         var initialPositions = [ this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
@@ -419,7 +419,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
@@ -429,6 +429,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    this.blocks[22].blockGroup.rotateOnWorldAxis( this.xAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -436,7 +437,7 @@ export default class Cube {
                                     this.blocks[18] = this.blocks[20];
                                     this.blocks[20] = this.blocks[26];
                                     this.blocks[26] = this.blocks[24];
-                                    this.blocks[20] = temp;
+                                    this.blocks[24] = temp;
                                     var temp = this.blocks[19];
                                     this.blocks[19] = this.blocks[23];
                                     this.blocks[23] = this.blocks[25];
@@ -448,7 +449,7 @@ export default class Cube {
         return tween
     }
 
-    rotateBack() {
+    rotateBack(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
@@ -471,7 +472,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
@@ -481,6 +482,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
+                                    this.blocks[12].blockGroup.rotateOnWorldAxis( this.zAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -500,7 +502,7 @@ export default class Cube {
         return tween;
     }
 
-    rotateBackInverted() {
+    rotateBackInverted(speed) {
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
@@ -523,7 +525,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: - Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
@@ -533,6 +535,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
+                                    this.blocks[12].blockGroup.rotateOnWorldAxis( this.zAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -547,13 +550,12 @@ export default class Cube {
                                     this.blocks[21] = this.blocks[15];
                                     this.blocks[15] = temp;
                                     tween.stop();
-                                    this.rotateRight().start();
                                 } )
 
         return tween;
     }
 
-    rotateFront() {
+    rotateFront(speed) {
         var initialPositions = [ this.blocks[8].blockGroup,
                                  this.blocks[17].blockGroup,
                                  this.blocks[26].blockGroup,
@@ -576,7 +578,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: -Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
@@ -586,6 +588,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
+                                    this.blocks[14].blockGroup.rotateOnWorldAxis( this.zAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -600,13 +603,12 @@ export default class Cube {
                                     this.blocks[23] = this.blocks[17];
                                     this.blocks[17] = temp;
                                     tween.stop();
-                                    this.rotateRight().start();
                                 } )
 
         return tween;
     }
 
-    rotateFrontInverted() {
+    rotateFrontInverted(speed) {
         var initialPositions = [ this.blocks[8].blockGroup,
                                  this.blocks[17].blockGroup,
                                  this.blocks[26].blockGroup,
@@ -629,7 +631,7 @@ export default class Cube {
                                          ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
                                          ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
                                          rotation: Math.PI / 2
-                                    }, 2000 )
+                                    }, speed )
                                 .onUpdate( (angle) => {
                                     initialPositions[0].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[1].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
@@ -639,6 +641,7 @@ export default class Cube {
                                     initialPositions[5].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[6].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
                                     initialPositions[7].rotateOnWorldAxis(this.zAxis, angle.rotation - prev);
+                                    this.blocks[14].blockGroup.rotateOnWorldAxis( this.zAxis, angle.rotation - prev);
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
@@ -654,7 +657,6 @@ export default class Cube {
                                     this.blocks[23] = this.blocks[11];
                                     this.blocks[11] = temp;
                                     tween.stop();
-                                    this.rotateRight().start();
                                 } )
         return tween
     }

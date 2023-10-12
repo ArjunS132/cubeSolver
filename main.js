@@ -32,8 +32,10 @@ const gridLines = new THREE.GridHelper(50, 50)
 
 const axesHelper = new THREE.AxesHelper(8);
 
-// const scrambler = new Scrambler();
-// scrambler.scramble(cube, 3);
+const scrambler = new Scrambler();
+scrambler.scramble(cube, 30);
+
+//cube.rotateRight().start();
 
 scene.add(cube.cubeGroup, gridLines, axesHelper );
 function animate(t) {

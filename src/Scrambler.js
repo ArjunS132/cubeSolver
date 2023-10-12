@@ -4,60 +4,68 @@ export default class Scrambler {
     constructor() {
     }
 
-    scramble(cube, depth) {
+    // function applyTween(tween) {
+    //     if(tween.isPlaying
+    // }
+
+    async scramble(cube, depth) {
         var tween;
 
-        for( let i = 0; i < depth ; i++ ) {
-            let timer = Date.now();
-            let now = Date.now();
-            let change = now - timer;
-            const randNumber = Math.floor( Math.random() * (11));
+        function until(conditionFunction) {
+
+          const poll = resolve => {
+            if(conditionFunction()) resolve();
+            else setTimeout(_ => poll(resolve), 1000);
+          }
+
+          return new Promise(poll);
+        }
+
+
+        for(let i =0; i < depth; i++) {
+            const randNumber = Math.floor( Math.random() * (10)) + 1;
             switch (randNumber) {
                 case 0:
-                    tween = cube.rotateRight()
+                    tween = cube.rotateRightInverted(500)
                     break;
                 case 1:
-                    tween = cube.rotateRightInverted()
+                    tween = cube.rotateRight(500)
                     break;
                 case 2:
-                    tween = cube.rotateLeft()
+                    tween = cube.rotateLeft(500)
                     break;
                 case 3:
-                    tween = cube.rotateLeftInverted()
+                    tween = cube.rotateLeftInverted(500)
                     break;
                 case 4:
-                    tween = cube.rotateUp()
+                    tween = cube.rotateUp(500)
                     break;
                 case 5:
-                    tween = cube.rotateUpInverted()
+                    tween = cube.rotateUpInverted(500)
                     break;
                 case 6:
-                    tween = cube.rotateDown()
+                    tween = cube.rotateDown(500)
                     break;
                 case 7:
-                    tween = cube.rotateDownInverted()
+                    tween = cube.rotateDownInverted(500)
                     break;
                 case 8:
-                    tween = cube.rotateFront()
+                    tween = cube.rotateFront(500)
                     break;
                 case 9:
-                    tween = cube.rotateFrontInverted()
+                    tween = cube.rotateFrontInverted(500)
                     break;
                 case 10:
-                    tween = cube.rotateBack()
+                    tween = cube.rotateBack(500)
                     break;
                 case 11:
-                    tween = cube.rotateBackInverted()
+                    tween = cube.rotateBackInverted(500)
                     break;
                 default:
                     break;
             }
-            while( change < 30000 ) {
-                now = Date.now();
-                change = now - timer;
-            }
             tween.start();
-            console.log( tween );
+            await until(_ => tween.isPlaying() === false );
         }
     }
 }
