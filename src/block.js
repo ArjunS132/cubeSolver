@@ -3,13 +3,16 @@ import * as THREE from 'three'
 export default class Block {
     constructor(x, y, z) {
         this.blockGroup = new THREE.Group();
+        this.initialPosition = [x, y, z];
+        this.initialVector = new THREE.Vector3(x, y, z);
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial( {
             vertexColors: true
         });
         const positionAttribute = geometry.getAttribute('position');
         const color = new THREE.Color();
-        const colorHexs = [0x009b48, 0xffffff, 0xb71234, 0xffd500, 0x0046ad, 0xff5800];
+        //  blue, green, yellow, white, orange, red
+        const colorHexs = [0x0046ad, 0x009b58, 0xffd500, 0xffffff, 0xff5800, 0xb71234];
         const colors = []
         for (let i = 0; i < 6; i += 1) {
             color.setHex(colorHexs[5-i]);

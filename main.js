@@ -20,7 +20,7 @@ renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 
 camera.position.setZ(8);
-camera.position.setX(-3);
+camera.position.setX(3);
 camera.position.setY(3);
 camera.rotation.x =  Math.PI / 6 ;
 
@@ -29,15 +29,16 @@ renderer.render( scene, camera );
 const controls = new OrbitControls(camera, renderer.domElement);
 const cube = new Cube(3);
 const gridLines = new THREE.GridHelper(50, 50)
+const block = new Block(5, 5, 5);
 
 const axesHelper = new THREE.AxesHelper(8);
 
-const scrambler = new Scrambler();
-scrambler.scramble(cube, 30);
+// const scrambler = new Scrambler();
+// scrambler.scramble(cube, 30);
 
 //cube.rotateRight().start();
 
-scene.add(cube.cubeGroup, gridLines, axesHelper );
+scene.add(cube.cubeGroup, gridLines, axesHelper, block.blockGroup);
 function animate(t) {
     requestAnimationFrame( animate );
     controls.update;

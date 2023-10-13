@@ -4,10 +4,6 @@ export default class Scrambler {
     constructor() {
     }
 
-    // function applyTween(tween) {
-    //     if(tween.isPlaying
-    // }
-
     async scramble(cube, depth) {
         var tween;
 
@@ -23,7 +19,7 @@ export default class Scrambler {
 
 
         for(let i =0; i < depth; i++) {
-            const randNumber = Math.floor( Math.random() * (10)) + 1;
+            const randNumber = Math.floor( Math.random() * (11));
             switch (randNumber) {
                 case 0:
                     tween = cube.rotateRightInverted(500)
