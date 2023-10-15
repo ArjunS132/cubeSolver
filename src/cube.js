@@ -25,7 +25,7 @@ export default class Cube {
     }
 
     rotateLeft(speed) {
-        this.blocks[0].blockGroup.children[0];
+        this.blocks[9].blockGroup.children[0].materials;
         var initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
