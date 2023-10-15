@@ -8,12 +8,12 @@ export default class Block {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
 
         var materials = [
-          new THREE.MeshBasicMaterial({ color: 0xb71234 }), // Right face (Red)
-          new THREE.MeshBasicMaterial({ color: 0xff5800 }), // Left face (Orange)
-          new THREE.MeshBasicMaterial({ color: 0xffffff }), // Top face (White)
-          new THREE.MeshBasicMaterial({ color: 0xffdf00 }), // Bottom face (Yellow)
-          new THREE.MeshBasicMaterial({ color: 0x009b58 }), // Front face (Green)
-          new THREE.MeshBasicMaterial({ color: 0x0046ad })  // Back face (Blue)
+          new THREE.MeshBasicMaterial({ color: 0xb71234, side: THREE.DoubleSide }), // Right face (Red)
+          new THREE.MeshBasicMaterial({ color: 0xff5800, side: THREE.DoubleSide }), // Left face (Orange)
+          new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }), // Top face (White)
+          new THREE.MeshBasicMaterial({ color: 0xffdf00, side: THREE.DoubleSide }), // Bottom face (Yellow)
+          new THREE.MeshBasicMaterial({ color: 0x009b58, side: THREE.DoubleSide }), // Front face (Green)
+          new THREE.MeshBasicMaterial({ color: 0x0046ad, side: THREE.DoubleSide })  // Back face (Blue)
         ];
 
         this.blockMesh = new THREE.Mesh(geometry, materials);

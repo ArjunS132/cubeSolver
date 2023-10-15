@@ -1,5 +1,3 @@
-import TWEEN from '@tweenjs/tween.js'
-
 export default class Scrambler {
     constructor() {
     }

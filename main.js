@@ -3,6 +3,7 @@ import Block from './src/block.js'
 import Cube from './src/cube.js'
 import TWEEN from '@tweenjs/tween.js'
 import Scrambler from './src/Scrambler.js'
+import Solver from './src/Solver.js'
 
 
 import * as THREE from 'three'
@@ -36,7 +37,9 @@ const axesHelper = new THREE.AxesHelper(8);
 const scrambler = new Scrambler();
 // scrambler.scramble(cube, 30);
 
-//cube.rotateRight().start();
+const solver = new Solver();
+solver.Solve(cube);
+
 
 scene.add(cube.cubeGroup, gridLines, axesHelper, block.blockGroup);
 function animate(t) {
