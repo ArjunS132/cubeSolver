@@ -6,23 +6,17 @@ export default class Block {
         this.initialPosition = [x, y, z];
         this.initialVector = new THREE.Vector3(x, y, z);
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial( {
-            vertexColors: true
-        });
-        const positionAttribute = geometry.getAttribute('position');
-        const color = new THREE.Color();
-        //  blue, green, yellow, white, orange, red
-        const colorHexs = [0x0046ad, 0x009b58, 0xffd500, 0xffffff, 0xff5800, 0xb71234];
-        const colors = []
-        for (let i = 0; i < 6; i += 1) {
-            color.setHex(colorHexs[5-i]);
-            colors.push(color.r, color.g, color.b);
-            colors.push(color.r, color.g, color.b);
-            colors.push(color.r, color.g, color.b);
-            colors.push(color.r, color.g, color.b);
-        }
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3) );
-        this.blockMesh = new THREE.Mesh(geometry, material);
+
+        var materials = [
+          new THREE.MeshBasicMaterial({ color: 0xb71234 }), // Right face (Red)
+          new THREE.MeshBasicMaterial({ color: 0xff5800 }), // Left face (Orange)
+          new THREE.MeshBasicMaterial({ color: 0xffffff }), // Top face (White)
+          new THREE.MeshBasicMaterial({ color: 0xffdf00 }), // Bottom face (Yellow)
+          new THREE.MeshBasicMaterial({ color: 0x009b58 }), // Front face (Green)
+          new THREE.MeshBasicMaterial({ color: 0x0046ad })  // Back face (Blue)
+        ];
+
+        this.blockMesh = new THREE.Mesh(geometry, materials);
         const lineGeometry = new THREE.EdgesGeometry(this.blockMesh.geometry);
         const lineMaterial = new THREE.MeshBasicMaterial( {
             color: 0x000000

@@ -33,7 +33,7 @@ const block = new Block(5, 5, 5);
 
 const axesHelper = new THREE.AxesHelper(8);
 
-// const scrambler = new Scrambler();
+const scrambler = new Scrambler();
 // scrambler.scramble(cube, 30);
 
 //cube.rotateRight().start();
