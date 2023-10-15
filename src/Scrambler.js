@@ -1,3 +1,4 @@
+import Solver from './Solver.js'
 export default class Scrambler {
     constructor() {
     }
@@ -61,5 +62,7 @@ export default class Scrambler {
             tween.start();
             await until(_ => tween.isPlaying() === false );
         }
+        var solver = new Solver();
+        solver.Solve(cube);
     }
 }

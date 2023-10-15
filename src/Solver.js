@@ -10,15 +10,11 @@ export default class Solver {
 
 
     async Solve(cube) {
-        var tween;
-
         function until(conditionFunction) {
-
           const poll = resolve => {
             if(conditionFunction()) resolve();
             else setTimeout(_ => poll(resolve), 1000);
           }
-
           return new Promise(poll);
         }
 
@@ -30,31 +26,30 @@ export default class Solver {
         var frontVector = new THREE.Vector3(0, 0, 1);
         var backVector = new THREE.Vector3(0, 0, -1);
 
-        var materials = [
-            "red", "orange", "white", "yellow", "green", "blue"
-            // 0xb71234, //(Red)
-            // 0xff5800, //(Orange)
-            // 0xffffff, //(White)
-            // 0xffdf00, //(Yellow)
-            // 0x009b58, //(Green)
-            // 0x0046ad  //(Blue)
-        ];
+        var materials = [ "red", "orange", "white", "yellow", "green", "blue" ];
         var currBlock = cube.blocks[0].blockGroup.children[0];
         raycaster.ray.origin.copy(currBlock.position);
+
+        raycaster.ray.direction.copy(leftVector);
+        var intersects = raycaster.intersectObject(currBlock);
+        console.log(intersects);
+        var leftFaceIndex = intersects[0].face.materialIndex;
+        var leftFaceColor = materials[leftFaceIndex];
+        console.log("left face color: " + leftFaceColor);
+        console.log(leftFaceIndex);
+
         raycaster.ray.direction.copy(backVector);
         var intersects = raycaster.intersectObject(currBlock);
-        if (intersects.length > 0) {
-            console.log(intersects);
-            var frontFaceIndex = intersects[0].face.materialIndex;
-            var frontFaceColor = materials[frontFaceIndex];
-            console.log("curr face color: " + frontFaceColor);
-            console.log(frontFaceIndex);
-        }
-        else {
-            console.log(currBlock.position);
-            console.log(intersects);
-            console.log(currBlock);
-            console.log("what???");
-        }
+        console.log(intersects);
+        var backFaceIndex = intersects[0].face.materialIndex;
+        var backFaceColor = materials[backFaceIndex];
+        console.log("back face color: " + backFaceColor);
+
+        raycaster.ray.direction.copy(bottomVector);
+        var intersects = raycaster.intersectObject(currBlock);
+        console.log(intersects);
+        var bottomFaceIndex = intersects[0].face.materialIndex;
+        var bottomFaceColor = materials[bottomFaceIndex];
+        console.log("bottom face color: " + bottomFaceColor);
     }
 }

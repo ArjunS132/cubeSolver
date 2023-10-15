@@ -10,6 +10,17 @@ import * as THREE from 'three'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
+function until(conditionFunction) {
+
+  const poll = resolve => {
+    if(conditionFunction()) resolve();
+    else setTimeout(_ => poll(resolve), 1000);
+  }
+
+  return new Promise(poll);
+}
+
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -35,9 +46,8 @@ const block = new Block(5, 5, 5);
 const axesHelper = new THREE.AxesHelper(8);
 
 const scrambler = new Scrambler();
-// scrambler.scramble(cube, 30);
+scrambler.scramble(cube, 6);
 
-const solver = new Solver();
 solver.Solve(cube);
 
 
