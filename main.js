@@ -38,6 +38,7 @@ const scrambler = new Scrambler();
 scrambler.scramble(cube, 6);
 // const solver = new Solver();
 // solver.solvedCross(cube);
+// cube.parseRotations("F L R U D B' F' R' L' U' D' B", 200);
 
 scene.add(cube.cubeGroup, gridLines, axesHelper, block.blockGroup);
 function animate(t) {

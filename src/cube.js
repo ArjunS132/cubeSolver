@@ -661,6 +661,72 @@ export default class Cube {
                                 } )
         return tween
     }
+
+    async parseRotations(str, speed) {
+        let rotations = str.split(" ");
+
+        function until(conditionFunction) {
+
+          const poll = resolve => {
+            if(conditionFunction()) resolve();
+            else setTimeout(_ => poll(resolve), 100);
+          }
+
+          return new Promise(poll);
+        }
+
+        for( let i =0; i < rotations.length; i++) {
+            var rotation = rotations[i];
+            var tween;
+            switch (rotation) {
+                case "F":
+                    tween = this.rotateFront(speed);
+                    break;
+                case "F'":
+                    tween = this.rotateFrontInverted(speed);
+                    break;
+                case "R":
+                    tween = this.rotateRight(speed);
+                    break;
+                case "R'":
+                    tween = this.rotateRightInverted(speed);
+                    break;
+                case "L":
+                    tween = this.rotateLeft(speed);
+                    break;
+                case "L'":
+                    tween = this.rotateLeftInverted(speed);
+                    break;
+                case "D":
+                    tween = this.rotateDown(speed);
+                    break;
+                case "D'":
+                    tween = this.rotateDownInverted(speed);
+                    break;
+                case "U":
+                    tween = this.rotateUp(speed);
+                    break;
+                case "U'":
+                    tween = this.rotateUpInverted(speed);
+                    break;
+                case "B":
+                    tween = this.rotateBack(speed);
+                    break;
+                case "B'":
+                    tween = this.rotateBackInverted(speed);
+                    break;
+                default:
+                    break;
+            }
+            tween.start();
+            console.log("mid parsing");
+            await until(_ => tween.isPlaying() === false );
+        }
+    }
+
+    /*
+     * returns 6 arrays which are the surfaces of the cube
+     */
     getSides() {
         const raycaster = new THREE.Raycaster();
         const rightVector = new THREE.Vector3(1, 0, 0);

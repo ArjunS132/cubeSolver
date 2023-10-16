@@ -16,53 +16,51 @@ export default class Scrambler {
           return new Promise(poll);
         }
 
-
+        let rotations = "";
         for(let i =0; i < depth; i++) {
             const randNumber = Math.floor( Math.random() * (11));
             switch (randNumber) {
                 case 0:
-                    tween = cube.rotateRightInverted(500)
+                    rotations += "R' ";
                     break;
                 case 1:
-                    tween = cube.rotateRight(500)
+                    rotations += "R ";
                     break;
                 case 2:
-                    tween = cube.rotateLeft(500)
+                    rotations += "L ";
                     break;
                 case 3:
-                    tween = cube.rotateLeftInverted(500)
+                    rotations += "L' ";
                     break;
                 case 4:
-                    tween = cube.rotateUp(500)
+                    rotations += "U ";
                     break;
                 case 5:
-                    tween = cube.rotateUpInverted(500)
+                    rotations += "U' ";
                     break;
                 case 6:
-                    tween = cube.rotateDown(500)
+                    rotations += "D ";
                     break;
                 case 7:
-                    tween = cube.rotateDownInverted(500)
+                    rotations += "D' ";
                     break;
                 case 8:
-                    tween = cube.rotateFront(500)
+                    rotations += "F ";
                     break;
                 case 9:
-                    tween = cube.rotateFrontInverted(500)
+                    rotations += "F' ";
                     break;
                 case 10:
-                    tween = cube.rotateBack(500)
+                    rotations += "B ";
                     break;
                 case 11:
-                    tween = cube.rotateBackInverted(500)
+                    rotations += "B' ";
                     break;
                 default:
                     break;
             }
-            tween.start();
-            await until(_ => tween.isPlaying() === false );
         }
-        await until(_ => tween.isPlaying() == false);
+        await cube.parseRotations(rotations, 200);
         const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
         cube.findPiece(["white", "green"]);
     }
