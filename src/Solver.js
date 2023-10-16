@@ -55,6 +55,7 @@ export default class Solver {
 
     bottomCross(cube) {
         while( !this.solvedCross(cube) ) {
+
         }
     }
 

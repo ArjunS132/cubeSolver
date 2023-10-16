@@ -62,7 +62,7 @@ export default class Scrambler {
             tween.start();
             await until(_ => tween.isPlaying() === false );
         }
-        var solver = new Solver();
-        solver.solvedCross(cube);
+        await until(_ => tween.isPlaying() == false);
+        cube.findPiece();
     }
 }

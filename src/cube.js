@@ -661,5 +661,221 @@ export default class Cube {
                                 } )
         return tween
     }
+    getSides() {
+        const raycaster = new THREE.Raycaster();
+        const rightVector = new THREE.Vector3(1, 0, 0);
+        const leftVector = new THREE.Vector3(-1, 0, 0);
+        const upVector = new THREE.Vector3(0, 1, 0);
+        const downVector = new THREE.Vector3(0, -1, 0);
+        const frontVector = new THREE.Vector3(0, 0, 1);
+        const backVector = new THREE.Vector3(0, 0, -1);
+        const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
+        const sides = new Map();
+        var currBlocks = []
+        var intersects, faceIndex, faceColor;
+        // the blocks that are on up
+        currBlocks.push( this.blocks[6] );
+        currBlocks.push( this.blocks[15] );
+        currBlocks.push( this.blocks[24] );
+        currBlocks.push( this.blocks[7] );
+        currBlocks.push( this.blocks[16] );
+        currBlocks.push( this.blocks[25] );
+        currBlocks.push( this.blocks[8] );
+        currBlocks.push( this.blocks[17] );
+        currBlocks.push( this.blocks[26] );
+        const up = [];
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(upVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            up.push(faceColor);
+        });
+        sides.set("up", up);
+
+        // empty out the array
+        currBlocks.length = 0;
+        // left side blocks
+        currBlocks.push( this.blocks[6] );
+        currBlocks.push( this.blocks[7] );
+        currBlocks.push( this.blocks[8] );
+        currBlocks.push( this.blocks[3] );
+        currBlocks.push( this.blocks[4] );
+        currBlocks.push( this.blocks[5] );
+        currBlocks.push( this.blocks[0] );
+        currBlocks.push( this.blocks[1] );
+        currBlocks.push( this.blocks[2] );
+        const left = []
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(leftVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            left.push(faceColor);
+        });
+        sides.set("left", left);
+
+        // empty out the array
+        currBlocks.length = 0;
+        // front side blocks
+        currBlocks.push( this.blocks[8] );
+        currBlocks.push( this.blocks[17] );
+        currBlocks.push( this.blocks[26] );
+        currBlocks.push( this.blocks[5] );
+        currBlocks.push( this.blocks[14] );
+        currBlocks.push( this.blocks[23] );
+        currBlocks.push( this.blocks[2] );
+        currBlocks.push( this.blocks[11] );
+        currBlocks.push( this.blocks[20] );
+        const front = []
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(frontVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            front.push(faceColor);
+        });
+        sides.set("front", front);
+
+        // empty out the array
+        currBlocks.length = 0;
+        // right side blocks
+        currBlocks.push( this.blocks[26] );
+        currBlocks.push( this.blocks[25] );
+        currBlocks.push( this.blocks[24] );
+        currBlocks.push( this.blocks[23] );
+        currBlocks.push( this.blocks[22] );
+        currBlocks.push( this.blocks[21] );
+        currBlocks.push( this.blocks[20] );
+        currBlocks.push( this.blocks[19] );
+        currBlocks.push( this.blocks[18] );
+        const right = []
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(rightVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            right.push(faceColor);
+        });
+        sides.set("right", right);
+
+        // empty out the array
+        currBlocks.length = 0;
+        // back side blocks
+        currBlocks.push( this.blocks[24] );
+        currBlocks.push( this.blocks[15] );
+        currBlocks.push( this.blocks[6] );
+        currBlocks.push( this.blocks[21] );
+        currBlocks.push( this.blocks[12] );
+        currBlocks.push( this.blocks[3] );
+        currBlocks.push( this.blocks[18] );
+        currBlocks.push( this.blocks[9] );
+        currBlocks.push( this.blocks[0] );
+        const back = []
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(backVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            back.push(faceColor);
+        });
+        sides.set("back", back);
+
+        // empty out the array
+        currBlocks.length = 0;
+        // down side blocks
+        currBlocks.push( this.blocks[2] );
+        currBlocks.push( this.blocks[11] );
+        currBlocks.push( this.blocks[20] );
+        currBlocks.push( this.blocks[1] );
+        currBlocks.push( this.blocks[10] );
+        currBlocks.push( this.blocks[19] );
+        currBlocks.push( this.blocks[0] );
+        currBlocks.push( this.blocks[9] );
+        currBlocks.push( this.blocks[18] );
+        const down = []
+
+        currBlocks.forEach(block => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            raycaster.ray.direction.copy(downVector);
+            intersects = raycaster.intersectObject(currBlock);
+            faceIndex = intersects[0].face.materialIndex;
+            faceColor = colors[faceIndex];
+            down.push(faceColor);
+        });
+        sides.set("down", down);
+
+        console.log(sides);
+    }
+
+    findPiece(searchColors) {
+        const raycaster = new THREE.Raycaster();
+        const rightVector = new THREE.Vector3(1, 0, 0);
+        const leftVector = new THREE.Vector3(-1, 0, 0);
+        const upVector = new THREE.Vector3(0, 1, 0);
+        const downVector = new THREE.Vector3(0, -1, 0);
+        const frontVector = new THREE.Vector3(0, 0, 1);
+        const backVector = new THREE.Vector3(0, 0, -1);
+        const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
+        // the vectors for outward facing faces for each block
+        let blockColors = [];
+        const vectors = [ [leftVector, backVector, downVector],
+                            [leftVector, downVector],
+                            [leftVector, downVector, frontVector],
+                            [leftVector, backVector],
+                            [leftVector],
+                            [leftVector, frontVector],
+                            [leftVector, backVector, upVector],
+                            [leftVector, upVector],
+                            [leftVector, upVector, frontVector],
+                            [downVector, backVector],
+                            [downVector],
+                            [downVector, frontVector],
+                            [backVector],
+                            [],
+                            [frontVector],
+                            [backVector, upVector],
+                            [upVector],
+                            [upVector, frontVector],
+                            [downVector, rightVector, backVector],
+                            [downVector, rightVector],
+                            [downVector, rightVector, frontVector],
+                            [rightVector, backVector],
+                            [rightVector],
+                            [rightVector, frontVector],
+                            [rightVector, backVector, upVector],
+                            [rightVector, upVector],
+                            [rightVector, upVector, frontVector] ];
+        this.blocks.forEach( (block, index) => {
+            let currBlock = block.blockGroup.children[0]
+            raycaster.ray.origin.copy(currBlock.parent.position);
+            let faceColors = []
+            vectors.at(index).forEach( vector => {
+                raycaster.ray.direction.copy(vector);
+                let intersects = raycaster.intersectObject(currBlock);
+                let faceIndex = intersects[0].face.materialIndex;
+                let faceColor = colors[faceIndex];
+                faceColors.push(faceColor);
+            });
+            blockColors.push(faceColors);
+        });
+        console.log(blockColors);
+    }
 }
 
