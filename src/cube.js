@@ -876,6 +876,16 @@ export default class Cube {
             blockColors.push(faceColors);
         });
         console.log(blockColors);
+
+        // search through all the colors to find the index of the block that's being serached
+        let returnIndex = -1;
+        blockColors.forEach( (block, index) => {
+            if( searchColors.every( currColor => block.includes(currColor) ) && block.length === searchColors.length) {
+                returnIndex = index;
+            }
+        });
+        console.log(returnIndex);
+        return returnIndex;
     }
 }
 

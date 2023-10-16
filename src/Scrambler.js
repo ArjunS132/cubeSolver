@@ -63,6 +63,7 @@ export default class Scrambler {
             await until(_ => tween.isPlaying() === false );
         }
         await until(_ => tween.isPlaying() == false);
-        cube.findPiece();
+        const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
+        cube.findPiece(["white", "green"]);
     }
 }
