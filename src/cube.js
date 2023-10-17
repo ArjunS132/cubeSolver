@@ -662,14 +662,17 @@ export default class Cube {
         return tween
     }
 
+    /*
+     * @param {String} str
+     */
     async parseRotations(str, speed) {
-        let rotations = str.split(" ");
+        let rotations = str.trim().split(" ");
 
         function until(conditionFunction) {
 
           const poll = resolve => {
             if(conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 100);
+            else setTimeout(_ => poll(resolve), 10);
           }
 
           return new Promise(poll);
@@ -678,6 +681,7 @@ export default class Cube {
         for( let i =0; i < rotations.length; i++) {
             var rotation = rotations[i];
             var tween;
+            var playRotation = true;
             switch (rotation) {
                 case "F":
                     tween = this.rotateFront(speed);
@@ -716,11 +720,12 @@ export default class Cube {
                     tween = this.rotateBackInverted(speed);
                     break;
                 default:
-                    break;
+                    playRotation = false;
             }
-            tween.start();
-            console.log("mid parsing");
-            await until(_ => tween.isPlaying() === false );
+            if( playRotation ) {
+                tween.start();
+                await until(_ => tween.isPlaying() === false );
+            }
         }
     }
 
@@ -886,8 +891,7 @@ export default class Cube {
             down.push(faceColor);
         });
         sides.set("down", down);
-
-        console.log(sides);
+        return sides;
     }
 
     findPiece(searchColors) {
@@ -941,7 +945,6 @@ export default class Cube {
             });
             blockColors.push(faceColors);
         });
-        console.log(blockColors);
 
         // search through all the colors to find the index of the block that's being serached
         let returnIndex = -1;
@@ -950,7 +953,6 @@ export default class Cube {
                 returnIndex = index;
             }
         });
-        console.log(returnIndex);
         return returnIndex;
     }
 }

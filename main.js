@@ -4,6 +4,7 @@ import Cube from './src/cube.js'
 import TWEEN from '@tweenjs/tween.js'
 import Scrambler from './src/Scrambler.js'
 import Solver from './src/Solver.js'
+import Tester from './test.js'
 
 
 import * as THREE from 'three'
@@ -30,17 +31,10 @@ renderer.render( scene, camera );
 const controls = new OrbitControls(camera, renderer.domElement);
 const cube = new Cube(3);
 const gridLines = new THREE.GridHelper(50, 50)
-const block = new Block(5, 5, 5);
 
 const axesHelper = new THREE.AxesHelper(8);
 
-const scrambler = new Scrambler();
-scrambler.scramble(cube, 6);
-// const solver = new Solver();
-// solver.solvedCross(cube);
-// cube.parseRotations("F L R U D B' F' R' L' U' D' B", 200);
-
-scene.add(cube.cubeGroup, gridLines, axesHelper, block.blockGroup);
+scene.add(gridLines, axesHelper);
 function animate(t) {
     requestAnimationFrame( animate );
     controls.update;
@@ -49,3 +43,6 @@ function animate(t) {
 }
 
 animate()
+
+const tester = new Tester(scene);
+tester.testGreenYellow();

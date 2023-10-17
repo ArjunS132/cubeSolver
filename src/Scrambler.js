@@ -60,8 +60,6 @@ export default class Scrambler {
                     break;
             }
         }
-        await cube.parseRotations(rotations, 200);
-        const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
-        cube.findPiece(["white", "green"]);
+        await cube.parseRotations(rotations, 2);
     }
 }
