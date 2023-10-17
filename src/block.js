@@ -3,8 +3,6 @@ import * as THREE from 'three'
 export default class Block {
     constructor(x, y, z) {
         this.blockGroup = new THREE.Group();
-        this.initialPosition = [x, y, z];
-        this.initialVector = new THREE.Vector3(x, y, z);
         const geometry = new THREE.BoxGeometry(1, 1, 1);
 
         var materials = [

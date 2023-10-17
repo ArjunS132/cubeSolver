@@ -15,14 +15,19 @@ export default class Solver {
 
     async bottomCross(cube) {
         // get yellow + green to right position
-        let position = cube.findPiece(["yellow", "green"]);
+        let downColor = cube.getSides().get("down")[4];
+        let frontColor = cube.getSides().get("front")[4];
+        let rightColor = cube.getSides().get("right")[4];
+        let leftColor = cube.getSides().get("left")[4];
+        let backColor = cube.getSides().get("back")[4];
+        let position = cube.findPiece([downColor, frontColor]);
         let blockColors = cube.getSides();
         let rotations = "";
         // fixing yellow green orientation
         console.log(position);
         switch (position) {
             case 1:
-                if( blockColors.get("down")[3] === "yellow" ) {
+                if( blockColors.get("down")[3] === downColor ) {
                     rotations += "L L U' F F";
                 }
                 else {
@@ -30,7 +35,7 @@ export default class Solver {
                 }
                 break;
             case 3:
-                if( blockColors.get("left")[3] === "green" ) {
+                if( blockColors.get("left")[3] === frontColor ) {
                     rotations += "L U' L' F F"
                 }
                 else {
@@ -38,7 +43,7 @@ export default class Solver {
                 }
                 break;
             case 5:
-                if( blockColors.get("front")[3] === "green" ) {
+                if( blockColors.get("front")[3] === frontColor ) {
                     rotations += "F'";
                 }
                 else {
@@ -46,7 +51,7 @@ export default class Solver {
                 }
                 break;
             case 7:
-                if( blockColors.get("left")[1] === "green" ) {
+                if( blockColors.get("left")[1] === frontColor ) {
                     rotations += "U' F F";
                 }
                 else {
@@ -54,7 +59,7 @@ export default class Solver {
                 }
                 break;
             case 9:
-                if( blockColors.get("down")[7] === "yellow" ) {
+                if( blockColors.get("down")[7] === downColor ) {
                     rotations += "D D";
                 }
                 else {
@@ -62,13 +67,13 @@ export default class Solver {
                 }
                 break;
             case 11:
-                if( blockColors.get("down")[1] === "green" ) {
+                if( blockColors.get("down")[1] === frontColor ) {
                     rotations += "F D' L D";
                 }
                 // else in the right position
                 break;
             case 15:
-                if( blockColors.get("back")[1] === "green" ) {
+                if( blockColors.get("back")[1] === frontColor ) {
                     rotations += "U U F F";
                 }
                 else {
@@ -76,7 +81,7 @@ export default class Solver {
                 }
                 break;
             case 17:
-                if( blockColors.get("front")[1] === "green" ) {
+                if( blockColors.get("front")[1] === frontColor ) {
                     rotations += "F F";
                 }
                 else {
@@ -84,7 +89,7 @@ export default class Solver {
                 }
                 break;
             case 19:
-                if( blockColors.get("right")[7] === "green" ) {
+                if( blockColors.get("right")[7] === frontColor ) {
                     rotations += "R' D R D'";
                 }
                 else {
@@ -92,7 +97,7 @@ export default class Solver {
                 }
                 break;
             case 21:
-                if( blockColors.get("right")[5] === "green" ) {
+                if( blockColors.get("right")[5] === frontColor ) {
                     rotations += "D R D'";
                 }
                 else {
@@ -100,7 +105,7 @@ export default class Solver {
                 }
                 break;
             case 23:
-                if( blockColors.get("front")[5] === "green" ) {
+                if( blockColors.get("front")[5] === frontColor ) {
                     rotations += "F";
                 }
                 else {
@@ -108,7 +113,7 @@ export default class Solver {
                 }
                 break;
             case 25:
-                if( blockColors.get("right")[1] === "green" ) {
+                if( blockColors.get("right")[1] === frontColor ) {
                     rotations += "U F F"
                 }
                 else {
@@ -122,13 +127,13 @@ export default class Solver {
         await cube.parseRotations(rotations, 2);
 
         // get yellow + red to right position
-        position = cube.findPiece(["yellow", "red"]);
+        position = cube.findPiece([downColor, rightColor]);
         blockColors = cube.getSides();
         rotations = "";
         // fixing yellow red orientation
         switch (position) {
             case 1:
-                if( blockColors.get("down")[3] === "yellow" ) {
+                if( blockColors.get("down")[3] === downColor ) {
                     rotations += "L L U' U' R' R'";
                 }
                 else {
@@ -136,7 +141,7 @@ export default class Solver {
                 }
                 break;
             case 3:
-                if( blockColors.get("left")[3] === "red" ) {
+                if( blockColors.get("left")[3] === rightColor ) {
                     rotations += "L U' L' U' R R"
                 }
                 else {
@@ -144,7 +149,7 @@ export default class Solver {
                 }
                 break;
             case 5:
-                if( blockColors.get("front")[3] === "red" ) {
+                if( blockColors.get("front")[3] === rightColor ) {
                     rotations += "F U' F' R R";
                 }
                 else {
@@ -152,7 +157,7 @@ export default class Solver {
                 }
                 break;
             case 7:
-                if( blockColors.get("left")[1] === "red" ) {
+                if( blockColors.get("left")[1] === rightColor ) {
                     rotations += "U' U' R R";
                 }
                 else {
@@ -160,7 +165,7 @@ export default class Solver {
                 }
                 break;
             case 9:
-                if( blockColors.get("down")[7] === "yellow" ) {
+                if( blockColors.get("down")[7] === downColor ) {
                     rotations += "B B U R R";
                 }
                 else {
@@ -169,13 +174,13 @@ export default class Solver {
                 break;
             // shouldn't reach here, as green was put into the right position earlier
             // case 11:
-            //     if( blockColors.get("down")[1] === "red" ) {
+            //     if( blockColors.get("down")[1] === rightColor ) {
             //         rotations += "F D' L D";
             //     }
             //     // else in the right position
             //     break;
             case 15:
-                if( blockColors.get("back")[1] === "red" ) {
+                if( blockColors.get("back")[1] === rightColor ) {
                     rotations += "U R R";
                 }
                 else {
@@ -183,7 +188,7 @@ export default class Solver {
                 }
                 break;
             case 17:
-                if( blockColors.get("front")[1] === "red" ) {
+                if( blockColors.get("front")[1] === rightColor ) {
                     rotations += "U' R R";
                 }
                 else {
@@ -191,13 +196,13 @@ export default class Solver {
                 }
                 break;
             case 19:
-                if( blockColors.get("right")[7] === "yellow" ) {
+                if( blockColors.get("right")[7] === downColor ) {
                     rotations += "R D' F D";
                 }
                 // else in the right position
                 break;
             case 21:
-                if( blockColors.get("right")[5] === "red" ) {
+                if( blockColors.get("right")[5] === rightColor ) {
                     rotations += "R";
                 }
                 else {
@@ -205,7 +210,7 @@ export default class Solver {
                 }
                 break;
             case 23:
-                if( blockColors.get("front")[5] === "yellow" ) {
+                if( blockColors.get("front")[5] === downColor ) {
                     rotations += "R'";
                 }
                 else {
@@ -213,7 +218,7 @@ export default class Solver {
                 }
                 break;
             case 25:
-                if( blockColors.get("right")[1] === "red" ) {
+                if( blockColors.get("right")[1] === rightColor ) {
                     rotations += "R R"
                 }
                 else {
@@ -227,13 +232,13 @@ export default class Solver {
         await cube.parseRotations(rotations, 2);
 
         // get yellow + blue to right position
-        position = cube.findPiece(["yellow", "blue"]);
+        position = cube.findPiece([downColor, backColor]);
         blockColors = cube.getSides();
         rotations = "";
         // fixing yellow blue orientation
         switch (position) {
             case 1:
-                if( blockColors.get("down")[3] === "yellow" ) {
+                if( blockColors.get("down")[3] === downColor ) {
                     rotations += "L L U B B";
                 }
                 else {
@@ -241,7 +246,7 @@ export default class Solver {
                 }
                 break;
             case 3:
-                if( blockColors.get("back")[5] === "blue" ) {
+                if( blockColors.get("back")[5] === backColor ) {
                     rotations += "B"
                 }
                 else {
@@ -249,7 +254,7 @@ export default class Solver {
                 }
                 break;
             case 5:
-                if( blockColors.get("front")[3] === "blue" ) {
+                if( blockColors.get("front")[3] === backColor ) {
                     rotations += "F U U F' B B";
                 }
                 else {
@@ -257,7 +262,7 @@ export default class Solver {
                 }
                 break;
             case 7:
-                if( blockColors.get("left")[1] === "blue" ) {
+                if( blockColors.get("left")[1] === backColor ) {
                     rotations += "U B B";
                 }
                 else {
@@ -265,7 +270,7 @@ export default class Solver {
                 }
                 break;
             case 9:
-                if( blockColors.get("down")[7] === "blue" ) {
+                if( blockColors.get("down")[7] === backColor ) {
                     rotations += "B D' R D";
                 }
                 // else in the right position
@@ -278,7 +283,7 @@ export default class Solver {
             //     // else in the right position
             //     break;
             case 15:
-                if( blockColors.get("back")[1] === "blue" ) {
+                if( blockColors.get("back")[1] === backColor ) {
                     rotations += "B B";
                 }
                 else {
@@ -286,7 +291,7 @@ export default class Solver {
                 }
                 break;
             case 17:
-                if( blockColors.get("front")[1] === "blue" ) {
+                if( blockColors.get("front")[1] === backColor ) {
                     rotations += "U U B B";
                 }
                 else {
@@ -295,13 +300,13 @@ export default class Solver {
                 break;
             // shouldn't reach here, as red was put into the correct position earlier
             // case 19:
-            //     if( blockColors.get("right")[7] === "yellow" ) {
+            //     if( blockColors.get("right")[7] === downColor ) {
             //         rotations += "R D' F D";
             //     }
             //     // else in the right position
             //     break;
             case 21:
-                if( blockColors.get("back")[3] === "blue" ) {
+                if( blockColors.get("back")[3] === backColor ) {
                     rotations += "B'";
                 }
                 else {
@@ -309,7 +314,7 @@ export default class Solver {
                 }
                 break;
             case 23:
-                if( blockColors.get("right")[3] === "blue" ) {
+                if( blockColors.get("right")[3] === backColor ) {
                     rotations += "R U' R' B B";
                 }
                 else {
@@ -317,7 +322,7 @@ export default class Solver {
                 }
                 break;
             case 25:
-                if( blockColors.get("right")[1] === "blue" ) {
+                if( blockColors.get("right")[1] === backColor ) {
                     rotations += "U' B B"
                 }
                 else {
@@ -331,19 +336,19 @@ export default class Solver {
         await cube.parseRotations(rotations, 2);
 
         // get yellow + orange to right position
-        position = cube.findPiece(["yellow", "orange"]);
+        position = cube.findPiece([downColor, leftColor]);
         blockColors = cube.getSides();
         rotations = "";
         // fixing yellow orange orientation
         switch (position) {
             case 1:
-                if( blockColors.get("down")[3] === "orange" ) {
+                if( blockColors.get("down")[3] === leftColor ) {
                     rotations += "L' D F' D'";
                 }
                 // else in the right position
                 break;
             case 3:
-                if( blockColors.get("left")[3] === "orange" ) {
+                if( blockColors.get("left")[3] === leftColor ) {
                     rotations += "L'"
                 }
                 else {
@@ -351,7 +356,7 @@ export default class Solver {
                 }
                 break;
             case 5:
-                if( blockColors.get("left")[5] === "orange" ) {
+                if( blockColors.get("left")[5] === leftColor ) {
                     rotations += "L";
                 }
                 else {
@@ -359,7 +364,7 @@ export default class Solver {
                 }
                 break;
             case 7:
-                if( blockColors.get("left")[1] === "orange" ) {
+                if( blockColors.get("left")[1] === leftColor ) {
                     rotations += "L L";
                 }
                 else {
@@ -381,7 +386,7 @@ export default class Solver {
             //     // else in the right position
             //     break;
             case 15:
-                if( blockColors.get("back")[1] === "orange" ) {
+                if( blockColors.get("back")[1] === leftColor ) {
                     rotations += "U' L L";
                 }
                 else {
@@ -389,7 +394,7 @@ export default class Solver {
                 }
                 break;
             case 17:
-                if( blockColors.get("front")[1] === "orange" ) {
+                if( blockColors.get("front")[1] === leftColor ) {
                     rotations += "U L L";
                 }
                 else {
@@ -398,14 +403,13 @@ export default class Solver {
                 break;
             // shouldn't reach here, as red was put into the correct position earlier
             // case 19:
-            //     if( blockColors.get("right")[7] === "yellow" ) {
+            //     if( blockColors.get("right")[7] === downColor ) {
             //         rotations += "R D' F D";
             //     }
             //     // else in the right position
             //     break;
-                // TODO
             case 21:
-                if( blockColors.get("back")[3] === "orange" ) {
+                if( blockColors.get("back")[3] === leftColor ) {
                     rotations += "D' B' D";
                 }
                 else {
@@ -413,7 +417,7 @@ export default class Solver {
                 }
                 break;
             case 23:
-                if( blockColors.get("right")[3] === "orange" ) {
+                if( blockColors.get("right")[3] === leftColor ) {
                     rotations += "D D R' D D";
                 }
                 else {
@@ -421,7 +425,7 @@ export default class Solver {
                 }
                 break;
             case 25:
-                if( blockColors.get("right")[1] === "orange" ) {
+                if( blockColors.get("right")[1] === leftColor ) {
                     rotations += "U U L L"
                 }
                 else {
@@ -433,7 +437,7 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, 200);
         return position + rotations;
     }
 

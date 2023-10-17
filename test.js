@@ -13,8 +13,12 @@ export default class Tester {
         this.scene.add(this.cube.cubeGroup);
     }
 
+    async testYRotation() {
+        await this.cube.parseRotations("Y");
+        this.testScrambleIntoSolve(this.cube);
+    }
+
     async testGreenYellow() {
-        var allpermutationsFound = false;
         const map = new Map();
         while( map.size < 18) {
             this.scene.remove(this.cube.cubeGroup);
@@ -29,6 +33,11 @@ export default class Tester {
             );
         }
         console.log(map);
+    }
+
+    async testScrambleIntoSolve() {
+        await this.scrambler.scramble(this.cube, 30);
+        await this.solver.Solve(this.cube);
     }
 
     async greenYellowIsCorrect() {
