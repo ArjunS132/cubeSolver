@@ -667,6 +667,141 @@ export default class Cube {
     /*
      * TODO implement x, y, z rotations ( might just use the cubeGroup)
      */
+    rotateYInvert(speed) {
+        var initialPositionsTop = [ this.blocks[6].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[24].blockGroup,
+                                 this.blocks[25].blockGroup,
+                                 this.blocks[26].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[8].blockGroup,
+                                 this.blocks[7].blockGroup
+                                ]
+        var finalPositionsTop = initialPositionsTop.slice(-2).concat(initialPositionsTop.slice(0, -2));
+        var initialPositionsDown = [ this.blocks[0].blockGroup,
+                                 this.blocks[9].blockGroup,
+                                 this.blocks[18].blockGroup,
+                                 this.blocks[19].blockGroup,
+                                 this.blocks[20].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[2].blockGroup,
+                                 this.blocks[1].blockGroup
+                            ]
+
+        var finalPositionsDown = initialPositionsDown.slice(-2).concat(initialPositionsDown.slice(0, -2));
+        var initialPositionsMid = [ this.blocks[3].blockGroup,
+                                 this.blocks[12].blockGroup,
+                                 this.blocks[21].blockGroup,
+                                 this.blocks[22].blockGroup,
+                                 this.blocks[23].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[5].blockGroup,
+                                 this.blocks[4].blockGroup
+                            ]
+
+        var finalPositionsMid = initialPositionsMid.slice(-2).concat(initialPositionsMid.slice(0, -2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1: initialPositionsTop[0].position, ele2: initialPositionsTop[1].position,
+                                         ele3: initialPositionsTop[2].position, ele4: initialPositionsTop[3].position,
+                                         ele5: initialPositionsTop[4].position, ele6: initialPositionsTop[5].position,
+                                         ele7: initialPositionsTop[6].position, ele8: initialPositionsTop[7].position,
+                                         ele9: initialPositionsDown[0].position, ele10: initialPositionsDown[1].position,
+                                         ele11: initialPositionsDown[2].position, ele12: initialPositionsDown[3].position,
+                                         ele13: initialPositionsDown[4].position, ele14: initialPositionsDown[5].position,
+                                         ele15: initialPositionsDown[6].position, ele16: initialPositionsDown[7].position,
+                                         ele17: initialPositionsMid[0].position, ele18: initialPositionsMid[1].position,
+                                         ele19: initialPositionsMid[2].position, ele20: initialPositionsMid[3].position,
+                                         ele21: initialPositionsMid[4].position, ele22: initialPositionsMid[5].position,
+                                         ele23: initialPositionsMid[6].position, ele24: initialPositionsMid[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1: finalPositionsTop[0].position, ele2: finalPositionsTop[1].position,
+                                         ele3: finalPositionsTop[2].position, ele4: finalPositionsTop[3].position,
+                                         ele5: finalPositionsTop[4].position, ele6: finalPositionsTop[5].position,
+                                         ele7: finalPositionsTop[6].position, ele8: finalPositionsTop[7].position,
+                                         ele9: finalPositionsDown[0].position, ele10: finalPositionsDown[1].position,
+                                         ele11: finalPositionsDown[2].position, ele12: finalPositionsDown[3].position,
+                                         ele13: finalPositionsDown[4].position, ele14: finalPositionsDown[5].position,
+                                         ele15: finalPositionsDown[6].position, ele16: finalPositionsDown[7].position,
+                                         ele17: finalPositionsMid[0].position, ele18: finalPositionsMid[1].position,
+                                         ele19: finalPositionsMid[2].position, ele20: finalPositionsMid[3].position,
+                                         ele21: finalPositionsMid[4].position, ele22: finalPositionsMid[5].position,
+                                         ele23: finalPositionsMid[6].position, ele24: finalPositionsMid[7].position,
+                                         rotation: Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    // top side
+                                    initialPositionsTop[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[2].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[3].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[4].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsTop[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    // middle side
+                                    initialPositionsMid[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[2].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[3].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[4].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsMid[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    // bottom side
+                                    initialPositionsDown[0].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[1].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[2].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[3].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[4].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[5].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[6].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    initialPositionsDown[7].rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    // top center
+                                    this.blocks[16].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    // bottom center
+                                    this.blocks[10].blockGroup.rotateOnWorldAxis(this.yAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    // TODO FIX THE ARRAYS
+                                    var temp = this.blocks[6];
+                                    this.blocks[6] = this.blocks[24];
+                                    this.blocks[24] = this.blocks[26];
+                                    this.blocks[26] = this.blocks[8];
+                                    this.blocks[8] = temp;
+                                    var temp = this.blocks[7];
+                                    this.blocks[7] = this.blocks[15];
+                                    this.blocks[15] = this.blocks[25];
+                                    this.blocks[25] = this.blocks[17];
+                                    this.blocks[17] = temp;
+                                    var temp = this.blocks[3];
+                                    this.blocks[3] = this.blocks[21];
+                                    this.blocks[21] = this.blocks[23];
+                                    this.blocks[23] = this.blocks[5];
+                                    this.blocks[5] = temp;
+                                    var temp = this.blocks[4];
+                                    this.blocks[4] = this.blocks[12];
+                                    this.blocks[12] = this.blocks[22];
+                                    this.blocks[22] = this.blocks[14];
+                                    this.blocks[14] = temp;
+                                    var temp = this.blocks[0];
+                                    this.blocks[0] = this.blocks[18];
+                                    this.blocks[18] = this.blocks[20];
+                                    this.blocks[20] = this.blocks[2];
+                                    this.blocks[2] = temp;
+                                    var temp = this.blocks[1];
+                                    this.blocks[1] = this.blocks[9];
+                                    this.blocks[9] = this.blocks[19];
+                                    this.blocks[19] = this.blocks[11];
+                                    this.blocks[11] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+
+    }
+
     rotateY(speed) {
         var initialPositionsTop = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
@@ -807,7 +942,6 @@ export default class Cube {
      * @param {String} str
      */
     async parseRotations(str, speed) {
-        let rotations = str.trim().split(" ");
 
         function until(conditionFunction) {
 
@@ -818,8 +952,16 @@ export default class Cube {
 
           return new Promise(poll);
         }
-
-        for( let i =0; i < rotations.length; i++) {
+        function replaceAndSplit(input) {
+            // Use regular expression to replace letter2 with letter space letter
+            input = input.replace(/([A-Za-z])2/g, '$1 $1');
+            // Split the modified string on spaces
+            const splitArray = input.trim().split(' ');
+            return splitArray;
+        }
+        let rotations = replaceAndSplit(str);
+        console.log(rotations);
+        for( let i = 0; i < rotations.length; i++) {
             var rotation = rotations[i];
             var tween;
             var playRotation = true;
@@ -860,8 +1002,11 @@ export default class Cube {
                 case "B'":
                     tween = this.rotateBackInverted(speed);
                     break;
-                case "Y":
+                case "y":
                     tween = this.rotateY(speed);
+                    break;
+                case "y'":
+                    tween = this.rotateYInvert(speed);
                     break;
                 default:
                     playRotation = false;

@@ -18,6 +18,32 @@ export default class Tester {
         this.testScrambleIntoSolve(this.cube);
     }
 
+    async testYIRotation() {
+        await this.cube.parseRotations("Y'");
+        this.testScrambleIntoSolve(this.cube);
+    }
+
+    async test2Rotation() {
+        await this.cube.parseRotations("y L' U2 L U L' U' L y'");
+    }
+
+    async testF2LHelper() {
+        const map = new Map();
+        while( map.size < 8) {
+            this.scene.remove(this.cube.cubeGroup);
+            this.cube = new Cube(3);
+            this.scene.add(this.cube.cubeGroup);
+            await this.scrambler.scramble(this.cube, 10);
+            await this.solver.bottomCross(this.cube);
+            var permutation = await this.solver.f2lHelper(this.cube);
+            if(permutation.length > 0 ) {
+                map.set( permutation[0], await this.cornerInPlace()
+                                      && await this.edgeInPlace());
+            }
+        }
+        console.log(map);
+    }
+
     async testGreenYellow() {
         const map = new Map();
         while( map.size < 18) {
@@ -55,5 +81,36 @@ export default class Tester {
     async greenOrangeIsCorrect() {
         const sides = this.cube.getSides();
         return sides.get("down")[3] == "yellow" && sides.get("left")[7] == "orange";
+    }
+
+    async cornerInPlace() {
+        const sides = this.cube.getSides();
+        let downColor = sides.get("down")[4];
+        let upColor = sides.get("up")[4];
+        let frontColor = sides.get("front")[4];
+        let rightColor = sides.get("right")[4];
+        let leftColor = sides.get("left")[4];
+        let backColor = sides.get("back")[4];
+
+        return sides.get("down")[2] == downColor && sides.get("front")[8] == frontColor
+                && sides.get("right")[6] == rightColor         // return this.cube.findPiece( [ sides.get("down")[4], sides.get("front")[4], sides.get("right")[4] ] ) === 20
+        //     || this.cube.findPiece( [ sides.get("down")[4], sides.get("front")[4], sides.get("right")[4] ] ) === 26;
+    }
+    async edgeInPlace() {
+        const sides = this.cube.getSides();
+        let downColor = sides.get("down")[4];
+        let upColor = sides.get("up")[4];
+        let frontColor = sides.get("front")[4];
+        let rightColor = sides.get("right")[4];
+        let leftColor = sides.get("left")[4];
+        let backColor = sides.get("back")[4];
+
+        return sides.get("front")[5] == frontColor && sides.get("right")[3] == rightColor;
+
+        // return this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 23
+        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 17
+        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 25
+        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 15
+        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 7
     }
 }

@@ -11,6 +11,7 @@ export default class Solver {
 
     async Solve(cube) {
         await this.bottomCross(cube);
+        await this.f2l(cube);
     }
 
     async bottomCross(cube) {
@@ -24,7 +25,6 @@ export default class Solver {
         let blockColors = cube.getSides();
         let rotations = "";
         // fixing yellow green orientation
-        console.log(position);
         switch (position) {
             case 1:
                 if( blockColors.get("down")[3] === downColor ) {
@@ -437,101 +437,169 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 200);
+        await cube.parseRotations(rotations, 2);
         return position + rotations;
     }
 
-    /*
-     * returns true if the white cross on the bottom cross is solved
-     */
-    solvedCross(cube) {
-        var raycaster = new THREE.Raycaster();
-        var rightVector = new THREE.Vector3(1, 0, 0);
-        var leftVector = new THREE.Vector3(-1, 0, 0);
-        var topVector = new THREE.Vector3(0, 1, 0);
-        var bottomVector = new THREE.Vector3(0, -1, 0);
-        var frontVector = new THREE.Vector3(0, 0, 1);
-        var backVector = new THREE.Vector3(0, 0, -1);
-        var materials = [ "red", "orange", "white", "yellow", "green", "blue" ];
+    async f2l(cube) {
+        // do all 4 pairs
+        for (let i = 0; i < 1; i++) {
+            cube.parseRotations("Y");
+            await this.f2lHelper(cube);
+        }
+    }
 
-        var front = cube.blocks[11].blockGroup.children[0];
-        var right = cube.blocks[19].blockGroup.children[0];
-        var back = cube.blocks[9].blockGroup.children[0];
-        var left = cube.blocks[1].blockGroup.children[0];
+    async f2lHelper(cube) {
+        let downColor = cube.getSides().get("down")[4];
+        let upColor = cube.getSides().get("up")[4];
+        let frontColor = cube.getSides().get("front")[4];
+        let rightColor = cube.getSides().get("right")[4];
+        let leftColor = cube.getSides().get("left")[4];
+        let backColor = cube.getSides().get("back")[4];
 
+        let cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
+        let edgePosition = cube.findPiece( [ rightColor, frontColor ] );
+        var rotations = ""
+        let returnStatement = [];
 
-        // getting the white + green block
-        raycaster.ray.origin.copy(front.parent.position);
-        raycaster.ray.direction.copy(bottomVector);
-        var intersects = raycaster.intersectObject(front);
-        // front side's bottom color
-        console.log(front);
-        console.log(intersects);
-        var fbFaceIndex = intersects[0].face.materialIndex;
-        var fbFaceColor = materials[fbFaceIndex];
-        console.log("bottom face color: " + fbFaceColor);
+        // if in the bottom and not front right, then get to top
+        switch(cornerPosition) {
+            case 0:
+                rotations += "L U L'";
+                break
+            case 2:
+                rotations += "L' U L";
+                break;
+            case 18:
+                rotations += "R' U R";
+                break
+            default:
+                break;
+        }
+        console.log("f2l part1 rotations", rotations);
+        await cube.parseRotations(rotations, 50);
+        rotations = "";
+        cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
 
-        raycaster.ray.direction.copy(frontVector);
-        var intersects = raycaster.intersectObject(front);
-        var bfFaceIndex = intersects[0].face.materialIndex;
-        var bfFaceColor = materials[bfFaceIndex];
-        console.log("bottom face color: " + bfFaceColor);
+        switch (cornerPosition) {
+            // if in the top, then get the piece to front right
+            case 6:
+                rotations += "U U";
+                break;
+            case 24:
+                rotations += "U";
+                break;
+            case 8:
+                rotations += "U'";
+                break;
+            default:
 
+        }
+        console.log("f2l part2 rotations", rotations);
+        await cube.parseRotations(rotations, 5);
+        edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
+        rotations = "";
+        switch (edgePosition) {
+            case 3:
+                rotations += "L U' L' U";
+                break;
+            case 5:
+                rotations += "L' U' L U";
+                break;
+            case 21:
+                rotations += "B U B' U'";
+                break;
+            default:
+                break;
+        }
+        console.log("f2l part3 rotations", rotations);
+        await cube.parseRotations(rotations, 5);
+        edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
+        let blockColors = cube.getSides();
+        rotations = "";
 
-        // getting the white + red block
-        raycaster.ray.origin.copy(right.parent.position);
-        raycaster.ray.direction.copy(bottomVector);
-        var intersects = raycaster.intersectObject(right);
-        // right side's bottom color
-        var rbFaceIndex = intersects[0].face.materialIndex;
-        var rbFaceColor = materials[rbFaceIndex];
-        console.log("bottom face color: " + rbFaceColor);
-
-        raycaster.ray.direction.copy(rightVector);
-        var intersects = raycaster.intersectObject(right);
-        var brFaceIndex = intersects[0].face.materialIndex;
-        var brFaceColor = materials[brFaceIndex];
-        console.log("bottom face color: " + brFaceColor);
-
-
-        // getting the white + blue block
-        raycaster.ray.origin.copy(back.parent.position);
-        raycaster.ray.direction.copy(bottomVector);
-        var intersects = raycaster.intersectObject(back);
-        // back side's bottom color
-        var bbFaceIndex = intersects[0].face.materialIndex;
-        var bbFaceColor = materials[bbFaceIndex];
-        console.log("bottom face color: " + bbFaceColor);
-
-        raycaster.ray.direction.copy(backVector);
-        var intersects = raycaster.intersectObject(back);
-        var bbbFaceIndex = intersects[0].face.materialIndex;
-        var bbbFaceColor = materials[bbbFaceIndex];
-        console.log("bottom face color: " + bbbFaceColor);
-
-        // getting the white + orange block
-        raycaster.ray.origin.copy(left.parent.position);
-        raycaster.ray.direction.copy(bottomVector);
-        var intersects = raycaster.intersectObject(left);
-        // left side's bottom color
-        var lbFaceIndex = intersects[0].face.materialIndex;
-        var lbFaceColor = materials[lbFaceIndex];
-        console.log("bottom face color: " + lbFaceColor);
-
-        raycaster.ray.direction.copy(leftVector);
-        var intersects = raycaster.intersectObject(left);
-        var blFaceIndex = intersects[0].face.materialIndex;
-        var blFaceColor = materials[blFaceIndex];
-        console.log("bottom face color: " + blFaceColor);
-
-        console.log( fbFaceColor + rbFaceColor + bbFaceColor + lbFaceColor);
-        console.log( bfFaceColor + brFaceColor + bbbFaceColor + blFaceColor);
-        console.log( fbFaceColor == "yellow" && rbFaceColor == "yellow" && bbFaceColor == "yellow"
-               && lbFaceColor == "yellow" && bfFaceColor == "green" && brFaceColor == "red"
-               && bbbFaceColor == "blue" && blFaceColor == "orange");
-        return fbFaceColor == "yellow" && rbFaceColor == "yellow" && bbFaceColor == "yellow"
-               && lbFaceColor == "yellow" && bfFaceColor == "green" && brFaceColor == "red"
-               && bbbFaceColor == "blue" && blFaceColor == "orange";
+        // cases where white is facing up on corner piece
+        if(blockColors.get("up")[8] === downColor && edgePosition != 23) {
+            switch(edgePosition) {
+                case 7:
+                    if( blockColors.get("up")[3] === frontColor ) {
+                        rotations += "y F R U U R' F' y'";
+                    }
+                    else {
+                        rotations += "y U' L' U2 L U' L' U L y'"
+                    }
+                    break;
+                case 15:
+                    if( blockColors.get("up")[1] === frontColor ) {
+                        rotations += "U R U2 R' U R U' R'";
+                    }
+                    else {
+                        rotations += "F' L' U U L F"
+                    }
+                    break;
+                case 25:
+                    if( blockColors.get("up")[5] === frontColor ) {
+                        rotations += "R U U R' U' R U R'";
+                    }
+                    else {
+                        rotations += "F U R U' R' F' R U' R'"
+                    }
+                    break;
+                case 17:
+                    if( blockColors.get("up")[7] === frontColor ) {
+                        rotations += "U F R' F' R U R U R'";
+                    }
+                    else {
+                        rotations += "y L' U2 L U L' U' L y'"
+                    }
+                    break;
+                default:
+                    break;
+            }
+            await cube.parseRotations(rotations, 2);
+            // returnStatement.push("white up" + edgePosition + rotations);
+        }
+        // cases where green is facing up
+        if(blockColors.get("up")[8] === frontColor && edgePosition !=23) {
+            switch(edgePosition) {
+                case 7:
+                    if( blockColors.get("up")[3] === rightColor ) {
+                        rotations += "y L' U' L y'";
+                    }
+                    else {
+                        rotations += "U' R U2 R' U2 R U' R'"
+                    }
+                    break;
+                case 15:
+                    if( blockColors.get("up")[1] === rightColor ) {
+                        rotations += "R U R'";
+                    }
+                    else {
+                        rotations += "y U L' U2 L U2 L' U L y'"
+                    }
+                    break;
+                case 25:
+                    if( blockColors.get("up")[5] === rightColor ) {
+                        rotations += "y L U2 L2' U' L2 U' L'";
+                    }
+                    else {
+                        rotations += "U R U' R'"
+                    }
+                    break;
+                case 17:
+                    if( blockColors.get("up")[7] === rightColor ) {
+                        rotations += "R' U2 R2 U R2' U R";
+                    }
+                    else {
+                        rotations += "y U' L' U L"
+                    }
+                    break;
+                default:
+                    break;
+            }
+            await cube.parseRotations(rotations, 2);
+            returnStatement.push("green up" + edgePosition + rotations);
+        }
+        return returnStatement;
     }
 }
-
