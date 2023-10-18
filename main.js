@@ -46,7 +46,7 @@ animate()
 
 const tester = new Tester(scene);
 // tester.testGreenYellow();
-// tester.testScrambleIntoSolve();
+tester.testScrambleIntoSolve();
 // tester.testYRotation();
-tester.testF2LHelper();
+// tester.testF2LHelper();
 // tester.test2Rotation();

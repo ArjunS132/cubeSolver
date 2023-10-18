@@ -5,6 +5,7 @@ import Cube from './cube.js'
 import TWEEN from '@tweenjs/tween.js'
 
 export default class Solver {
+
     constructor() {
     }
 
@@ -441,11 +442,11 @@ export default class Solver {
         return position + rotations;
     }
 
-    async f2l(cube) {
+    async f2l(cube, speed) {
         // do all 4 pairs
-        for (let i = 0; i < 1; i++) {
-            cube.parseRotations("Y");
-            await this.f2lHelper(cube);
+        for (let i = 0; i < 4; i++) {
+            console.log( await this.f2lHelper(cube) );
+            await cube.parseRotations("y", 2);
         }
     }
 
@@ -515,11 +516,113 @@ export default class Solver {
         console.log("f2l part3 rotations", rotations);
         await cube.parseRotations(rotations, 5);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
+        cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
         let blockColors = cube.getSides();
         rotations = "";
 
+        // cases where edge and corner in right place buy misoriented
+        if( edgePosition === 23 && cornerPosition === 20 ) {
+            if(blockColors.get("front")[5] === frontColor ) {
+                if(blockColors.get("front")[8] === downColor) {
+                    rotations += "R U' R' U' R U R' U2 R U' R'"
+                } else if( blockColors.get("front")[8] === rightColor ) {
+                    rotations += "R U' R' U R U2 R' U R U' R'"
+                }
+            } else {
+                if(blockColors.get("front")[8] === downColor) {
+                    rotations += "F' L' U2 L F R U R'"
+                } else if( blockColors.get("front")[8] === rightColor ) {
+                    rotations += "R U' R' F' L' U2 L F"
+                } else {
+                    rotations += "R' R' U' U' F R2 F' U' U' R' U R'"
+                }
+            }
+            await cube.parseRotations(rotations, 2);
+            returnStatement.push("misoriented" + edgePosition + rotations);
+        }
+        // cases where edge is right spot
+        else if( edgePosition === 23 ) {
+            // correct orientation
+            if( blockColors.get("front")[5] === frontColor ) {
+                if(blockColors.get("up")[8] === downColor ) {
+                    rotations += "U R U' R' U R U' R' U R U' R'";
+                } else if(blockColors.get("up")[8] === frontColor) {
+                    rotations += "U2 R U R' F R' F' R";
+                } else {
+                    rotations +="U R U R' U2 R U R'";
+                }
+            }
+            // incorrect orientation
+            else {
+                if(blockColors.get("up")[8] === downColor ) {
+                    rotations += "R U' R' F' U2 F";
+                } else if(blockColors.get("up")[8] === frontColor ) {
+                    rotations += "U2 R U R' F R' F' R";
+                } else {
+                    rotations +="U F' U' F U' R U R'";
+                }
+            }
+            await cube.parseRotations(rotations, 2);
+            returnStatement.push("edge in place " + edgePosition + rotations);
+        }
+        // cases where corner in right position
+        else if( cornerPosition === 20) {
+            // get edge to right position
+            switch (edgePosition) {
+                case 7:
+                    if( blockColors.get("up")[3] === frontColor ) {
+                        rotations += "U U ";
+                    } else {
+                        rotations += "U' ";
+                    }
+                    break;
+                case 15:
+                    if( blockColors.get("up")[1] === frontColor ) {
+                        rotations += "U ";
+                    } else {
+                        rotations += "U U ";
+                    }
+                    break;
+                case 17:
+                    if( blockColors.get("up")[7] === frontColor ) {
+                        rotations += "U' ";
+                    }
+                    break;
+                case 25:
+                    if( blockColors.get("up")[5] === rightColor ) {
+                        rotations += "U ";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            await cube.parseRotations(rotations, 2);
+            edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
+            rotations = "";
+            if( blockColors.get("front")[8] === downColor ) {
+                if(edgePosition === 25 ) {
+                    rotations += "R U' R' U R U' R'"
+                } else {
+                    rotations += "R' F R F' R' F R F'"
+                }
+            } else if( blockColors.get("front")[8] === frontColor ) {
+                if(edgePosition === 25 ) {
+                    rotations += "U' R' F R F' R U R'"
+                } else {
+                    rotations += "U R U' R' F R' F' R"
+                }
+            } else {
+                if(edgePosition === 25 ) {
+                    rotations += "R U R' U' R U R'"
+                } else {
+                    rotations += "y L' U L U' L' U L y'"
+                }
+            }
+            await cube.parseRotations(rotations, 2);
+            returnStatement.push("corner in place" + edgePosition + rotations);
+        }
         // cases where white is facing up on corner piece
-        if(blockColors.get("up")[8] === downColor && edgePosition != 23) {
+        else if(blockColors.get("up")[8] === downColor ) {
             switch(edgePosition) {
                 case 7:
                     if( blockColors.get("up")[3] === frontColor ) {
@@ -557,10 +660,10 @@ export default class Solver {
                     break;
             }
             await cube.parseRotations(rotations, 2);
-            // returnStatement.push("white up" + edgePosition + rotations);
+            returnStatement.push("white up" + edgePosition + rotations);
         }
         // cases where green is facing up
-        if(blockColors.get("up")[8] === frontColor && edgePosition !=23) {
+        else if(blockColors.get("up")[8] === frontColor ) {
             switch(edgePosition) {
                 case 7:
                     if( blockColors.get("up")[3] === rightColor ) {
@@ -572,15 +675,15 @@ export default class Solver {
                     break;
                 case 15:
                     if( blockColors.get("up")[1] === rightColor ) {
-                        rotations += "R U R'";
+                        rotations += "y U L' U' L U' L' U' L y'";
                     }
                     else {
-                        rotations += "y U L' U2 L U2 L' U L y'"
+                        rotations += "U' R U R' U2 R U' R'"
                     }
                     break;
                 case 25:
                     if( blockColors.get("up")[5] === rightColor ) {
-                        rotations += "y L U2 L2' U' L2 U' L'";
+                        rotations += "y L' U L U' L' U L U2 L' U L y'";
                     }
                     else {
                         rotations += "U R U' R'"
@@ -588,10 +691,10 @@ export default class Solver {
                     break;
                 case 17:
                     if( blockColors.get("up")[7] === rightColor ) {
-                        rotations += "R' U2 R2 U R2' U R";
+                        rotations += "y U L' U L U' L' U' L y'";
                     }
                     else {
-                        rotations += "y U' L' U L"
+                        rotations += "y L' U L y' U2 R U R'"
                     }
                     break;
                 default:
@@ -600,6 +703,95 @@ export default class Solver {
             await cube.parseRotations(rotations, 2);
             returnStatement.push("green up" + edgePosition + rotations);
         }
+
+        // cases where red is facing up
+        else if(blockColors.get("up")[8] === rightColor ) {
+            switch(edgePosition) {
+                case 7:
+                    if( blockColors.get("up")[3] === rightColor ) {
+                        rotations += "y U L' U' L U2 L' U L y'";
+                    }
+                    else {
+                        rotations += "U' R U R' U R U R'"
+                    }
+                    break;
+                case 15:
+                    if( blockColors.get("up")[1] === rightColor ) {
+                        rotations += "y U L' U2 L U2 L' U L y'";
+                    }
+                    else {
+                        rotations += "R U R'"
+                    }
+                    break;
+                case 25:
+                    if( blockColors.get("up")[5] === rightColor ) {
+                        rotations += "R U' R' y U2 L' U' L y'";
+                    }
+                    else {
+                        rotations += "U' R U' R' U R U R'"
+                    }
+                    break;
+                case 17:
+                    if( blockColors.get("up")[7] === rightColor ) {
+                        rotations += "y U' L' U L y'";
+                    }
+                    else {
+                        rotations += "R' U2 R2 U R' R' U R"
+                    }
+                    break;
+                default:
+                    break;
+            }
+            await cube.parseRotations(rotations, 2);
+            returnStatement.push("red up" + edgePosition + rotations);
+        }
         return returnStatement;
+    }
+
+    async oll(cube, speed) {
+        let sides = cube.getSides();
+        const OllCases = [
+            [
+                [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1],
+                ["R U2 R2 F R F' U2 R' F R F'"]
+            ],
+            [
+                [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                [0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1],
+                ["r U r' U2 r U2 R' U2 R U' r'"]
+            ],
+            [
+                [],
+                [],
+                []
+            ],
+            [
+                [],
+                [],
+                []
+            ],
+        ]
+
+    }
+
+    async compareTop( cubeSides, searchSides, topColor) {
+        var match = true;
+        let currTop = cubeSides.get("top");
+        let searchTop = searchSides[0];
+        let searchEdges = searchSides[1];
+        let frontEdges = cubeSides.get("front").slice(0, 3);
+        let rightEdges = cubeSides.get("rightEdges").slice(0, 3);
+        let backEdges = cubeSides.get("backEdges").slice(0, 3);
+        let leftEdges = cubeSides.get("leftEdges").slice(0, 3);
+        let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
+        for (let index = 0; index < currTop.length; index++) {
+            const element1 = currTop[index];
+            const element2 = searchTop[index];
+            if( element1 === topColor && element2 === 0 ) {
+                match = false;
+            }
+        }
+        return match;
     }
 }

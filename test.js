@@ -29,11 +29,12 @@ export default class Tester {
 
     async testF2LHelper() {
         const map = new Map();
-        while( map.size < 8) {
+        while( map.size < 41) {
             this.scene.remove(this.cube.cubeGroup);
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
-            await this.scrambler.scramble(this.cube, 10);
+            const randNumber = Math.floor( Math.random() * (15)) + 5;
+            await this.scrambler.scramble(this.cube, randNumber);
             await this.solver.bottomCross(this.cube);
             var permutation = await this.solver.f2lHelper(this.cube);
             if(permutation.length > 0 ) {
