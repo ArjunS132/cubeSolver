@@ -13,6 +13,7 @@ export default class Solver {
     async Solve(cube, speed) {
         await this.bottomCross(cube, speed);
         await this.f2l(cube, speed);
+        await this.oll(cube, speed);
     }
 
     async bottomCross(cube, speed) {
@@ -445,7 +446,7 @@ export default class Solver {
     async f2l(cube, speed) {
         // do all 4 pairs
         for (let i = 0; i < 4; i++) {
-            console.log( await this.f2lHelper(cube, speed) );
+            await this.f2lHelper(cube, speed)
             await cube.parseRotations("y", speed);
         }
     }
@@ -460,7 +461,7 @@ export default class Solver {
 
         let cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
         let edgePosition = cube.findPiece( [ rightColor, frontColor ] );
-        var rotations = ""
+        let rotations = ""
         let returnStatement = [];
 
         // if in the bottom and not front right, then get to top
@@ -477,7 +478,6 @@ export default class Solver {
             default:
                 break;
         }
-        console.log("f2l part1 rotations", rotations);
         await cube.parseRotations(rotations, speed);
         rotations = "";
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
@@ -496,7 +496,6 @@ export default class Solver {
             default:
 
         }
-        console.log("f2l part2 rotations", rotations);
         await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         rotations = "";
@@ -513,7 +512,6 @@ export default class Solver {
             default:
                 break;
         }
-        console.log("f2l part3 rotations", rotations);
         await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
@@ -751,49 +749,413 @@ export default class Solver {
     async oll(cube, speed) {
         let sides = cube.getSides();
         const OllCases = [
+            // case 1
             [
                 [0, 0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1],
-                ["R U2 R2 F R F' U2 R' F R F'"]
+                "R U2 R2 F R F' U2 R' F R F'"
             ],
+            // case 2
             [
                 [0, 0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1],
-                ["r U r' U2 r U2 R' U2 R U' r'"]
+                "r U r' U2 r U2 R' U2 R U' r'"
             ],
+            // case 3
             [
                 [0, 0, 0, 0, 1, 0, 1, 0, 0],
                 [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0],
-                ["r' R2 U R' U r U2 r' U M'"]
+                "r' R2 U R' U r U2 r' U M'"
             ],
+            // case 4
             [
                 [0, 0, 0, 0, 1, 0, 0, 0, 1],
                 [1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0],
-                ["M U' r U2 r' U' R U' R' M'"]
+                "M U' r U2 r' U' R U' R' M'"
             ],
+            // case 5
             [
                 [1, 1, 0, 1, 1, 0, 0, 0, 0],
                 [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-                ["l' U2 L U L' U l"]
+                "l' U2 L U L' U l"
+            ],
+            // case 6
+            [
+                [0, 1, 1, 0, 1, 1, 0, 0, 0],
+                [1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0],
+                "r U2 R' U' R U' r'"
+            ],
+            // case 7
+            [
+                [0, 1, 0, 1, 1, 0, 1, 0, 0],
+                [0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0],
+                "r U R' U R U2 r'"
+            ],
+            // case 8
+            [
+                [0, 1, 0, 0, 1, 1, 0, 0, 1],
+                [1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0],
+                "l' U' L U' L' U2 l"
+            ],
+            // case 9
+            [
+                [0, 1, 0, 1, 1, 0, 0, 0, 1],
+                [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0],
+                "R U R' U' R' F R2 U R' U' F'"
+            ],
+            // case 10
+            [
+                [0, 0, 1, 1, 1, 0, 0, 1, 0],
+                [0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1],
+                "R U R' U R' F R F' R U2 R'"
+            ],
+            // case 11
+            [
+                [0, 1, 1, 1, 1, 0, 0, 0, 0],
+                [0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+                "r U R' U R' F R F' R U2 r'"
+            ],
+            // case 12
+            [
+                [1, 1, 0, 0, 1, 1, 0, 0, 0],
+                [1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0],
+                "M' R' U' R U' R' U2 R U' R r'"
+            ],
+            // case 13
+            [
+                [0, 0, 0, 1, 1, 1, 1, 0, 0],
+                [0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0],
+                "F U R U' R2 F' R U R U' R'"
+            ],
+            // case 14
+            [
+                [0, 0, 0, 1, 1, 1, 0, 0, 1],
+                [1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
+                "R' F R U R' F' R F U' F'"
+            ],
+            // case 15
+            [
+                [1, 0, 0, 1, 1, 1, 0, 0, 0],
+                [0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+                "l' U' l L' U' L U l' U l"
+            ],
+            // case 16
+            [
+                [0, 0, 1, 1, 1, 1, 0, 0, 0],
+                [1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0],
+                "r U r' R U R' U' r U' r'"
+            ],
+            // case 17
+            [
+                [1, 0, 0, 0, 1, 0, 0, 0, 1],
+                [1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0],
+                "F R' F' R2 r' U R U' R' U' M'"
+            ],
+            // case 18
+            [
+                [1, 0, 1, 0, 1, 0, 0, 0, 0],
+                [1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+                "r U R' U R U2 r2 U' R U' R' U2 r"
+            ],
+            // case 19
+            [
+                [1, 0, 1, 0, 1, 0, 0, 0, 0],
+                [0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1],
+                "r' R U R U R' U' M' R' F R F'"
+            ],
+            // case 20
+            [
+                [1, 0, 1, 0, 1, 0, 1, 0, 1],
+                [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+                "r U R' U' M2 U R U' R' U' M'"
+            ],
+            // case 21
+            [
+                [0, 1, 0, 1, 1, 1, 0, 1, 0],
+                [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+                "R U2 R' U' R U R' U' R U' R'"
+            ],
+            // case 22
+            [
+                [0, 1, 0, 1, 1, 1, 0, 1, 0],
+                [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1],
+                "R U2 R2 U' R2 U' R2 U2 R"
+            ],
+            // case 23
+            [
+                [0, 1, 0, 1, 1, 1, 1, 1, 1],
+                [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+                "R2 D' R U2 R' D R U2 R"
+            ],
+            // case 24
+            [
+                [0, 1, 1, 1, 1, 1, 0, 1, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+                "r U R' U' r' F R F'"
+            ],
+            // case 25
+            [
+                [0, 1, 1, 1, 1, 1, 1, 1, 0],
+                [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+                "F' r U R' U' r' F R"
+            ],
+            // case 26
+            [
+                [0, 1, 1, 1, 1, 1, 0, 1, 0],
+                [1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+                "R U2 R' U' R U' R'"
+            ],
+            // case 27
+            [
+                [0, 1, 0, 1, 1, 1, 1, 1, 0],
+                [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+                "R U R' U R U2 R'"
+            ],
+            // case 28
+            [
+                [1, 1, 1, 1, 1, 0, 1, 0, 1],
+                [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                "r U R' U' r' R U R U' R'"
+            ],
+            // case 29
+            [
+                [0, 1, 1, 1, 1, 0, 0, 0, 1],
+                [1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+                "R U R' U' R U' R' F' U' F R U R'"
+            ],
+            // case 30
+            [
+                [0, 1, 0, 1, 1, 0, 1, 0, 1],
+                [0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0],
+                "F R' F R2 U' R' U' R U R' F2"
+            ],
+            // case 31
+            [
+                [0, 1, 1, 0, 1, 1, 0, 0, 1],
+                [1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+                "R' U' F U R U' R' F' R"
+            ],
+            // case 32
+            [
+                [1, 1, 0, 1, 1, 0, 1, 0, 0],
+                [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                "L U F' U' L' U L F L'"
+            ],
+            // case 33
+            [
+                [0, 0, 1, 1, 1, 1, 0, 0, 1],
+                [1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+                "R U R' U' R' F R F'"
+            ],
+            // case 34
+            [
+                [0, 0, 0, 1, 1, 1, 1, 0, 1],
+                [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
+                "R U R2 U' R' F R U R U' F'"
+            ],
+            // case 35
+            [
+                [1, 0, 0, 0, 1, 1, 0, 1, 1],
+                [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
+                "R U2 R2 F R F' R U2 R'"
+            ],
+            // case 36
+            [
+                [1, 1, 0, 0, 1, 1, 0, 0, 1],
+                [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1],
+                "L' U' L U' L' U L U L F' L' F"
+            ],
+            // case 37
+            [
+                [1, 1, 0, 1, 1, 0, 0, 0, 1],
+                [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+                "F R' F' R U R U' R'"
+            ],
+            // case 38
+            [
+                [0, 1, 1, 1, 1, 0, 1, 0, 0],
+                [0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+                "R U R' U R U' R' U' R' F R F'"
+            ],
+            // case 39
+            [
+                [0, 0, 1, 1, 1, 1, 1, 0, 0],
+                [0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+                "L F' L' U' L U F U' L'"
+            ],
+            // case 40
+            [
+                [1, 0, 0, 1, 1, 1, 0, 0, 1],
+                [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+                "R' F R U R' U' F' U R"
+            ],
+            // case 41
+            [
+                [0, 1, 0, 1, 1, 0, 1, 0, 1],
+                [0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0],
+                "R U R' U R U2 R' F R U R' U' F'"
+            ],
+            // case 42
+            [
+                [1, 0, 1, 1, 1, 0, 0, 1, 0],
+                [1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+                "R U R' U R U2 R' F R U R' U' F'"
+            ],
+            // case 43
+            [
+                [0, 1, 1, 0, 1, 1, 0, 0, 1],
+                [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+                "F' U' L' U L F"
+            ],
+            // case 44
+            [
+                [1, 1, 0, 1, 1, 0, 1, 0, 0],
+                [0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                "F U R U' R' F'"
+            ],
+            // case 45
+            [
+                [0, 0, 1, 1, 1, 1, 0, 0, 1],
+                [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+                "F R U R' U' F'"
+            ],
+            // case 46
+            [
+                [1, 1, 0, 0, 1, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+                "R' U' R' F R F' U R"
+            ],
+            // case 47
+            [
+                [0, 1, 0, 0, 1, 1, 0, 0, 0],
+                [1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
+                "R' U' R' F R F' R' F R F' U R"
+            ],
+            // case 48
+            [
+                [0, 1, 0, 1, 1, 0, 0, 0, 0],
+                [0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+                "F R U R' U' R U R' U' F'"
+            ],
+            // case 49
+            [
+                [0, 1, 0, 0, 1, 1, 0, 0, 0],
+                [0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1],
+                "r U' r2 U r2 U r2 U' r"
+            ],
+            // case 50
+            [
+                [0, 0, 0, 0, 1, 1, 0, 1, 0],
+                [0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1],
+                "r' U r2 U' r2 U' r2 U r'"
+            ],
+            // case 51
+            [
+                [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                [1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0],
+                "F U R U' R' U R U' R' F'"
+            ],
+            // case 52
+            [
+                [0, 1, 0, 0, 1, 0, 0, 1, 0],
+                [1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
+                "R U R' U R U' B U' B' R'"
+            ],
+            // case 53
+            [
+                [0, 1, 0, 0, 1, 1, 0, 0, 0],
+                [1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0],
+                "l' U2 L U L' U' L U L' U l"
+            ],
+            // case 54
+            [
+                [0, 1, 0, 1, 1, 0, 0, 0, 0],
+                [1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
+                "r U2 R' U' R U R' U' R U' r'"
+            ],
+            // case 55
+            [
+                [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+                "R' F R U R U' R2 F' R2 U' R' U R U R'"
+            ],
+            // case 56
+            [
+                [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                "r' U' r U' R' U R U' R' U R r' U r"
+            ],
+            // case 57
+            [
+                [1, 0, 1, 1, 1, 1, 1, 0, 1],
+                [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                "R U R' U' M' U R U' r'"
             ],
         ]
-
+        let rotations = "";
+        let matchFound = false;
+        let count = 0;
+        let returnStatement = [];
+        while( !matchFound && count < 4) {
+            await OllCases.forEach( async (currCase, index) => {
+                if( await this.compareTop( sides, currCase ) ) {
+                    matchFound = true;
+                    rotations = currCase[2]
+                    returnStatement[0] = index + rotations;
+                    returnStatement[1] = sides;
+                }
+            });
+            if( !matchFound ) {
+                await cube.parseRotations("U", speed);
+            } else {
+                await cube.parseRotations(rotations, speed);
+            }
+            sides = await cube.getSides();
+            count += 1;
+        }
+        return returnStatement;
     }
 
-    async compareTop( cubeSides, searchSides, topColor) {
-        var match = true;
-        let currTop = cubeSides.get("top");
+    async pll(cube, speed) {
+        // 0 front, 1 right, 2 back, 3 left
+        // 0 blue, 1 red, 2, green, 3, orange
+        let pllCases = [
+            // case Aa
+            [
+                [3, 0, 0, 1, 1, 3, 0, 2, 1, 2, 3, 2],
+                "x L2 D2 L' U' L D2 L' U L'"
+            ]
+        ];
+    }
+
+    async compareTop( cubeSides, searchSides) {
+        let match = true;
+        let currTop = cubeSides.get("up");
+        let topColor = currTop[4];
         let searchTop = searchSides[0];
         let searchEdges = searchSides[1];
         let frontEdges = cubeSides.get("front").slice(0, 3);
-        let rightEdges = cubeSides.get("rightEdges").slice(0, 3);
-        let backEdges = cubeSides.get("backEdges").slice(0, 3);
-        let leftEdges = cubeSides.get("leftEdges").slice(0, 3);
+        let rightEdges = cubeSides.get("right").slice(0, 3);
+        let backEdges = cubeSides.get("back").slice(0, 3);
+        let leftEdges = cubeSides.get("left").slice(0, 3);
         let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
         for (let index = 0; index < currTop.length; index++) {
             const element1 = currTop[index];
             const element2 = searchTop[index];
             if( element1 === topColor && element2 === 0 ) {
+                match = false;
+            }
+            if( element1 != topColor && element2 === 1 ) {
+                match = false;
+            }
+        }
+        for ( let index = 0; index < searchEdges.length; index++ ) {
+            const element1 = currEdges[index];
+            const element2 = searchEdges[index];
+            if( element1 === topColor && element2 === 0 ) {
+                match = false;
+            }
+            if( element1 != topColor && element2 === 1 ) {
                 match = false;
             }
         }

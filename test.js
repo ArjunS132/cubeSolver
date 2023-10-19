@@ -20,22 +20,22 @@ export default class Tester {
     }
 
     async testlRotation() {
-        await this.cube.parseRotations("l");
-        this.testScrambleIntoSolve(this.cube, 500);
+        await this.cube.parseRotations("l", 500);
+        await this.testScrambleIntoSolve(500);
     }
 
-    async testlIRotation() {
+    async testlIRotation(speed) {
         await this.cube.parseRotations("l'");
-        // await this.testScrambleIntoSolve(this.cube, 500);
+        await this.testScrambleIntoSolve(speed);
     }
 
     async testYRotation() {
-        await this.cube.parseRotations("Y");
-        this.testScrambleIntoSolve(this.cube);
+        await this.cube.parseRotations("y", 500);
+        await this.testScrambleIntoSolve(500);
     }
 
     async testYIRotation() {
-        await this.cube.parseRotations("Y'");
+        await this.cube.parseRotations("y'");
         this.testScrambleIntoSolve(this.cube);
     }
 
@@ -71,13 +71,33 @@ export default class Tester {
             const randNumber = Math.floor( Math.random() * (15)) + 5;
             await this.scrambler.scramble(this.cube, randNumber);
             await this.solver.bottomCross(this.cube);
-            var permutation = await this.solver.f2lHelper(this.cube);
+            let permutation = await this.solver.f2lHelper(this.cube);
             if(permutation.length > 0 ) {
                 map.set( permutation[0], await this.cornerInPlace()
                                       && await this.edgeInPlace());
             }
         }
+    }
+
+    async testOLL() {
+        const map = new Map();
+        while( map.size < 57) {
+            this.scene.remove(this.cube.cubeGroup);
+            this.cube = new Cube(3);
+            this.scene.add(this.cube.cubeGroup);
+            const randNumber = Math.floor( Math.random() * (15)) + 5;
+            await this.scrambler.scramble(this.cube, randNumber, 1);
+            await this.solver.bottomCross(this.cube, 2);
+            await this.solver.f2l(this.cube, 2);
+            let permutation = await this.solver.oll(this.cube, 2);
+            if( await this.topIsSolid() ) {
+                map.set( permutation[0], true);
+            } else {
+                map.set( permutation[0], permutation[1] );
+            }
+        }
         console.log(map);
+
     }
 
     async testGreenYellow() {
@@ -87,17 +107,17 @@ export default class Tester {
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
             await this.scrambler.scramble(this.cube, 10);
-            var permutation = await this.solver.bottomCross(this.cube);
+            let permutation = await this.solver.bottomCross(this.cube);
             map.set( permutation, await this.greenYellowIsCorrect()
                     && await this.greenRedIsCorrect()
                     && await this.greenBlueIsCorrect()
                     && await this.greenOrangeIsCorrect()
             );
         }
-        console.log(map);
     }
 
     async testScrambleIntoSolve(speed) {
+        // await this.cube.parseRotations("l");
         await this.scrambler.scramble(this.cube, 30, speed);
         await this.solver.Solve(this.cube, speed);
     }
@@ -141,5 +161,9 @@ export default class Tester {
         let backColor = sides.get("back")[4];
 
         return sides.get("front")[5] == frontColor && sides.get("right")[3] == rightColor;
+    }
+
+    async topIsSolid() {
+        return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0]);
     }
 }

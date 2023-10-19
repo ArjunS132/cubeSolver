@@ -5,7 +5,7 @@ export default class Block {
         this.blockGroup = new THREE.Group();
         const geometry = new THREE.BoxGeometry(1, 1, 1);
 
-        var materials = [
+        let materials = [
           new THREE.MeshBasicMaterial({ color: 0xb71234, side: THREE.DoubleSide }), // Right face (Red)
           new THREE.MeshBasicMaterial({ color: 0xff5800, side: THREE.DoubleSide }), // Left face (Orange)
           new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }), // Top face (White)

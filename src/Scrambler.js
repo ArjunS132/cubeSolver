@@ -4,7 +4,7 @@ export default class Scrambler {
     }
 
     async scramble(cube, depth, speed) {
-        var tween;
+        let tween;
 
         let rotations = "";
         for(let i =0; i < depth; i++) {

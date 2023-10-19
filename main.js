@@ -46,12 +46,13 @@ animate()
 
 const tester = new Tester(scene);
 // tester.testGreenYellow();
-tester.testScrambleIntoSolve(10);
+// tester.testScrambleIntoSolve(10);
 // tester.testYRotation();
 // tester.testMInvertedRotation(50);
 // tester.testF2LHelper();
 // tester.test2Rotation();
 // tester.testrRotation(300);
-// tester.testCase("l R' U B R' U D D' L' L L U' F' D' F' R D D F B D D' D' L L F B U R D' D'", 500);
+tester.testCase("r U R' U R U2 r'", 20);
 // tester.testlRotation();
-// tester.testlRotation();
+// tester.testlIRotation(300);
+// tester.testOLL();

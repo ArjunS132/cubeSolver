@@ -28,7 +28,7 @@ export default class Cube {
 
     rotateLeft(speed) {
         this.blocks[9].blockGroup.children[0].materials;
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
                                  this.blocks[5].blockGroup,
@@ -37,8 +37,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -64,12 +64,12 @@ export default class Cube {
                                          prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[2];
                                     this.blocks[2] = this.blocks[8];
                                     this.blocks[8] = this.blocks[6];
                                     this.blocks[6] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[5];
                                     this.blocks[5] = this.blocks[7];
                                     this.blocks[7] = this.blocks[3];
@@ -81,7 +81,7 @@ export default class Cube {
     }
 
     rotateLeftInverted(speed) {
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
                                  this.blocks[5].blockGroup,
@@ -90,8 +90,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -117,12 +117,12 @@ export default class Cube {
                                          prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];
                                     this.blocks[8] = this.blocks[2];
                                     this.blocks[2] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[3];
                                     this.blocks[3] = this.blocks[7];
                                     this.blocks[7] = this.blocks[5];
@@ -134,7 +134,7 @@ export default class Cube {
     }
 
     rotateDown(speed) {
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
@@ -143,8 +143,8 @@ export default class Cube {
                                  this.blocks[2].blockGroup,
                                  this.blocks[1].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -170,12 +170,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[18];
                                     this.blocks[18] = this.blocks[20];
                                     this.blocks[20] = this.blocks[2];
                                     this.blocks[2] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[9];
                                     this.blocks[9] = this.blocks[19];
                                     this.blocks[19] = this.blocks[11];
@@ -187,7 +187,7 @@ export default class Cube {
     }
 
     rotateDownInverted(speed) {
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
@@ -197,8 +197,8 @@ export default class Cube {
                                  this.blocks[1].blockGroup
                             ]
 
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -224,12 +224,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[2];
                                     this.blocks[2] = this.blocks[20];
                                     this.blocks[20] = this.blocks[18];
                                     this.blocks[18] = temp;
-                                    var temp = this.blocks[9];
+                                    temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[1];
                                     this.blocks[1] = this.blocks[11];
                                     this.blocks[11] = this.blocks[19];
@@ -241,7 +241,7 @@ export default class Cube {
     }
 
     rotateUp(speed) {
-        var initialPositions = [ this.blocks[6].blockGroup,
+        let initialPositions = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
                                  this.blocks[25].blockGroup,
@@ -250,8 +250,8 @@ export default class Cube {
                                  this.blocks[8].blockGroup,
                                  this.blocks[7].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -277,12 +277,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[6];
+                                    let temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];
                                     this.blocks[8] = this.blocks[26];
                                     this.blocks[26] = this.blocks[24];
                                     this.blocks[24] = temp;
-                                    var temp = this.blocks[7];
+                                    temp = this.blocks[7];
                                     this.blocks[7] = this.blocks[17];
                                     this.blocks[17] = this.blocks[25];
                                     this.blocks[25] = this.blocks[15];
@@ -294,7 +294,7 @@ export default class Cube {
     }
 
     rotateUpInverted(speed) {
-        var initialPositions = [ this.blocks[6].blockGroup,
+        let initialPositions = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
                                  this.blocks[25].blockGroup,
@@ -303,8 +303,8 @@ export default class Cube {
                                  this.blocks[8].blockGroup,
                                  this.blocks[7].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -330,12 +330,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[6];
+                                    let temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[24];
                                     this.blocks[24] = this.blocks[26];
                                     this.blocks[26] = this.blocks[8];
                                     this.blocks[8] = temp;
-                                    var temp = this.blocks[7];
+                                    temp = this.blocks[7];
                                     this.blocks[7] = this.blocks[15];
                                     this.blocks[15] = this.blocks[25];
                                     this.blocks[25] = this.blocks[17];
@@ -347,7 +347,7 @@ export default class Cube {
     }
 
     rotateRight(speed) {
-        var initialPositions = [ this.blocks[18].blockGroup,
+        let initialPositions = [ this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
                                  this.blocks[23].blockGroup,
@@ -356,8 +356,8 @@ export default class Cube {
                                  this.blocks[24].blockGroup,
                                  this.blocks[21].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -383,12 +383,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[18];
+                                    let temp = this.blocks[18];
                                     this.blocks[18] = this.blocks[24];
                                     this.blocks[24] = this.blocks[26];
                                     this.blocks[26] = this.blocks[20];
                                     this.blocks[20] = temp;
-                                    var temp = this.blocks[19];
+                                    temp = this.blocks[19];
                                     this.blocks[19] = this.blocks[21];
                                     this.blocks[21] = this.blocks[25];
                                     this.blocks[25] = this.blocks[23];
@@ -400,7 +400,7 @@ export default class Cube {
     }
 
     rotateRightInverted(speed) {
-        var initialPositions = [ this.blocks[18].blockGroup,
+        let initialPositions = [ this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
                                  this.blocks[23].blockGroup,
@@ -409,8 +409,8 @@ export default class Cube {
                                  this.blocks[24].blockGroup,
                                  this.blocks[21].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -436,12 +436,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[18];
+                                    let temp = this.blocks[18];
                                     this.blocks[18] = this.blocks[20];
                                     this.blocks[20] = this.blocks[26];
                                     this.blocks[26] = this.blocks[24];
                                     this.blocks[24] = temp;
-                                    var temp = this.blocks[19];
+                                    temp = this.blocks[19];
                                     this.blocks[19] = this.blocks[23];
                                     this.blocks[23] = this.blocks[25];
                                     this.blocks[25] = this.blocks[21];
@@ -453,7 +453,7 @@ export default class Cube {
     }
 
     rotateBack(speed) {
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[21].blockGroup,
@@ -462,8 +462,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -489,12 +489,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[6];
                                     this.blocks[6] = this.blocks[24];
                                     this.blocks[24] = this.blocks[18];
                                     this.blocks[18] = temp;
-                                    var temp = this.blocks[3];
+                                    temp = this.blocks[3];
                                     this.blocks[3] = this.blocks[15];
                                     this.blocks[15] = this.blocks[21];
                                     this.blocks[21] = this.blocks[9];
@@ -506,7 +506,7 @@ export default class Cube {
     }
 
     rotateBackInverted(speed) {
-        var initialPositions = [ this.blocks[0].blockGroup,
+        let initialPositions = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[21].blockGroup,
@@ -515,8 +515,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -542,12 +542,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[18];
                                     this.blocks[18] = this.blocks[24];
                                     this.blocks[24] = this.blocks[6];
                                     this.blocks[6] = temp;
-                                    var temp = this.blocks[3];
+                                    temp = this.blocks[3];
                                     this.blocks[3] = this.blocks[9];
                                     this.blocks[9] = this.blocks[21];
                                     this.blocks[21] = this.blocks[15];
@@ -559,7 +559,7 @@ export default class Cube {
     }
 
     rotateFront(speed) {
-        var initialPositions = [ this.blocks[8].blockGroup,
+        let initialPositions = [ this.blocks[8].blockGroup,
                                  this.blocks[17].blockGroup,
                                  this.blocks[26].blockGroup,
                                  this.blocks[23].blockGroup,
@@ -568,8 +568,8 @@ export default class Cube {
                                  this.blocks[2].blockGroup,
                                  this.blocks[5].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -595,12 +595,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[2];
+                                    let temp = this.blocks[2];
                                     this.blocks[2] = this.blocks[20];
                                     this.blocks[20] = this.blocks[26];
                                     this.blocks[26] = this.blocks[8];
                                     this.blocks[8] = temp;
-                                    var temp = this.blocks[5];
+                                    temp = this.blocks[5];
                                     this.blocks[5] = this.blocks[11];
                                     this.blocks[11] = this.blocks[23];
                                     this.blocks[23] = this.blocks[17];
@@ -612,7 +612,7 @@ export default class Cube {
     }
 
     rotateFrontInverted(speed) {
-        var initialPositions = [ this.blocks[8].blockGroup,
+        let initialPositions = [ this.blocks[8].blockGroup,
                                  this.blocks[17].blockGroup,
                                  this.blocks[26].blockGroup,
                                  this.blocks[23].blockGroup,
@@ -621,8 +621,8 @@ export default class Cube {
                                  this.blocks[2].blockGroup,
                                  this.blocks[5].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -649,12 +649,12 @@ export default class Cube {
                                 })
                                 .onComplete( () => {
 
-                                    var temp = this.blocks[2];
+                                    let temp = this.blocks[2];
                                     this.blocks[2] = this.blocks[8];
                                     this.blocks[8] = this.blocks[26];
                                     this.blocks[26] = this.blocks[20];
                                     this.blocks[20] = temp;
-                                    var temp = this.blocks[5];
+                                    temp = this.blocks[5];
                                     this.blocks[5] = this.blocks[17];
                                     this.blocks[17] = this.blocks[23];
                                     this.blocks[23] = this.blocks[11];
@@ -665,7 +665,7 @@ export default class Cube {
     }
 
     rotateYInvert(speed) {
-        var initialPositionsTop = [ this.blocks[6].blockGroup,
+        let initialPositionsTop = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
                                  this.blocks[25].blockGroup,
@@ -674,8 +674,8 @@ export default class Cube {
                                  this.blocks[8].blockGroup,
                                  this.blocks[7].blockGroup
                                 ]
-        var finalPositionsTop = initialPositionsTop.slice(-2).concat(initialPositionsTop.slice(0, -2));
-        var initialPositionsDown = [ this.blocks[0].blockGroup,
+        let finalPositionsTop = initialPositionsTop.slice(-2).concat(initialPositionsTop.slice(0, -2));
+        let initialPositionsDown = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
@@ -685,8 +685,8 @@ export default class Cube {
                                  this.blocks[1].blockGroup
                             ]
 
-        var finalPositionsDown = initialPositionsDown.slice(-2).concat(initialPositionsDown.slice(0, -2));
-        var initialPositionsMid = [ this.blocks[3].blockGroup,
+        let finalPositionsDown = initialPositionsDown.slice(-2).concat(initialPositionsDown.slice(0, -2));
+        let initialPositionsMid = [ this.blocks[3].blockGroup,
                                  this.blocks[12].blockGroup,
                                  this.blocks[21].blockGroup,
                                  this.blocks[22].blockGroup,
@@ -696,8 +696,8 @@ export default class Cube {
                                  this.blocks[4].blockGroup
                             ]
 
-        var finalPositionsMid = initialPositionsMid.slice(-2).concat(initialPositionsMid.slice(0, -2));
-        var prev = 0;
+        let finalPositionsMid = initialPositionsMid.slice(-2).concat(initialPositionsMid.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsTop[0].position, ele2: initialPositionsTop[1].position,
                                          ele3: initialPositionsTop[2].position, ele4: initialPositionsTop[3].position,
                                          ele5: initialPositionsTop[4].position, ele6: initialPositionsTop[5].position,
@@ -761,32 +761,32 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[6];
+                                    let temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[24];
                                     this.blocks[24] = this.blocks[26];
                                     this.blocks[26] = this.blocks[8];
                                     this.blocks[8] = temp;
-                                    var temp = this.blocks[7];
+                                    temp = this.blocks[7];
                                     this.blocks[7] = this.blocks[15];
                                     this.blocks[15] = this.blocks[25];
                                     this.blocks[25] = this.blocks[17];
                                     this.blocks[17] = temp;
-                                    var temp = this.blocks[3];
+                                    temp = this.blocks[3];
                                     this.blocks[3] = this.blocks[21];
                                     this.blocks[21] = this.blocks[23];
                                     this.blocks[23] = this.blocks[5];
                                     this.blocks[5] = temp;
-                                    var temp = this.blocks[4];
+                                    temp = this.blocks[4];
                                     this.blocks[4] = this.blocks[12];
                                     this.blocks[12] = this.blocks[22];
                                     this.blocks[22] = this.blocks[14];
                                     this.blocks[14] = temp;
-                                    var temp = this.blocks[0];
+                                    temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[18];
                                     this.blocks[18] = this.blocks[20];
                                     this.blocks[20] = this.blocks[2];
                                     this.blocks[2] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[9];
                                     this.blocks[9] = this.blocks[19];
                                     this.blocks[19] = this.blocks[11];
@@ -799,7 +799,7 @@ export default class Cube {
     }
 
     rotateY(speed) {
-        var initialPositionsTop = [ this.blocks[6].blockGroup,
+        let initialPositionsTop = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
                                  this.blocks[24].blockGroup,
                                  this.blocks[25].blockGroup,
@@ -808,8 +808,8 @@ export default class Cube {
                                  this.blocks[8].blockGroup,
                                  this.blocks[7].blockGroup
                                 ]
-        var finalPositionsTop = initialPositionsTop.slice(2).concat(initialPositionsTop.slice(0, 2));
-        var initialPositionsDown = [ this.blocks[0].blockGroup,
+        let finalPositionsTop = initialPositionsTop.slice(2).concat(initialPositionsTop.slice(0, 2));
+        let initialPositionsDown = [ this.blocks[0].blockGroup,
                                  this.blocks[9].blockGroup,
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
@@ -819,8 +819,8 @@ export default class Cube {
                                  this.blocks[1].blockGroup
                             ]
 
-        var finalPositionsDown = initialPositionsDown.slice(2).concat(initialPositionsDown.slice(0, 2));
-        var initialPositionsMid = [ this.blocks[3].blockGroup,
+        let finalPositionsDown = initialPositionsDown.slice(2).concat(initialPositionsDown.slice(0, 2));
+        let initialPositionsMid = [ this.blocks[3].blockGroup,
                                  this.blocks[12].blockGroup,
                                  this.blocks[21].blockGroup,
                                  this.blocks[22].blockGroup,
@@ -830,8 +830,8 @@ export default class Cube {
                                  this.blocks[4].blockGroup
                             ]
 
-        var finalPositionsMid = initialPositionsMid.slice(2).concat(initialPositionsMid.slice(0, 2));
-        var prev = 0;
+        let finalPositionsMid = initialPositionsMid.slice(2).concat(initialPositionsMid.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsTop[0].position, ele2: initialPositionsTop[1].position,
                                          ele3: initialPositionsTop[2].position, ele4: initialPositionsTop[3].position,
                                          ele5: initialPositionsTop[4].position, ele6: initialPositionsTop[5].position,
@@ -895,32 +895,32 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[6];
+                                    let temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];
                                     this.blocks[8] = this.blocks[26];
                                     this.blocks[26] = this.blocks[24];
                                     this.blocks[24] = temp;
-                                    var temp = this.blocks[7];
+                                    temp = this.blocks[7];
                                     this.blocks[7] = this.blocks[17];
                                     this.blocks[17] = this.blocks[25];
                                     this.blocks[25] = this.blocks[15];
                                     this.blocks[15] = temp;
-                                    var temp = this.blocks[3];
+                                    temp = this.blocks[3];
                                     this.blocks[3] = this.blocks[5];
                                     this.blocks[5] = this.blocks[23];
                                     this.blocks[23] = this.blocks[21];
                                     this.blocks[21] = temp;
-                                    var temp = this.blocks[4];
+                                    temp = this.blocks[4];
                                     this.blocks[4] = this.blocks[14];
                                     this.blocks[14] = this.blocks[22];
                                     this.blocks[22] = this.blocks[12];
                                     this.blocks[12] = temp;
-                                    var temp = this.blocks[0];
+                                    temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[2];
                                     this.blocks[2] = this.blocks[20];
                                     this.blocks[20] = this.blocks[18];
                                     this.blocks[18] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[11];
                                     this.blocks[11] = this.blocks[19];
                                     this.blocks[19] = this.blocks[9];
@@ -933,7 +933,7 @@ export default class Cube {
     }
 
     rotateMiddle(speed) {
-        var initialPositions = [ this.blocks[9].blockGroup,
+        let initialPositions = [ this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
                                  this.blocks[14].blockGroup,
@@ -942,8 +942,8 @@ export default class Cube {
                                  this.blocks[15].blockGroup,
                                  this.blocks[12].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -968,12 +968,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[9];
+                                    let temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[11];
                                     this.blocks[11] = this.blocks[17];
                                     this.blocks[17] = this.blocks[15];
                                     this.blocks[15] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[14];
                                     this.blocks[14] = this.blocks[16];
                                     this.blocks[16] = this.blocks[12];
@@ -985,7 +985,7 @@ export default class Cube {
     }
 
     rotateMiddleInverted(speed) {
-        var initialPositions = [ this.blocks[9].blockGroup,
+        let initialPositions = [ this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
                                  this.blocks[14].blockGroup,
@@ -994,8 +994,8 @@ export default class Cube {
                                  this.blocks[15].blockGroup,
                                  this.blocks[12].blockGroup
                                 ]
-        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
-        var prev = 0;
+        let finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
                                          ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
                                          ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
@@ -1020,12 +1020,12 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[9];
+                                    let temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[15];
                                     this.blocks[15] = this.blocks[17];
                                     this.blocks[17] = this.blocks[11];
                                     this.blocks[11] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[12];
                                     this.blocks[12] = this.blocks[16];
                                     this.blocks[16] = this.blocks[14];
@@ -1037,7 +1037,7 @@ export default class Cube {
     }
 
     rotater(speed) {
-        var initialPositionsRight = [
+        let initialPositionsRight = [
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
@@ -1047,8 +1047,8 @@ export default class Cube {
                                  this.blocks[24].blockGroup,
                                  this.blocks[21].blockGroup
                                 ]
-        var finalPositionsTop = initialPositionsRight.slice(2).concat(initialPositionsRight.slice(0, 2));
-        var initialPositionsMiddle = [
+        let finalPositionsTop = initialPositionsRight.slice(2).concat(initialPositionsRight.slice(0, 2));
+        let initialPositionsMiddle = [
                                  this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
@@ -1059,8 +1059,8 @@ export default class Cube {
                                  this.blocks[12].blockGroup
                             ]
 
-        var finalPositionsDown = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
-        var prev = 0;
+        let finalPositionsDown = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsRight[0].position, ele2: initialPositionsRight[1].position,
                                          ele3: initialPositionsRight[2].position, ele4: initialPositionsRight[3].position,
                                          ele5: initialPositionsRight[4].position, ele6: initialPositionsRight[5].position,
@@ -1105,22 +1105,22 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[18];
+                                    let temp = this.blocks[18];
                                     this.blocks[18] = this.blocks[24];
                                     this.blocks[24] = this.blocks[26];
                                     this.blocks[26] = this.blocks[20];
                                     this.blocks[20] = temp;
-                                    var temp = this.blocks[19];
+                                    temp = this.blocks[19];
                                     this.blocks[19] = this.blocks[21];
                                     this.blocks[21] = this.blocks[25];
                                     this.blocks[25] = this.blocks[23];
                                     this.blocks[23] = temp;
-                                    var temp = this.blocks[9];
+                                    temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[15];
                                     this.blocks[15] = this.blocks[17];
                                     this.blocks[17] = this.blocks[11];
                                     this.blocks[11] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[12];
                                     this.blocks[12] = this.blocks[16];
                                     this.blocks[16] = this.blocks[14];
@@ -1133,7 +1133,7 @@ export default class Cube {
     }
 
     rotaterI(speed) {
-        var initialPositionsRight = [
+        let initialPositionsRight = [
                                  this.blocks[18].blockGroup,
                                  this.blocks[19].blockGroup,
                                  this.blocks[20].blockGroup,
@@ -1143,8 +1143,8 @@ export default class Cube {
                                  this.blocks[24].blockGroup,
                                  this.blocks[21].blockGroup
                                 ]
-        var finalPositionsTop = initialPositionsRight.slice(-2).concat(initialPositionsRight.slice(0, -2));
-        var initialPositionsMiddle = [
+        let finalPositionsTop = initialPositionsRight.slice(-2).concat(initialPositionsRight.slice(0, -2));
+        let initialPositionsMiddle = [
                                  this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
@@ -1155,8 +1155,8 @@ export default class Cube {
                                  this.blocks[12].blockGroup
                             ]
 
-        var finalPositionsDown = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
-        var prev = 0;
+        let finalPositionsDown = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsRight[0].position, ele2: initialPositionsRight[1].position,
                                          ele3: initialPositionsRight[2].position, ele4: initialPositionsRight[3].position,
                                          ele5: initialPositionsRight[4].position, ele6: initialPositionsRight[5].position,
@@ -1201,22 +1201,22 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    var temp = this.blocks[18];
+                                    let temp = this.blocks[18];
                                     this.blocks[18] = this.blocks[20];
                                     this.blocks[20] = this.blocks[26];
                                     this.blocks[26] = this.blocks[24];
                                     this.blocks[24] = temp;
-                                    var temp = this.blocks[19];
+                                    temp = this.blocks[19];
                                     this.blocks[19] = this.blocks[23];
                                     this.blocks[23] = this.blocks[25];
                                     this.blocks[25] = this.blocks[21];
                                     this.blocks[21] = temp;
-                                    var temp = this.blocks[9];
+                                    temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[11];
                                     this.blocks[11] = this.blocks[17];
                                     this.blocks[17] = this.blocks[15];
                                     this.blocks[15] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[14];
                                     this.blocks[14] = this.blocks[16];
                                     this.blocks[16] = this.blocks[12];
@@ -1229,7 +1229,7 @@ export default class Cube {
     }
 
     rotatel(speed) {
-        var initialPositionsLeft = [
+        let initialPositionsLeft = [
                                  this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
@@ -1239,8 +1239,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositionsLeft = initialPositionsLeft.slice(-2).concat(initialPositionsLeft.slice(0, -2));
-        var initialPositionsMiddle = [
+        let finalPositionsLeft = initialPositionsLeft.slice(-2).concat(initialPositionsLeft.slice(0, -2));
+        let initialPositionsMiddle = [
                                  this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
@@ -1251,8 +1251,8 @@ export default class Cube {
                                  this.blocks[12].blockGroup
                             ]
 
-        var finalPositionsMiddle = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
-        var prev = 0;
+        let finalPositionsMiddle = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsLeft[0].position, ele2: initialPositionsLeft[1].position,
                                          ele3: initialPositionsLeft[2].position, ele4: initialPositionsLeft[3].position,
                                          ele5: initialPositionsLeft[4].position, ele6: initialPositionsLeft[5].position,
@@ -1298,22 +1298,22 @@ export default class Cube {
                                 })
                                 .onComplete( () => {
                                     // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[2];
                                     this.blocks[2] = this.blocks[8];
                                     this.blocks[8] = this.blocks[6];
                                     this.blocks[6] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[5];
                                     this.blocks[5] = this.blocks[7];
                                     this.blocks[7] = this.blocks[3];
                                     this.blocks[3] = temp;
-                                    var temp = this.blocks[9];
+                                    temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[11];
                                     this.blocks[11] = this.blocks[17];
                                     this.blocks[17] = this.blocks[15];
                                     this.blocks[15] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[14];
                                     this.blocks[14] = this.blocks[16];
                                     this.blocks[16] = this.blocks[12];
@@ -1326,7 +1326,7 @@ export default class Cube {
     }
 
     rotatelI(speed) {
-        var initialPositionsLeft = [
+        let initialPositionsLeft = [
                                  this.blocks[0].blockGroup,
                                  this.blocks[1].blockGroup,
                                  this.blocks[2].blockGroup,
@@ -1336,8 +1336,8 @@ export default class Cube {
                                  this.blocks[6].blockGroup,
                                  this.blocks[3].blockGroup
                                 ]
-        var finalPositionsLeft = initialPositionsLeft.slice(2).concat(initialPositionsLeft.slice(0, 2));
-        var initialPositionsMiddle = [
+        let finalPositionsLeft = initialPositionsLeft.slice(2).concat(initialPositionsLeft.slice(0, 2));
+        let initialPositionsMiddle = [
                                  this.blocks[9].blockGroup,
                                  this.blocks[10].blockGroup,
                                  this.blocks[11].blockGroup,
@@ -1348,8 +1348,8 @@ export default class Cube {
                                  this.blocks[12].blockGroup
                             ]
 
-        var finalPositionsMiddle = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
-        var prev = 0;
+        let finalPositionsMiddle = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
+        let prev = 0;
         const tween = new TWEEN.Tween( { ele1: initialPositionsLeft[0].position, ele2: initialPositionsLeft[1].position,
                                          ele3: initialPositionsLeft[2].position, ele4: initialPositionsLeft[3].position,
                                          ele5: initialPositionsLeft[4].position, ele6: initialPositionsLeft[5].position,
@@ -1368,7 +1368,7 @@ export default class Cube {
                                          ele11: finalPositionsMiddle[2].position, ele12: finalPositionsMiddle[3].position,
                                          ele13: finalPositionsMiddle[4].position, ele14: finalPositionsMiddle[5].position,
                                          ele15: finalPositionsMiddle[6].position, ele16: finalPositionsMiddle[7].position,
-                                         rotation: Math.PI / 2
+                                         rotation: - Math.PI / 2
                                     }, speed )
                                 .onUpdate( (angle) => {
                                     // top side
@@ -1395,22 +1395,22 @@ export default class Cube {
                                 })
                                 .onComplete( () => {
                                     // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
-                                    var temp = this.blocks[0];
+                                    let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];
                                     this.blocks[8] = this.blocks[2];
                                     this.blocks[2] = temp;
-                                    var temp = this.blocks[1];
+                                    temp = this.blocks[1];
                                     this.blocks[1] = this.blocks[3];
                                     this.blocks[3] = this.blocks[7];
                                     this.blocks[7] = this.blocks[5];
                                     this.blocks[5] = temp;
-                                    var temp = this.blocks[9];
+                                    temp = this.blocks[9];
                                     this.blocks[9] = this.blocks[15];
                                     this.blocks[15] = this.blocks[17];
                                     this.blocks[17] = this.blocks[11];
                                     this.blocks[11] = temp;
-                                    var temp = this.blocks[10];
+                                    temp = this.blocks[10];
                                     this.blocks[10] = this.blocks[12];
                                     this.blocks[12] = this.blocks[16];
                                     this.blocks[16] = this.blocks[14];
@@ -1429,7 +1429,7 @@ export default class Cube {
 
           const poll = resolve => {
             if(conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 100);
+            else setTimeout(_ => poll(resolve), 10);
           }
 
           return new Promise(poll);
@@ -1442,11 +1442,10 @@ export default class Cube {
             return splitArray;
         }
         let rotations = replaceAndSplit(str);
-        console.log(rotations);
         for( let i = 0; i < rotations.length; i++) {
-            var rotation = rotations[i];
-            var tween;
-            var playRotation = true;
+            let rotation = rotations[i];
+            let tween;
+            let playRotation = true;
             switch (rotation) {
                 case "F":
                     tween = this.rotateFront(speed);
@@ -1510,13 +1509,13 @@ export default class Cube {
                     break;
                 default:
                     playRotation = false;
+                    console.log("unknown rotation" + rotation);
             }
             if( playRotation ) {
                 tween.start();
                 await until(_ => tween.isPlaying() === false );
             }
         }
-        return playRotation
     }
 
     /*
@@ -1532,8 +1531,8 @@ export default class Cube {
         const backVector = new THREE.Vector3(0, 0, -1);
         const colors = [ "red", "orange", "white", "yellow", "green", "blue" ];
         const sides = new Map();
-        var currBlocks = []
-        var intersects, faceIndex, faceColor;
+        let currBlocks = []
+        let intersects, faceIndex, faceColor;
         // the blocks that are on up
         currBlocks.push( this.blocks[6] );
         currBlocks.push( this.blocks[15] );
