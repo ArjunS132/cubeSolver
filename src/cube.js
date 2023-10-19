@@ -664,9 +664,6 @@ export default class Cube {
         return tween
     }
 
-    /*
-     * TODO implement x, y, z rotations ( might just use the cubeGroup)
-     */
     rotateYInvert(speed) {
         var initialPositionsTop = [ this.blocks[6].blockGroup,
                                  this.blocks[15].blockGroup,
@@ -764,7 +761,6 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    // TODO FIX THE ARRAYS
                                     var temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[24];
                                     this.blocks[24] = this.blocks[26];
@@ -899,7 +895,6 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    // TODO FIX THE ARRAYS
                                     var temp = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];
                                     this.blocks[8] = this.blocks[26];
@@ -937,6 +932,493 @@ export default class Cube {
 
     }
 
+    rotateMiddle(speed) {
+        var initialPositions = [ this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                                ]
+        var finalPositions = initialPositions.slice(-2).concat(initialPositions.slice(0, -2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
+                                         ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
+                                         ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
+                                         ele7position: initialPositions[6].position, ele8position: initialPositions[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1position: finalPositions[0].position, ele2position: finalPositions[1].position,
+                                         ele3position: finalPositions[2].position, ele4position: finalPositions[3].position,
+                                         ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
+                                         ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
+                                         rotation: Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[11];
+                                    this.blocks[11] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[15];
+                                    this.blocks[15] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[14];
+                                    this.blocks[14] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[12];
+                                    this.blocks[12] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+    }
+
+    rotateMiddleInverted(speed) {
+        var initialPositions = [ this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                                ]
+        var finalPositions = initialPositions.slice(2).concat(initialPositions.slice(0, 2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1position: initialPositions[0].position, ele2position: initialPositions[1].position,
+                                         ele3position: initialPositions[2].position, ele4position: initialPositions[3].position,
+                                         ele5position: initialPositions[4].position, ele6position: initialPositions[5].position,
+                                         ele7position: initialPositions[6].position, ele8position: initialPositions[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1position: finalPositions[0].position, ele2position: finalPositions[1].position,
+                                         ele3position: finalPositions[2].position, ele4position: finalPositions[3].position,
+                                         ele5position: finalPositions[4].position, ele6position: finalPositions[5].position,
+                                         ele7position: finalPositions[6].position, ele8position: finalPositions[7].position,
+                                         rotation: -Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    initialPositions[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositions[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[15];
+                                    this.blocks[15] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[11];
+                                    this.blocks[11] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[12];
+                                    this.blocks[12] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[14];
+                                    this.blocks[14] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+    }
+
+    rotater(speed) {
+        var initialPositionsRight = [
+                                 this.blocks[18].blockGroup,
+                                 this.blocks[19].blockGroup,
+                                 this.blocks[20].blockGroup,
+                                 this.blocks[23].blockGroup,
+                                 this.blocks[26].blockGroup,
+                                 this.blocks[25].blockGroup,
+                                 this.blocks[24].blockGroup,
+                                 this.blocks[21].blockGroup
+                                ]
+        var finalPositionsTop = initialPositionsRight.slice(2).concat(initialPositionsRight.slice(0, 2));
+        var initialPositionsMiddle = [
+                                 this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                            ]
+
+        var finalPositionsDown = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1: initialPositionsRight[0].position, ele2: initialPositionsRight[1].position,
+                                         ele3: initialPositionsRight[2].position, ele4: initialPositionsRight[3].position,
+                                         ele5: initialPositionsRight[4].position, ele6: initialPositionsRight[5].position,
+                                         ele7: initialPositionsRight[6].position, ele8: initialPositionsRight[7].position,
+                                         ele9: initialPositionsMiddle[0].position, ele10: initialPositionsMiddle[1].position,
+                                         ele11: initialPositionsMiddle[2].position, ele12: initialPositionsMiddle[3].position,
+                                         ele13: initialPositionsMiddle[4].position, ele14: initialPositionsMiddle[5].position,
+                                         ele15: initialPositionsMiddle[6].position, ele16: initialPositionsMiddle[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1: finalPositionsTop[0].position, ele2: finalPositionsTop[1].position,
+                                         ele3: finalPositionsTop[2].position, ele4: finalPositionsTop[3].position,
+                                         ele5: finalPositionsTop[4].position, ele6: finalPositionsTop[5].position,
+                                         ele7: finalPositionsTop[6].position, ele8: finalPositionsTop[7].position,
+                                         ele9: finalPositionsDown[0].position, ele10: finalPositionsDown[1].position,
+                                         ele11: finalPositionsDown[2].position, ele12: finalPositionsDown[3].position,
+                                         ele13: finalPositionsDown[4].position, ele14: finalPositionsDown[5].position,
+                                         ele15: finalPositionsDown[6].position, ele16: finalPositionsDown[7].position,
+                                         rotation: - Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    // top side
+                                    initialPositionsRight[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // bottom side
+                                    initialPositionsMiddle[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // right center
+                                    this.blocks[22].blockGroup.rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    var temp = this.blocks[18];
+                                    this.blocks[18] = this.blocks[24];
+                                    this.blocks[24] = this.blocks[26];
+                                    this.blocks[26] = this.blocks[20];
+                                    this.blocks[20] = temp;
+                                    var temp = this.blocks[19];
+                                    this.blocks[19] = this.blocks[21];
+                                    this.blocks[21] = this.blocks[25];
+                                    this.blocks[25] = this.blocks[23];
+                                    this.blocks[23] = temp;
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[15];
+                                    this.blocks[15] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[11];
+                                    this.blocks[11] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[12];
+                                    this.blocks[12] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[14];
+                                    this.blocks[14] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+
+    }
+
+    rotaterI(speed) {
+        var initialPositionsRight = [
+                                 this.blocks[18].blockGroup,
+                                 this.blocks[19].blockGroup,
+                                 this.blocks[20].blockGroup,
+                                 this.blocks[23].blockGroup,
+                                 this.blocks[26].blockGroup,
+                                 this.blocks[25].blockGroup,
+                                 this.blocks[24].blockGroup,
+                                 this.blocks[21].blockGroup
+                                ]
+        var finalPositionsTop = initialPositionsRight.slice(-2).concat(initialPositionsRight.slice(0, -2));
+        var initialPositionsMiddle = [
+                                 this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                            ]
+
+        var finalPositionsDown = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1: initialPositionsRight[0].position, ele2: initialPositionsRight[1].position,
+                                         ele3: initialPositionsRight[2].position, ele4: initialPositionsRight[3].position,
+                                         ele5: initialPositionsRight[4].position, ele6: initialPositionsRight[5].position,
+                                         ele7: initialPositionsRight[6].position, ele8: initialPositionsRight[7].position,
+                                         ele9: initialPositionsMiddle[0].position, ele10: initialPositionsMiddle[1].position,
+                                         ele11: initialPositionsMiddle[2].position, ele12: initialPositionsMiddle[3].position,
+                                         ele13: initialPositionsMiddle[4].position, ele14: initialPositionsMiddle[5].position,
+                                         ele15: initialPositionsMiddle[6].position, ele16: initialPositionsMiddle[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1: finalPositionsTop[0].position, ele2: finalPositionsTop[1].position,
+                                         ele3: finalPositionsTop[2].position, ele4: finalPositionsTop[3].position,
+                                         ele5: finalPositionsTop[4].position, ele6: finalPositionsTop[5].position,
+                                         ele7: finalPositionsTop[6].position, ele8: finalPositionsTop[7].position,
+                                         ele9: finalPositionsDown[0].position, ele10: finalPositionsDown[1].position,
+                                         ele11: finalPositionsDown[2].position, ele12: finalPositionsDown[3].position,
+                                         ele13: finalPositionsDown[4].position, ele14: finalPositionsDown[5].position,
+                                         ele15: finalPositionsDown[6].position, ele16: finalPositionsDown[7].position,
+                                         rotation: Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    // top side
+                                    initialPositionsRight[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsRight[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // bottom side
+                                    initialPositionsMiddle[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // right center
+                                    this.blocks[22].blockGroup.rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    var temp = this.blocks[18];
+                                    this.blocks[18] = this.blocks[20];
+                                    this.blocks[20] = this.blocks[26];
+                                    this.blocks[26] = this.blocks[24];
+                                    this.blocks[24] = temp;
+                                    var temp = this.blocks[19];
+                                    this.blocks[19] = this.blocks[23];
+                                    this.blocks[23] = this.blocks[25];
+                                    this.blocks[25] = this.blocks[21];
+                                    this.blocks[21] = temp;
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[11];
+                                    this.blocks[11] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[15];
+                                    this.blocks[15] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[14];
+                                    this.blocks[14] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[12];
+                                    this.blocks[12] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+
+    }
+
+    rotatel(speed) {
+        var initialPositionsLeft = [
+                                 this.blocks[0].blockGroup,
+                                 this.blocks[1].blockGroup,
+                                 this.blocks[2].blockGroup,
+                                 this.blocks[5].blockGroup,
+                                 this.blocks[8].blockGroup,
+                                 this.blocks[7].blockGroup,
+                                 this.blocks[6].blockGroup,
+                                 this.blocks[3].blockGroup
+                                ]
+        var finalPositionsLeft = initialPositionsLeft.slice(-2).concat(initialPositionsLeft.slice(0, -2));
+        var initialPositionsMiddle = [
+                                 this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                            ]
+
+        var finalPositionsMiddle = initialPositionsMiddle.slice(-2).concat(initialPositionsMiddle.slice(0, -2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1: initialPositionsLeft[0].position, ele2: initialPositionsLeft[1].position,
+                                         ele3: initialPositionsLeft[2].position, ele4: initialPositionsLeft[3].position,
+                                         ele5: initialPositionsLeft[4].position, ele6: initialPositionsLeft[5].position,
+                                         ele7: initialPositionsLeft[6].position, ele8: initialPositionsLeft[7].position,
+                                         ele9: initialPositionsMiddle[0].position, ele10: initialPositionsMiddle[1].position,
+                                         ele11: initialPositionsMiddle[2].position, ele12: initialPositionsMiddle[3].position,
+                                         ele13: initialPositionsMiddle[4].position, ele14: initialPositionsMiddle[5].position,
+                                         ele15: initialPositionsMiddle[6].position, ele16: initialPositionsMiddle[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1: finalPositionsLeft[0].position, ele2: finalPositionsLeft[1].position,
+                                         ele3: finalPositionsLeft[2].position, ele4: finalPositionsLeft[3].position,
+                                         ele5: finalPositionsLeft[4].position, ele6: finalPositionsLeft[5].position,
+                                         ele7: finalPositionsLeft[6].position, ele8: finalPositionsLeft[7].position,
+                                         ele9: finalPositionsMiddle[0].position, ele10: finalPositionsMiddle[1].position,
+                                         ele11: finalPositionsMiddle[2].position, ele12: finalPositionsMiddle[3].position,
+                                         ele13: finalPositionsMiddle[4].position, ele14: finalPositionsMiddle[5].position,
+                                         ele15: finalPositionsMiddle[6].position, ele16: finalPositionsMiddle[7].position,
+                                         rotation: Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    // top side
+                                    initialPositionsLeft[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // bottom side
+                                    initialPositionsMiddle[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // right center
+                                    this.blocks[4].blockGroup.rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
+                                    var temp = this.blocks[0];
+                                    this.blocks[0] = this.blocks[2];
+                                    this.blocks[2] = this.blocks[8];
+                                    this.blocks[8] = this.blocks[6];
+                                    this.blocks[6] = temp;
+                                    var temp = this.blocks[1];
+                                    this.blocks[1] = this.blocks[5];
+                                    this.blocks[5] = this.blocks[7];
+                                    this.blocks[7] = this.blocks[3];
+                                    this.blocks[3] = temp;
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[11];
+                                    this.blocks[11] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[15];
+                                    this.blocks[15] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[14];
+                                    this.blocks[14] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[12];
+                                    this.blocks[12] = temp;
+                                    tween.stop();
+                                } )
+
+        return tween
+
+    }
+
+    rotatelI(speed) {
+        var initialPositionsLeft = [
+                                 this.blocks[0].blockGroup,
+                                 this.blocks[1].blockGroup,
+                                 this.blocks[2].blockGroup,
+                                 this.blocks[5].blockGroup,
+                                 this.blocks[8].blockGroup,
+                                 this.blocks[7].blockGroup,
+                                 this.blocks[6].blockGroup,
+                                 this.blocks[3].blockGroup
+                                ]
+        var finalPositionsLeft = initialPositionsLeft.slice(2).concat(initialPositionsLeft.slice(0, 2));
+        var initialPositionsMiddle = [
+                                 this.blocks[9].blockGroup,
+                                 this.blocks[10].blockGroup,
+                                 this.blocks[11].blockGroup,
+                                 this.blocks[14].blockGroup,
+                                 this.blocks[17].blockGroup,
+                                 this.blocks[16].blockGroup,
+                                 this.blocks[15].blockGroup,
+                                 this.blocks[12].blockGroup
+                            ]
+
+        var finalPositionsMiddle = initialPositionsMiddle.slice(2).concat(initialPositionsMiddle.slice(0, 2));
+        var prev = 0;
+        const tween = new TWEEN.Tween( { ele1: initialPositionsLeft[0].position, ele2: initialPositionsLeft[1].position,
+                                         ele3: initialPositionsLeft[2].position, ele4: initialPositionsLeft[3].position,
+                                         ele5: initialPositionsLeft[4].position, ele6: initialPositionsLeft[5].position,
+                                         ele7: initialPositionsLeft[6].position, ele8: initialPositionsLeft[7].position,
+                                         ele9: initialPositionsMiddle[0].position, ele10: initialPositionsMiddle[1].position,
+                                         ele11: initialPositionsMiddle[2].position, ele12: initialPositionsMiddle[3].position,
+                                         ele13: initialPositionsMiddle[4].position, ele14: initialPositionsMiddle[5].position,
+                                         ele15: initialPositionsMiddle[6].position, ele16: initialPositionsMiddle[7].position,
+                                         rotation: 0,
+                                      })
+                                .to( {   ele1: finalPositionsLeft[0].position, ele2: finalPositionsLeft[1].position,
+                                         ele3: finalPositionsLeft[2].position, ele4: finalPositionsLeft[3].position,
+                                         ele5: finalPositionsLeft[4].position, ele6: finalPositionsLeft[5].position,
+                                         ele7: finalPositionsLeft[6].position, ele8: finalPositionsLeft[7].position,
+                                         ele9: finalPositionsMiddle[0].position, ele10: finalPositionsMiddle[1].position,
+                                         ele11: finalPositionsMiddle[2].position, ele12: finalPositionsMiddle[3].position,
+                                         ele13: finalPositionsMiddle[4].position, ele14: finalPositionsMiddle[5].position,
+                                         ele15: finalPositionsMiddle[6].position, ele16: finalPositionsMiddle[7].position,
+                                         rotation: Math.PI / 2
+                                    }, speed )
+                                .onUpdate( (angle) => {
+                                    // top side
+                                    initialPositionsLeft[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsLeft[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // bottom side
+                                    initialPositionsMiddle[0].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[1].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[2].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[3].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[4].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[5].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[6].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    initialPositionsMiddle[7].rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    // right center
+                                    this.blocks[22].blockGroup.rotateOnWorldAxis(this.xAxis, angle.rotation - prev);
+                                    prev = angle.rotation;
+                                })
+                                .onComplete( () => {
+                                    // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
+                                    var temp = this.blocks[0];
+                                    this.blocks[0] = this.blocks[6];
+                                    this.blocks[6] = this.blocks[8];
+                                    this.blocks[8] = this.blocks[2];
+                                    this.blocks[2] = temp;
+                                    var temp = this.blocks[1];
+                                    this.blocks[1] = this.blocks[3];
+                                    this.blocks[3] = this.blocks[7];
+                                    this.blocks[7] = this.blocks[5];
+                                    this.blocks[5] = temp;
+                                    var temp = this.blocks[9];
+                                    this.blocks[9] = this.blocks[15];
+                                    this.blocks[15] = this.blocks[17];
+                                    this.blocks[17] = this.blocks[11];
+                                    this.blocks[11] = temp;
+                                    var temp = this.blocks[10];
+                                    this.blocks[10] = this.blocks[12];
+                                    this.blocks[12] = this.blocks[16];
+                                    this.blocks[16] = this.blocks[14];
+                                    this.blocks[14] = temp;
+                                    tween.stop();
+                                } )
+        return tween
+    }
 
     /*
      * @param {String} str
@@ -947,7 +1429,7 @@ export default class Cube {
 
           const poll = resolve => {
             if(conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 10);
+            else setTimeout(_ => poll(resolve), 100);
           }
 
           return new Promise(poll);
@@ -1008,6 +1490,24 @@ export default class Cube {
                 case "y'":
                     tween = this.rotateYInvert(speed);
                     break;
+                case "M":
+                    tween = this.rotateMiddle(speed);
+                    break;
+                case "M'":
+                    tween = this.rotateMiddleInverted(speed);
+                    break;
+                case "r":
+                    tween = this.rotater(speed);
+                    break;
+                case "r'":
+                    tween = this.rotaterI(speed);
+                    break;
+                case "l":
+                    tween = this.rotatel(speed);
+                    break;
+                case "l'":
+                    tween = this.rotatelI(speed);
+                    break;
                 default:
                     playRotation = false;
             }
@@ -1016,6 +1516,7 @@ export default class Cube {
                 await until(_ => tween.isPlaying() === false );
             }
         }
+        return playRotation
     }
 
     /*
@@ -1245,4 +1746,3 @@ export default class Cube {
         return returnIndex;
     }
 }
-

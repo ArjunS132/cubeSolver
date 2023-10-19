@@ -3,18 +3,8 @@ export default class Scrambler {
     constructor() {
     }
 
-    async scramble(cube, depth) {
+    async scramble(cube, depth, speed) {
         var tween;
-
-        function until(conditionFunction) {
-
-          const poll = resolve => {
-            if(conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 1000);
-          }
-
-          return new Promise(poll);
-        }
 
         let rotations = "";
         for(let i =0; i < depth; i++) {
@@ -60,6 +50,6 @@ export default class Scrambler {
                     break;
             }
         }
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, speed);
     }
 }

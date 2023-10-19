@@ -13,6 +13,22 @@ export default class Tester {
         this.scene.add(this.cube.cubeGroup);
     }
 
+    async testCase(scramble, speed) {
+        await this.cube.parseRotations(scramble, speed);
+        await this.solver.Solve(this.cube, speed);
+
+    }
+
+    async testlRotation() {
+        await this.cube.parseRotations("l");
+        this.testScrambleIntoSolve(this.cube, 500);
+    }
+
+    async testlIRotation() {
+        await this.cube.parseRotations("l'");
+        // await this.testScrambleIntoSolve(this.cube, 500);
+    }
+
     async testYRotation() {
         await this.cube.parseRotations("Y");
         this.testScrambleIntoSolve(this.cube);
@@ -25,6 +41,25 @@ export default class Tester {
 
     async test2Rotation() {
         await this.cube.parseRotations("y L' U2 L U L' U' L y'");
+    }
+
+    async testMRotation(speed) {
+        await this.cube.parseRotations("M");
+        this.testScrambleIntoSolve(speed);
+    }
+
+    async testrRotation(speed) {
+        await this.cube.parseRotations("r");
+        this.testScrambleIntoSolve(speed);
+    }
+    async testrIRotation(speed) {
+        await this.cube.parseRotations("r'");
+        this.testScrambleIntoSolve(speed);
+    }
+
+    async testMInvertedRotation(speed) {
+        await this.cube.parseRotations("M'");
+        this.testScrambleIntoSolve(speed);
     }
 
     async testF2LHelper() {
@@ -62,9 +97,9 @@ export default class Tester {
         console.log(map);
     }
 
-    async testScrambleIntoSolve() {
-        await this.scrambler.scramble(this.cube, 30);
-        await this.solver.Solve(this.cube);
+    async testScrambleIntoSolve(speed) {
+        await this.scrambler.scramble(this.cube, 30, speed);
+        await this.solver.Solve(this.cube, speed);
     }
 
     async greenYellowIsCorrect() {
@@ -94,8 +129,7 @@ export default class Tester {
         let backColor = sides.get("back")[4];
 
         return sides.get("down")[2] == downColor && sides.get("front")[8] == frontColor
-                && sides.get("right")[6] == rightColor         // return this.cube.findPiece( [ sides.get("down")[4], sides.get("front")[4], sides.get("right")[4] ] ) === 20
-        //     || this.cube.findPiece( [ sides.get("down")[4], sides.get("front")[4], sides.get("right")[4] ] ) === 26;
+                && sides.get("right")[6] == rightColor
     }
     async edgeInPlace() {
         const sides = this.cube.getSides();
@@ -107,11 +141,5 @@ export default class Tester {
         let backColor = sides.get("back")[4];
 
         return sides.get("front")[5] == frontColor && sides.get("right")[3] == rightColor;
-
-        // return this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 23
-        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 17
-        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 25
-        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 15
-        //     || this.cube.findPiece( [ sides.get("front")[4], sides.get("right")[4] ] ) === 7
     }
 }

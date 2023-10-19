@@ -10,12 +10,12 @@ export default class Solver {
     }
 
 
-    async Solve(cube) {
-        await this.bottomCross(cube);
-        await this.f2l(cube);
+    async Solve(cube, speed) {
+        await this.bottomCross(cube, speed);
+        await this.f2l(cube, speed);
     }
 
-    async bottomCross(cube) {
+    async bottomCross(cube, speed) {
         // get yellow + green to right position
         let downColor = cube.getSides().get("down")[4];
         let frontColor = cube.getSides().get("front")[4];
@@ -125,7 +125,7 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, speed);
 
         // get yellow + red to right position
         position = cube.findPiece([downColor, rightColor]);
@@ -230,7 +230,7 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, speed);
 
         // get yellow + blue to right position
         position = cube.findPiece([downColor, backColor]);
@@ -334,7 +334,7 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, speed);
 
         // get yellow + orange to right position
         position = cube.findPiece([downColor, leftColor]);
@@ -438,19 +438,19 @@ export default class Solver {
                 break; // Optional default case with a break
         }
         console.log(rotations);
-        await cube.parseRotations(rotations, 2);
+        await cube.parseRotations(rotations, speed);
         return position + rotations;
     }
 
     async f2l(cube, speed) {
         // do all 4 pairs
         for (let i = 0; i < 4; i++) {
-            console.log( await this.f2lHelper(cube) );
-            await cube.parseRotations("y", 2);
+            console.log( await this.f2lHelper(cube, speed) );
+            await cube.parseRotations("y", speed);
         }
     }
 
-    async f2lHelper(cube) {
+    async f2lHelper(cube, speed) {
         let downColor = cube.getSides().get("down")[4];
         let upColor = cube.getSides().get("up")[4];
         let frontColor = cube.getSides().get("front")[4];
@@ -478,7 +478,7 @@ export default class Solver {
                 break;
         }
         console.log("f2l part1 rotations", rotations);
-        await cube.parseRotations(rotations, 50);
+        await cube.parseRotations(rotations, speed);
         rotations = "";
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
 
@@ -497,7 +497,7 @@ export default class Solver {
 
         }
         console.log("f2l part2 rotations", rotations);
-        await cube.parseRotations(rotations, 5);
+        await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         rotations = "";
         switch (edgePosition) {
@@ -514,7 +514,7 @@ export default class Solver {
                 break;
         }
         console.log("f2l part3 rotations", rotations);
-        await cube.parseRotations(rotations, 5);
+        await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
         let blockColors = cube.getSides();
@@ -537,7 +537,7 @@ export default class Solver {
                     rotations += "R' R' U' U' F R2 F' U' U' R' U R'"
                 }
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("misoriented" + edgePosition + rotations);
         }
         // cases where edge is right spot
@@ -547,7 +547,7 @@ export default class Solver {
                 if(blockColors.get("up")[8] === downColor ) {
                     rotations += "U R U' R' U R U' R' U R U' R'";
                 } else if(blockColors.get("up")[8] === frontColor) {
-                    rotations += "U2 R U R' F R' F' R";
+                    rotations += "U' R U' R' U2 R U' R'";
                 } else {
                     rotations +="U R U R' U2 R U R'";
                 }
@@ -562,7 +562,7 @@ export default class Solver {
                     rotations +="U F' U' F U' R U R'";
                 }
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("edge in place " + edgePosition + rotations);
         }
         // cases where corner in right position
@@ -596,7 +596,7 @@ export default class Solver {
                 default:
                     break;
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
             rotations = "";
             if( blockColors.get("front")[8] === downColor ) {
@@ -618,7 +618,7 @@ export default class Solver {
                     rotations += "y L' U L U' L' U L y'"
                 }
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("corner in place" + edgePosition + rotations);
         }
         // cases where white is facing up on corner piece
@@ -659,7 +659,7 @@ export default class Solver {
                 default:
                     break;
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("white up" + edgePosition + rotations);
         }
         // cases where green is facing up
@@ -700,7 +700,7 @@ export default class Solver {
                 default:
                     break;
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("green up" + edgePosition + rotations);
         }
 
@@ -742,7 +742,7 @@ export default class Solver {
                 default:
                     break;
             }
-            await cube.parseRotations(rotations, 2);
+            await cube.parseRotations(rotations, speed);
             returnStatement.push("red up" + edgePosition + rotations);
         }
         return returnStatement;
@@ -762,14 +762,19 @@ export default class Solver {
                 ["r U r' U2 r U2 R' U2 R U' r'"]
             ],
             [
-                [],
-                [],
-                []
+                [0, 0, 0, 0, 1, 0, 1, 0, 0],
+                [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0],
+                ["r' R2 U R' U r U2 r' U M'"]
             ],
             [
-                [],
-                [],
-                []
+                [0, 0, 0, 0, 1, 0, 0, 0, 1],
+                [1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0],
+                ["M U' r U2 r' U' R U' R' M'"]
+            ],
+            [
+                [1, 1, 0, 1, 1, 0, 0, 0, 0],
+                [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+                ["l' U2 L U L' U l"]
             ],
         ]
 
