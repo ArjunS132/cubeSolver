@@ -752,7 +752,6 @@ export default class Solver {
     }
 
     async oll(cube, speed) {
-        let sides = cube.getSides();
         const OllCases = [
             // case 1
             [
@@ -1097,27 +1096,24 @@ export default class Solver {
                 "R U R' U' M' U R U' r'"
             ],
         ]
+        let sides = cube.getSides();
+        let returnStatement = [];
         let rotations = "";
         let matchFound = false;
-        let count = 0;
-        let returnStatement = [];
-        while( !matchFound && count < 4) {
-            await OllCases.forEach( async (currCase, index) => {
-                if( await this.findOll( sides, currCase ) ) {
-                    matchFound = true;
-                    rotations = currCase[2]
-                    returnStatement[0] = index + rotations;
-                    returnStatement[1] = sides;
+        for( const index in OllCases) {
+            let currCase = OllCases[index]
+            let solution = this.findOll(sides, currCase );
+            if(solution[0]) {
+                for( let i = 0; i < solution[1]; i++ ) {
+                    rotations += "U ";
                 }
-            });
-            if( !matchFound ) {
-                await cube.parseRotations("U", speed);
-            } else {
-                await cube.parseRotations(rotations, speed);
+                rotations += currCase[2];
+                returnStatement[0] = index + currCase[2];
+                returnStatement[1] = cube.getSides();
+                matchFound = true;
             }
-            sides = await cube.getSides();
-            count += 1;
         }
+        await cube.parseRotations(rotations, speed);
         return returnStatement;
     }
 
@@ -1253,50 +1249,38 @@ export default class Solver {
                     matchFound = true;
                 }
             });
-            // if( !matchFound ) {
-            //     await cube.parseRotations("U", speed);
-            // } else {
-            //     console.log(rotations);
-            //     await cube.parseRotations(rotations, speed);
-            // }
             sides = await cube.getSides();
             count += 1;
         }
         return returnStatement;
     }
 
-    async findOll( cubeSides, searchSides) {
-        let match = true;
-        let currTop = cubeSides.get("up");
-        let topColor = currTop[4];
-        let searchTop = searchSides[0];
+    findOll( cubeSides, searchSides) {
+        let match = false;
+        let topColor = cubeSides.get("up")[4];
         let searchEdges = searchSides[1];
         let frontEdges = cubeSides.get("front").slice(0, 3);
         let rightEdges = cubeSides.get("right").slice(0, 3);
         let backEdges = cubeSides.get("back").slice(0, 3);
         let leftEdges = cubeSides.get("left").slice(0, 3);
         let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
-        // for (let index = 0; index < currTop.length; index++) {
-        //     const element1 = currTop[index];
-        //     const element2 = searchTop[index];
-        //     if( element1 === topColor && element2 === 0 ) {
-        //         match = false;
-        //     }
-        //     if( element1 != topColor && element2 === 1 ) {
-        //         match = false;
-        //     }
-        // }
-        for ( let index = 0; index < searchEdges.length; index++ ) {
-            const element1 = currEdges[index];
-            const element2 = searchEdges[index];
-            if( element1 === topColor && element2 === 0 ) {
-                match = false;
+        let numTurns = 0;
+        for( let i = 0; !match && i < 4; i++) {
+            match = true;
+            numTurns = i;
+            for ( let index = 0; index < searchEdges.length; index++ ) {
+                const element1 = currEdges[index];
+                const element2 = searchEdges[index];
+                if( element1 === topColor && element2 === 0 ) {
+                    match = false;
+                }
+                if( element1 != topColor && element2 === 1 ) {
+                    match = false;
+                }
             }
-            if( element1 != topColor && element2 === 1 ) {
-                match = false;
-            }
+            searchEdges = searchEdges.slice(-3).concat( searchEdges.slice(0, -3) );
         }
-        return match;
+        return [match, numTurns];
     }
 
     async findPll( cubeSides, searchSides) {

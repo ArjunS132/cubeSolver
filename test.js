@@ -81,7 +81,7 @@ export default class Tester {
 
     async testOLL() {
         const map = new Map();
-        while( map.size < 57) {
+        while( map.size < 57 ) {
             this.scene.remove(this.cube.cubeGroup);
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
@@ -90,14 +90,16 @@ export default class Tester {
             await this.solver.bottomCross(this.cube, 2);
             await this.solver.f2l(this.cube, 2);
             let permutation = await this.solver.oll(this.cube, 2);
-            if( await this.topIsSolid() ) {
+            console.log(permutation);
+            if( this.topIsSolid() ) {
+                console.log("solid");
                 map.set( permutation[0], true);
             } else {
+                console.log("!solid");
                 map.set( permutation[0], permutation[1] );
             }
         }
         console.log(map);
-
     }
 
     async testPll() {
@@ -187,10 +189,10 @@ export default class Tester {
         return sides.get("front")[5] == frontColor && sides.get("right")[3] == rightColor;
     }
 
-    async topIsSolid() {
+    topIsSolid() {
         return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0]);
     }
-     async solved() {
+    async solved() {
         console.log(this.cube.getSides());
         return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0])
             && this.cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0])
