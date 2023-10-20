@@ -100,6 +100,30 @@ export default class Tester {
 
     }
 
+    async testPll() {
+        const map = new Map();
+        let runs = 0;
+        while( map.size < 21 && runs < 100) {
+            this.scene.remove(this.cube.cubeGroup);
+            this.cube = new Cube(3);
+            this.scene.add(this.cube.cubeGroup);
+            const randNumber = Math.floor( Math.random() * (15)) + 5;
+            await this.scrambler.scramble(this.cube, randNumber, 1);
+            await this.solver.bottomCross(this.cube, 2);
+            await this.solver.f2l(this.cube, 2);
+            await this.solver.oll(this.cube, 2);
+            let permutation = await this.solver.pll(this.cube, 2);
+            if( await this.solved() ) {
+                map.set( permutation[0], true);
+            } else {
+                map.set( permutation[0], permutation[1] );
+            }
+            runs++;
+        }
+        console.log(map);
+
+    }
+
     async testGreenYellow() {
         const map = new Map();
         while( map.size < 18) {
@@ -166,4 +190,13 @@ export default class Tester {
     async topIsSolid() {
         return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0]);
     }
+     async solved() {
+        console.log(this.cube.getSides());
+        return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0])
+            && this.cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0])
+            && this.cube.getSides().get("left").every( (ele, index, arr) => ele === arr[0])
+            && this.cube.getSides().get("right").every( (ele, index, arr) => ele === arr[0])
+            && this.cube.getSides().get("front").every( (ele, index, arr) => ele === arr[0])
+            && this.cube.getSides().get("back").every( (ele, index, arr) => ele === arr[0])
+     }
 }

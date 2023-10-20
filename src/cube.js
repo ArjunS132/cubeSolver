@@ -1507,9 +1507,12 @@ export default class Cube {
                 case "l'":
                     tween = this.rotatelI(speed);
                     break;
+                case "":
+                    playRotation = false;
+                    break;
                 default:
                     playRotation = false;
-                    console.log("unknown rotation" + rotation);
+                    console.log("unknown rotation",  rotations);
             }
             if( playRotation ) {
                 tween.start();

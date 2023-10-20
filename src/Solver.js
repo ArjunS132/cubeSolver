@@ -12,8 +12,13 @@ export default class Solver {
 
     async Solve(cube, speed) {
         await this.bottomCross(cube, speed);
+        console.log("finished cross");
         await this.f2l(cube, speed);
+        console.log("finished f2l");
         await this.oll(cube, speed);
+        console.log("finished oll");
+        await this.pll(cube, speed);
+        console.log("finished pll");
     }
 
     async bottomCross(cube, speed) {
@@ -999,7 +1004,7 @@ export default class Solver {
             [
                 [1, 0, 1, 1, 1, 0, 0, 1, 0],
                 [1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0],
-                "R U R' U R U2 R' F R U R' U' F'"
+                "R' U' R U' R' U2 R F R U R' U' F'"
             ],
             // case 43
             [
@@ -1098,7 +1103,7 @@ export default class Solver {
         let returnStatement = [];
         while( !matchFound && count < 4) {
             await OllCases.forEach( async (currCase, index) => {
-                if( await this.compareTop( sides, currCase ) ) {
+                if( await this.findOll( sides, currCase ) ) {
                     matchFound = true;
                     rotations = currCase[2]
                     returnStatement[0] = index + rotations;
@@ -1118,17 +1123,149 @@ export default class Solver {
 
     async pll(cube, speed) {
         // 0 front, 1 right, 2 back, 3 left
-        // 0 blue, 1 red, 2, green, 3, orange
-        let pllCases = [
-            // case Aa
+        // 0 blue, 1 red, 2 green, 3 orange
+        let sides = cube.getSides();
+        let pllCases =
+        [
+            // 'case Aa'
             [
-                [3, 0, 0, 1, 1, 3, 0, 2, 1, 2, 3, 2],
-                "x L2 D2 L' U' L D2 L' U L'"
-            ]
+                [0, 0, 2, 3, 1, 0, 1, 2, 1, 2, 3, 3],
+                "R' F R' B2 R F' R' B2 R2"
+            ],
+            // 'case Ab'
+            [
+                [0, 3, 0, 1, 0, 2, 3, 1, 1, 2, 2, 3],
+                "R B' R F2 R' B R F2 R2"
+            ],
+            // 'case E'
+            [
+                [0, 3, 2, 3, 0, 1, 2, 1, 0, 1, 2, 3],
+                "R2 U R' U' y R U R' U' R U R' U' R U R' y' R U' R2"
+            ],
+            // 'case F'
+            [
+                [0, 3, 2, 3, 2, 0, 1, 1, 2, 0, 1, 2],
+                "R' U2 R' d' R' F' R2 U' R' U R' F R U' F"
+            ],
+            // 'case Ga'
+            [
+                [0, 3, 0, 1, 2, 2, 3, 0, 1, 2, 1, 0, 1, 3],
+                "R L U2 R' L' y' R' U L' U2 R U' L"
+            ],
+            // 'case Gb'
+            [
+                [0, 2, 1, 2, 0, 0, 1, 3, 2, 3, 1, 3],
+                "R' U' R U D' R2 U R' U R U' R U' R2 D"
+            ],
+            // 'case Gc'
+            [
+                [0, 1, 0, 1, 3, 2, 3, 0, 1, 2, 2, 3],
+                "L' R' U2 L R y L U' R U2 L' U R'"
+            ],
+            // 'case Gd'
+            [
+                [0, 3, 1, 2, 2, 0, 1, 0, 2, 3, 1, 3],
+                "R U R' F2 D' L U' L' U L' D F2"
+            ],
+            // 'case H'
+            [
+                [0, 2, 0, 1, 3, 1, 2, 0, 2, 3, 1, 3],
+                'M2 U M2 U2 M2 U M2'
+            ],
+            // 'case Ja'
+            [
+                [0, 0, 1, 2, 2, 0, 1, 1, 2, 2, 3],
+                "R' U2 R U R' U2' L U' R U L'"
+            ],
+            // 'case Jb'
+            [
+                [0, 1, 1, 2, 0, 0, 1, 2, 2, 3, 3],
+                "R U2 R' U' R U2 L' U R' U' L"
+            ],
+            // 'case Na'
+            [
+                [0, 2, 2, 3, 1, 1, 2, 0, 0, 1, 1, 3],
+                "R U' L U2 R' U L' R U' L U2 R' U L'"
+            ],
+            // 'case Nb'
+            [
+                [0, 0, 2, 3, 3, 3, 1, 2, 2, 0, 1, 3],
+                "R' U L' U2 R U' L R' U L' U2 R U' L"
+            ],
+            // 'case Ra'
+            [
+                [0, 3, 2, 3, 1, 0, 1, 0, 2, 3, 3],
+                "R U2 R' U2 R B' R' U' R U R B R2"
+            ],
+            // 'case Rb'
+            [
+                [0, 1, 0, 1, 0, 2, 3, 2, 3, 1, 2],
+                "R' U2 R U2 R' F R U R' U' R' F' R2'"
+            ],
+            // 'case T'
+            [
+                [0, 0, 1, 2, 3, 0, 1, 2, 2, 3, 1, 3],
+                "R U R' U' R' F R2 U' R' U' R U R' F'"
+            ],
+            // 'case Ua'
+            [
+                [0, 1, 0, 1, 3, 1, 2, 2, 2, 3, 0, 3],
+                "R U' R U R U R U' R' U' R2"
+            ],
+            // 'case Ub'
+            [
+                [0, 3, 0, 1, 0, 1, 2, 2, 2, 3, 1, 3],
+                "L' U L' U' L' U' L' U L U L2"
+            ],
+            // 'case V'
+            [
+                [0, 0, 2, 3, 2, 1, 0, 1, 1, 2, 3],
+                "R' U R' d' R' F' R2 U' R' U R' F R F"
+            ],
+            // 'case Y'
+            [
+                [0, 0, 2, 3, 1, 1, 2, 3, 0, 1, 2, 3],
+                "F R U' R' U' R U R' F' R U R' U' R' F R F'"
+            ],
+            // 'case Z'
+            [
+                [0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 3],
+                "M2 U M2 U M U2 M2 U2 M"
+            ],
         ];
+
+        // 0 front, 1 right, 2 back, 3 left
+        // 0 blue, 1 red, 2 green, 3 orange
+        let rotations = "";
+        let matchFound = false;
+        let count = 0;
+        let returnStatement = [];
+        while( !matchFound && count < 4) {
+            await pllCases.forEach( async (currCase, index) => {
+                let solution = await this.findPll( sides, currCase);
+                if( solution[0]) {
+                    for( let i = 0; i < solution[1]; i++ ) {
+                        await cube.parseRotations("U");
+                    }
+                    await cube.parseRotations(currCase[1]);
+                    returnStatement[0] = index + rotations;
+                    returnStatement[1] = sides;
+                    matchFound = true;
+                }
+            });
+            // if( !matchFound ) {
+            //     await cube.parseRotations("U", speed);
+            // } else {
+            //     console.log(rotations);
+            //     await cube.parseRotations(rotations, speed);
+            // }
+            sides = await cube.getSides();
+            count += 1;
+        }
+        return returnStatement;
     }
 
-    async compareTop( cubeSides, searchSides) {
+    async findOll( cubeSides, searchSides) {
         let match = true;
         let currTop = cubeSides.get("up");
         let topColor = currTop[4];
@@ -1139,16 +1276,16 @@ export default class Solver {
         let backEdges = cubeSides.get("back").slice(0, 3);
         let leftEdges = cubeSides.get("left").slice(0, 3);
         let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
-        for (let index = 0; index < currTop.length; index++) {
-            const element1 = currTop[index];
-            const element2 = searchTop[index];
-            if( element1 === topColor && element2 === 0 ) {
-                match = false;
-            }
-            if( element1 != topColor && element2 === 1 ) {
-                match = false;
-            }
-        }
+        // for (let index = 0; index < currTop.length; index++) {
+        //     const element1 = currTop[index];
+        //     const element2 = searchTop[index];
+        //     if( element1 === topColor && element2 === 0 ) {
+        //         match = false;
+        //     }
+        //     if( element1 != topColor && element2 === 1 ) {
+        //         match = false;
+        //     }
+        // }
         for ( let index = 0; index < searchEdges.length; index++ ) {
             const element1 = currEdges[index];
             const element2 = searchEdges[index];
@@ -1160,5 +1297,38 @@ export default class Solver {
             }
         }
         return match;
+    }
+
+    async findPll( cubeSides, searchSides) {
+        let match = false;
+        let frontColor = cubeSides.get("front")[4];
+        let rightColor = cubeSides.get("right")[4];
+        let backColor = cubeSides.get("back")[4];
+        let leftColor = cubeSides.get("left")[4];
+        let searchEdges = searchSides[0];
+        let frontEdges = cubeSides.get("front").slice(0, 3);
+        let rightEdges = cubeSides.get("right").slice(0, 3);
+        let backEdges = cubeSides.get("back").slice(0, 3);
+        let leftEdges = cubeSides.get("left").slice(0, 3);
+        let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
+        const conversionMap = new Map();
+        conversionMap.set(frontColor, 0);
+        conversionMap.set(rightColor, 1);
+        conversionMap.set(backColor, 2);
+        conversionMap.set(leftColor, 3);
+        let index = -1;
+        for( let i = 0; i< 4 && !match; i++ ) {
+            match = true;
+            index = i;
+            for ( let index = 0; index < searchEdges.length; index++ ) {
+                const element1 = currEdges[index];
+                const element2 = searchEdges[index];
+                if( conversionMap.get(element1) != element2) {
+                    match = false;
+                }
+            }
+            currEdges = currEdges.slice(-3).concat( currEdges.slice(0, -3));
+        }
+        return [match, index];
     }
 }
