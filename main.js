@@ -45,9 +45,9 @@ function animate(t) {
 animate()
 
 const tester = new Tester(scene);
-// tester.testPll();
+tester.testPll();
 // tester.testGreenYellow();
-// tester.testScrambleIntoSolve(400);
+// tester.testScrambleIntoSolve(20);
 // tester.testYRotation();
 // tester.testMInvertedRotation(50);
 // tester.testF2LHelper();
@@ -55,5 +55,5 @@ const tester = new Tester(scene);
 // tester.testrRotation(300);
 // tester.testCase("r U R' U R U2 r'", 20);
 // tester.testlRotation();
-// tester.testlIRotation(300);
-tester.testOLL();
+// tester.testlIRotation(3);
+// tester.testOLL();

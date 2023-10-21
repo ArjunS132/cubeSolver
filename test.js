@@ -105,7 +105,7 @@ export default class Tester {
     async testPll() {
         const map = new Map();
         let runs = 0;
-        while( map.size < 21 && runs < 100) {
+        while( map.size < 22 && runs < 250) {
             this.scene.remove(this.cube.cubeGroup);
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
@@ -123,7 +123,7 @@ export default class Tester {
             runs++;
         }
         console.log(map);
-
+        console.log(runs);
     }
 
     async testGreenYellow() {
@@ -144,7 +144,7 @@ export default class Tester {
 
     async testScrambleIntoSolve(speed) {
         // await this.cube.parseRotations("l");
-        await this.scrambler.scramble(this.cube, 30, speed);
+        await this.scrambler.scramble(this.cube, 10, speed);
         await this.solver.Solve(this.cube, speed);
     }
 
@@ -193,7 +193,6 @@ export default class Tester {
         return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0]);
     }
     async solved() {
-        console.log(this.cube.getSides());
         return this.cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0])
             && this.cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0])
             && this.cube.getSides().get("left").every( (ele, index, arr) => ele === arr[0])

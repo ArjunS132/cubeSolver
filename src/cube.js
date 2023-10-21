@@ -1297,7 +1297,6 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
                                     let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[2];
                                     this.blocks[2] = this.blocks[8];
@@ -1394,7 +1393,6 @@ export default class Cube {
                                     prev = angle.rotation;
                                 })
                                 .onComplete( () => {
-                                    // TODO FIX THE ARRAYS CORRECT THIS IS A TODO
                                     let temp = this.blocks[0];
                                     this.blocks[0] = this.blocks[6];
                                     this.blocks[6] = this.blocks[8];

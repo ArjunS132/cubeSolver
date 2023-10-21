@@ -130,7 +130,6 @@ export default class Solver {
             default:
                 break; // Optional default case with a break
         }
-        console.log(rotations);
         await cube.parseRotations(rotations, speed);
 
         // get yellow + red to right position
@@ -235,7 +234,6 @@ export default class Solver {
             default:
                 break; // Optional default case with a break
         }
-        console.log(rotations);
         await cube.parseRotations(rotations, speed);
 
         // get yellow + blue to right position
@@ -339,7 +337,6 @@ export default class Solver {
             default:
                 break; // Optional default case with a break
         }
-        console.log(rotations);
         await cube.parseRotations(rotations, speed);
 
         // get yellow + orange to right position
@@ -443,7 +440,6 @@ export default class Solver {
                 rotations == "";
                 break; // Optional default case with a break
         }
-        console.log(rotations);
         await cube.parseRotations(rotations, speed);
         return position + rotations;
     }
@@ -1118,140 +1114,167 @@ export default class Solver {
     }
 
     async pll(cube, speed) {
-        // 0 front, 1 right, 2 back, 3 left
         // 0 blue, 1 red, 2 green, 3 orange
-        let sides = cube.getSides();
         let pllCases =
         [
-            // 'case Aa'
+            // 'case Aa' 0
             [
                 [0, 0, 2, 3, 1, 0, 1, 2, 1, 2, 3, 3],
                 "R' F R' B2 R F' R' B2 R2"
             ],
-            // 'case Ab'
+            // 'case Ab' 1
             [
-                [0, 3, 0, 1, 0, 2, 3, 1, 1, 2, 2, 3],
-                "R B' R F2 R' B R F2 R2"
+                [0, 0, 1, 2, 1, 2, 3, 2, 0, 1, 3, 3],
+                "R2 B2 R F R' B2 R F' R"
             ],
-            // 'case E'
+            // 'case E' 2
             [
-                [0, 3, 2, 3, 0, 1, 2, 1, 0, 1, 2, 3],
+                [1, 0, 3, 0, 1, 2, 3, 2, 1, 2, 3, 0],
                 "R2 U R' U' y R U R' U' R U R' U' R U R' y' R U' R2"
             ],
-            // 'case F'
+            // 'case F' 3
             [
-                [0, 3, 2, 3, 2, 0, 1, 1, 2, 0, 1, 2],
-                "R' U2 R' d' R' F' R2 U' R' U R' F R U' F"
+                [3, 3, 3, 0, 2, 1, 2, 1, 0, 1, 0, 2],
+                "R' U R U' R2 F' U' F U R F R' F' R2"
             ],
-            // 'case Ga'
+            // 'case Ga' 4
             [
-                [0, 3, 0, 1, 2, 2, 3, 0, 1, 2, 1, 0, 1, 3],
-                "R L U2 R' L' y' R' U L' U2 R U' L"
+                [0, 1, 1, 2, 3, 0, 1, 0, 2, 3, 2, 3],
+                "R2 U R' U R' U' R U' R2 D U' R' U R D'"
             ],
-            // 'case Gb'
+            // 'case Gb' 5
             [
                 [0, 2, 1, 2, 0, 0, 1, 3, 2, 3, 1, 3],
                 "R' U' R U D' R2 U R' U R U' R U' R2 D"
             ],
-            // 'case Gc'
+            // 'case Gc' 6
             [
-                [0, 1, 0, 1, 3, 2, 3, 0, 1, 2, 2, 3],
-                "L' R' U2 L R y L U' R U2 L' U R'"
+                [0, 2, 1, 2, 3, 0, 1, 1, 2, 3, 0, 3],
+                "R2 U' R U' R U R' U R2 D' U R U' R' D"
             ],
-            // 'case Gd'
+            // 'case Gd' 7
             [
                 [0, 3, 1, 2, 2, 0, 1, 0, 2, 3, 1, 3],
-                "R U R' F2 D' L U' L' U L' D F2"
+                "R U R' U' D R2 U' R U' R' U R' U R2 D'"
             ],
-            // 'case H'
+            // 'case H' 8
             [
                 [0, 2, 0, 1, 3, 1, 2, 0, 2, 3, 1, 3],
                 'M2 U M2 U2 M2 U M2'
             ],
-            // 'case Ja'
+            // 'case Ja' 9
             [
-                [0, 0, 1, 2, 2, 0, 1, 1, 2, 2, 3],
-                "R' U2 R U R' U2' L U' R U L'"
+                [3, 3, 0, 1, 1, 1, 2, 2, 3, 0, 0, 2],
+                "y R' U L' U2 R U' R' U2 R L"
             ],
-            // 'case Jb'
+            // 'case Jb' 10
             [
-                [0, 1, 1, 2, 0, 0, 1, 2, 2, 3, 3],
-                "R U2 R' U' R U2 L' U R' U' L"
+                [0, 1, 1, 2, 0, 0, 1, 2, 2, 3, 3, 3],
+                "R U R' F' R U R' U' R' F R2 U' R'"
             ],
-            // 'case Na'
+            // 'case Na' 11
             [
-                [0, 2, 2, 3, 1, 1, 2, 0, 0, 1, 1, 3],
-                "R U' L U2 R' U L' R U' L U2 R' U L'"
+                [1, 3, 3, 0, 2, 2, 3, 1, 1, 2, 0, 0],
+                "L U' R U2 L' U R' L U' R U2 L' U R'"
             ],
-            // 'case Nb'
+            // 'case Nb' 12
             [
-                [0, 0, 2, 3, 3, 3, 1, 2, 2, 0, 1, 3],
-                "R' U L' U2 R U' L R' U L' U2 R U' L"
+                [1, 1, 3, 0, 0, 2, 3, 3, 1, 2, 2, 0],
+                "R' U R U' R' F' U' F R U R' F R' F' R U' R"
             ],
-            // 'case Ra'
+            // 'case Ra' 13
             [
-                [0, 3, 2, 3, 1, 0, 1, 0, 2, 3, 3],
-                "R U2 R' U2 R B' R' U' R U R B R2"
+                [1, 0, 1, 2, 2, 3, 0, 3, 2, 3, 1, 0],
+                "L U2 L' U2 L F' L' U' L U L F L2"
             ],
-            // 'case Rb'
+            // 'case Rb' 14
             [
-                [0, 1, 0, 1, 0, 2, 3, 2, 3, 1, 2],
-                "R' U2 R U2 R' F R U R' U' R' F' R2'"
+                [3, 0, 3, 0, 3, 1, 2, 1, 0, 1, 2, 2],
+                "R' U2 R U2 R' F R U R' U' R' F' R2"
             ],
-            // 'case T'
+            // 'case T' 15
             [
                 [0, 0, 1, 2, 3, 0, 1, 2, 2, 3, 1, 3],
                 "R U R' U' R' F R2 U' R' U' R U R' F'"
             ],
-            // 'case Ua'
+            // 'case Ua' 16
             [
-                [0, 1, 0, 1, 3, 1, 2, 2, 2, 3, 0, 3],
-                "R U' R U R U R U' R' U' R2"
+                [0, 0, 0, 1, 2, 1, 2, 3, 2, 3, 1, 3],
+                "M2 U M' U2 M U M2"
             ],
-            // 'case Ub'
+            // 'case Ub' 17
             [
-                [0, 3, 0, 1, 0, 1, 2, 2, 2, 3, 1, 3],
-                "L' U L' U' L' U' L' U L U L2"
+                [0, 0, 0, 1, 3, 1, 2, 1, 2, 3, 2, 3],
+                "R' U R' U' R' U' R' U R U R2"
             ],
-            // 'case V'
+            // 'case V' 18
             [
-                [0, 0, 2, 3, 2, 1, 0, 1, 1, 2, 3],
-                "R' U R' d' R' F' R2 U' R' U R' F R F"
+                [3, 3, 1, 2, 1, 0, 1, 0, 3, 0, 2, 2],
+                "R' U R' U' y R' F' R2 U' R' U R' F R F"
             ],
-            // 'case Y'
+            // 'case Y' 19
             [
                 [0, 0, 2, 3, 1, 1, 2, 3, 0, 1, 2, 3],
                 "F R U' R' U' R U R' F' R U R' U' R' F R F'"
             ],
-            // 'case Z'
+            // 'case Z' 20
             [
-                [0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 3],
-                "M2 U M2 U M U2 M2 U2 M"
+                [2, 3, 2, 3, 2, 3, 0, 1, 0, 1, 0, 1],
+                "M2 U M2 U M' U2 M2 U2 M'"
             ],
         ];
 
-        // 0 front, 1 right, 2 back, 3 left
-        // 0 blue, 1 red, 2 green, 3 orange
         let rotations = "";
-        let matchFound = false;
-        let count = 0;
+        let sides = cube.getSides();
         let returnStatement = [];
-        while( !matchFound && count < 4) {
-            await pllCases.forEach( async (currCase, index) => {
-                let solution = await this.findPll( sides, currCase);
-                if( solution[0]) {
-                    for( let i = 0; i < solution[1]; i++ ) {
-                        await cube.parseRotations("U");
-                    }
-                    await cube.parseRotations(currCase[1]);
-                    returnStatement[0] = index + rotations;
-                    returnStatement[1] = sides;
-                    matchFound = true;
+        for( const index in pllCases ) {
+            let currCase = pllCases[index];
+            let solution = this.findPll(sides, currCase);
+            if(solution[0]) {
+                switch (solution[1]) {
+                    case 1:
+                        rotations += "U ";
+                        break;
+                    case 2:
+                        rotations += "U U ";
+                        break;
+                    case 3:
+                        rotations = "U' ";
+                        break
+                    default:
+                        break;
                 }
-            });
-            sides = await cube.getSides();
-            count += 1;
+                rotations += currCase[1];
+                returnStatement[0] = index + currCase[1];
+                returnStatement[1] = cube.getSides();
+                console.log("found pll to apply");
+            }
         }
+        console.log(rotations);
+        await cube.parseRotations(rotations, speed);
+        let numURotations = 0;
+        let promises = [];
+        for (let i = 0; !( await this.solved(cube) ) && i < 4; i++) {
+            await cube.parseRotations("U", 1);
+        }
+        // await Promise.all(promises);
+        // console.log(numURotations);
+        // let uRotations ="";
+        // switch (numURotations) {
+        //     case 1:
+        //         uRotations += "U ";
+        //         break;
+        //     case 2:
+        //         uRotations += "U U ";
+        //         break;
+        //     case 3:
+        //         uRotations = "U' ";
+        //         break
+        //     default:
+        //         break;
+        // }
+        // console.log(uRotations, await this.solved(cube));
+        // await cube.parseRotations(uRotations, speed);
         return returnStatement;
     }
 
@@ -1283,7 +1306,8 @@ export default class Solver {
         return [match, numTurns];
     }
 
-    async findPll( cubeSides, searchSides) {
+    // TODO FIX THIS (maybe. might work now)
+    findPll( cubeSides, searchSides) {
         let match = false;
         let frontColor = cubeSides.get("front")[4];
         let rightColor = cubeSides.get("right")[4];
@@ -1295,24 +1319,43 @@ export default class Solver {
         let backEdges = cubeSides.get("back").slice(0, 3);
         let leftEdges = cubeSides.get("left").slice(0, 3);
         let currEdges = frontEdges.concat(rightEdges, backEdges, leftEdges);
-        const conversionMap = new Map();
+        let conversionMap = new Map();
         conversionMap.set(frontColor, 0);
         conversionMap.set(rightColor, 1);
         conversionMap.set(backColor, 2);
         conversionMap.set(leftColor, 3);
-        let index = -1;
-        for( let i = 0; i< 4 && !match; i++ ) {
-            match = true;
-            index = i;
-            for ( let index = 0; index < searchEdges.length; index++ ) {
-                const element1 = currEdges[index];
-                const element2 = searchEdges[index];
-                if( conversionMap.get(element1) != element2) {
-                    match = false;
+        let numTurns = -1;
+
+        // rotate what is 0;
+        for( let i = 0; i< 5 && !match; i++ ) {
+            // loop to go through the paterns caused by rotating the top up to 4 times
+            for( let j = 0; j< 4 && !match; j++ ) {
+                match = true;
+                numTurns = j;
+                for ( let index = 0; index < searchEdges.length; index++ ) {
+                    const element1 = currEdges[index];
+                    const element2 = searchEdges[index];
+                    if( conversionMap.get(element1) != element2) {
+                        match = false;
+                    }
                 }
+                searchEdges = searchEdges.slice(-3).concat( searchEdges.slice(0, -3) );
             }
-            currEdges = currEdges.slice(-3).concat( currEdges.slice(0, -3));
+            let temp = conversionMap.get(frontColor);
+            conversionMap.set(frontColor, conversionMap.get(rightColor) );
+            conversionMap.set(rightColor, conversionMap.get(backColor) );
+            conversionMap.set(backColor, conversionMap.get(leftColor) );
+            conversionMap.set(leftColor, temp);
         }
-        return [match, index];
+        console.log([match, numTurns]);
+        return [match, numTurns];
     }
+    async solved(cube) {
+        return cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0])
+            && cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0])
+            && cube.getSides().get("left").every( (ele, index, arr) => ele === arr[0])
+            && cube.getSides().get("right").every( (ele, index, arr) => ele === arr[0])
+            && cube.getSides().get("front").every( (ele, index, arr) => ele === arr[0])
+            && cube.getSides().get("back").every( (ele, index, arr) => ele === arr[0])
+     }
 }
