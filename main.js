@@ -1,5 +1,4 @@
 import './style.css'
-import Block from './src/block.js'
 import Cube from './src/cube.js'
 import TWEEN from '@tweenjs/tween.js'
 import Scrambler from './src/Scrambler.js'
@@ -45,9 +44,9 @@ function animate(t) {
 animate()
 
 const tester = new Tester(scene);
-tester.testPll();
+// tester.testPll();
 // tester.testGreenYellow();
-// tester.testScrambleIntoSolve(20);
+tester.testScrambleIntoSolve(200);
 // tester.testYRotation();
 // tester.testMInvertedRotation(50);
 // tester.testF2LHelper();
