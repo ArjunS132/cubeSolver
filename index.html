@@ -1,13 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rubiks Cube Solver</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <canvas id="bg"></canvas>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubik's Cube Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rubik's Cube Solver</h1>
+        </header>
+        <div class="content">
+            <div class="project">
+                <canvas id="cube-canvas"></canvas>
+            </div>
+            <div class="menu">
+                <button id="scrambleButton" class="wide-button">Scramble</button>
+                <button id="solveButton" class="wide-button">Solve</button>
+                <div class="navigation">
+                    <button id="backButton">Back</button>
+                    <button id="forwardButton">Forward</button>
+                </div>
+                <label for="speedSlider">Animation Speed (ms): <span id="speedValue">500</span></label>
+                <input type="range" id="speedSlider" min="100" max="5000" step="100" value="500">
+                <br>
+                <label for="customScramble">Custom Scramble Algorithm:</label>
+                <textarea id="customScramble" rows="4" class="custom-scramble-input"></textarea>
+                <div class="console">
+                    hello
+                    <!-- This is your console output area. You can append content here using JavaScript. -->
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="module" src="/main.js"></script>
-  </body>
+</body>
 </html>
+

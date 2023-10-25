@@ -5,24 +5,24 @@ import Scrambler from './src/Scrambler.js'
 import Solver from './src/Solver.js'
 import Tester from './test.js'
 
-
 import * as THREE from 'three'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera( 75, ( window.innerWidth * 0.70) / window.innerHeight, 0.1, 1000);
+camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector('#bg'),
+    canvas: document.querySelector('#cube-canvas'),
 });
 
 renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setSize( window.innerWidth * 0.70, window.innerHeight );
 
-camera.position.setZ(8);
-camera.position.setX(3);
-camera.position.setY(3);
+camera.position.setZ(5);
+camera.position.setX(5);
+camera.position.setY(5);
 camera.rotation.x =  Math.PI / 6 ;
 
 renderer.render( scene, camera );
@@ -46,7 +46,7 @@ animate()
 const tester = new Tester(scene);
 // tester.testPll();
 // tester.testGreenYellow();
-tester.testScrambleIntoSolve(200);
+tester.testScrambleIntoSolve(1);
 // tester.testYRotation();
 // tester.testMInvertedRotation(50);
 // tester.testF2LHelper();

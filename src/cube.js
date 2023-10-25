@@ -5,6 +5,7 @@ import TWEEN from '@tweenjs/tween.js'
 
 export default class Cube {
     constructor(size) {
+        // TODO add a this.tween so that tween can stop
         this.xAxis = new THREE.Vector3( 1, 0, 0 );
         this.yAxis = new THREE.Vector3( 0, 1, 0 );
         this.zAxis = new THREE.Vector3( 0, 0, 1 );
