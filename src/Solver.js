@@ -8,15 +8,35 @@ export default class Solver {
     }
 
     async Solve(cube, speed) {
+        // this is to make sure the scramble is done
         await cube.parseRotations("");
+        const createLineBreak = () => {
+            return document.createElement("br");
+        };
+
+        let crossTitle = document.createElement("b");
+        crossTitle.textContent = "Bottom Cross";
+        this.terminal.appendChild(crossTitle);
+        this.terminal.appendChild(createLineBreak());
         await this.bottomCross(cube, speed);
-        console.log("finished cross");
+
+        let f2lTitle = document.createElement("b");
+        f2lTitle.textContent = "First 2 layers";
+        this.terminal.appendChild(f2lTitle);
+        this.terminal.appendChild(createLineBreak());
         await this.f2l(cube, speed);
-        console.log("finished f2l");
+
+        let ollTitle = document.createElement("b");
+        ollTitle.textContent = "OLL";
+        this.terminal.appendChild(ollTitle);
+        this.terminal.appendChild(createLineBreak());
         await this.oll(cube, speed);
-        console.log("finished oll");
+
+        let pllTitle = document.createElement("b");
+        pllTitle.textContent = "PLL";
+        this.terminal.appendChild(pllTitle);
+        this.terminal.appendChild(createLineBreak());
         await this.pll(cube, speed);
-        console.log("finished pll");
     }
 
     async bottomCross(cube, speed) {
@@ -129,7 +149,7 @@ export default class Solver {
                 break; // Optional default case with a break
         }
 
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
+        // this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
 
         // get yellow + red to right position
@@ -234,7 +254,6 @@ export default class Solver {
             default:
                 break; // Optional default case with a break
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
 
         // get yellow + blue to right position
@@ -338,7 +357,6 @@ export default class Solver {
             default:
                 break; // Optional default case with a break
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
 
         // get yellow + orange to right position
@@ -442,7 +460,6 @@ export default class Solver {
                 rotations == "";
                 break; // Optional default case with a break
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         return position + rotations;
     }
@@ -451,7 +468,6 @@ export default class Solver {
         // do all 4 pairs
         for (let i = 0; i < 4; i++) {
             await this.f2lHelper(cube, speed)
-            this.terminal.innerText = this.terminal.innerText + "y\n";
             await cube.parseRotations("y", speed);
         }
     }
@@ -483,7 +499,6 @@ export default class Solver {
             default:
                 break;
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         rotations = "";
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
@@ -502,7 +517,6 @@ export default class Solver {
             default:
 
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         rotations = "";
@@ -520,7 +534,6 @@ export default class Solver {
             default:
                 break;
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
         cornerPosition = cube.findPiece( [ downColor, rightColor, frontColor ]);
@@ -544,7 +557,6 @@ export default class Solver {
                     rotations += "R' R' U' U' F R2 F' U' U' R' U R'"
                 }
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("misoriented" + edgePosition + rotations);
         }
@@ -570,7 +582,6 @@ export default class Solver {
                     rotations +="U F' U' F U' R U R'";
                 }
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("edge in place " + edgePosition + rotations);
         }
@@ -605,7 +616,6 @@ export default class Solver {
                 default:
                     break;
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             edgePosition = await cube.findPiece( [ rightColor, frontColor ] );
             rotations = "";
@@ -628,7 +638,6 @@ export default class Solver {
                     rotations += "y L' U L U' L' U L y'"
                 }
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("corner in place" + edgePosition + rotations);
         }
@@ -670,7 +679,6 @@ export default class Solver {
                 default:
                     break;
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("white up" + edgePosition + rotations);
         }
@@ -712,7 +720,6 @@ export default class Solver {
                 default:
                     break;
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("green up" + edgePosition + rotations);
         }
@@ -755,7 +762,6 @@ export default class Solver {
                 default:
                     break;
             }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations(rotations, speed);
             returnStatement.push("red up" + edgePosition + rotations);
         }
@@ -780,7 +786,6 @@ export default class Solver {
                 matchFound = true;
             }
         }
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         return returnStatement;
     }
@@ -816,12 +821,10 @@ export default class Solver {
             }
         }
         console.log(rotations);
-        this.terminal.innerText = this.terminal.innerText + rotations + "\n";
         await cube.parseRotations(rotations, speed);
         let numURotations = 0;
         let promises = [];
         for (let i = 0; !( await this.solved(cube) ) && i < 4; i++) {
-            this.terminal.innerText = this.terminal.innerText + rotations + "\n";
             await cube.parseRotations("U", speed);
         }
         return returnStatement;
