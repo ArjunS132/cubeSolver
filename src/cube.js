@@ -1426,7 +1426,6 @@ export default class Cube {
     async parseRotations(str, speed) {
 
         function until(conditionFunction) {
-
           const poll = resolve => {
             if(conditionFunction()) resolve();
             else setTimeout(_ => poll(resolve), 10);
@@ -1446,6 +1445,7 @@ export default class Cube {
             await until(_ => this.isRotating === false && this.tween.isPlaying() === false );
         }
         this.isRotating = true;
+        let print = document.createElement("div");
         for( let i = 0; i < rotations.length; i++) {
             let rotation = rotations[i];
             let playRotation = true;
@@ -1519,6 +1519,9 @@ export default class Cube {
                    console.log("unknown rotation",  rotations);
             }
             if( playRotation ) {
+                let terminal = document.getElementById("console");
+                print.textContent += rotation + " ";
+                terminal.appendChild(print);
                 this.tween.start();
                 await until(_ => this.tween.isPlaying() === false );
             }

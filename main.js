@@ -71,11 +71,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const speedSlider = document.getElementById("speedSlider");
     const speedValue = document.getElementById("speedValue");
     const customScramble = document.getElementById("customScramble");
+    const terminal = document.getElementById("console");
 
     // Add event listeners and implement functionality here
-    scrambleButton.addEventListener("click", function () {
-        // Add the functionality for the scramble button here
-        scramble(cube, 10, speedValue.innerText);
+    scrambleButton.addEventListener("click", async function () {
+        // TODO Add the functionality for the scramble button here
+        let scrambleTitle = document.createElement("b");
+        scrambleTitle.textContent = "Scramble";
+        terminal.appendChild(scrambleTitle);
+        terminal.appendChild(document.createElement("br"));
+        if(customScramble.value === "") {
+            scramble(cube, 20, speedValue.innerText);
+        } else {
+            let scramblePattern = customScramble.value;
+            await cube.parseRotations(scramblePattern, speedValue.innerHTML);
+        }
     });
 
     solveButton.addEventListener("click", function () {
