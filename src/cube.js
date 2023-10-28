@@ -1449,6 +1449,7 @@ export default class Cube {
         for( let i = 0; i < rotations.length; i++) {
             let rotation = rotations[i];
             let playRotation = true;
+            speed = document.getElementById("speedValue").innerText;
             switch (rotation) {
                 case "F":
                     this.tween = this.rotateFront(speed);

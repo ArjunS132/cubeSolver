@@ -85,5 +85,4 @@ document.addEventListener("DOMContentLoaded", function () {
     speedSlider.addEventListener("change", function () {
         speedValue.innerText = speedSlider.value;
     });
-
 });
