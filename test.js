@@ -1,13 +1,12 @@
 import './style.css'
 import Cube from './src/cube.js'
-import Scrambler from './src/Scrambler.js'
+import { scramble } from './src/Scrambler.js'
 import Solver from './src/Solver.js'
 import * as THREE from 'three'
 
 export default class Tester {
     constructor(scene) {
         this.cube = new Cube(3);
-        this.scrambler = new Scrambler();
         this.solver = new Solver();
         this.scene = scene;
         this.scene.add(this.cube.cubeGroup);
@@ -69,7 +68,7 @@ export default class Tester {
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
             const randNumber = Math.floor( Math.random() * (15)) + 5;
-            await this.scrambler.scramble(this.cube, randNumber);
+            await scramble(this.cube, randNumber);
             await this.solver.bottomCross(this.cube);
             let permutation = await this.solver.f2lHelper(this.cube);
             if(permutation.length > 0 ) {
@@ -86,7 +85,7 @@ export default class Tester {
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
             const randNumber = Math.floor( Math.random() * (15)) + 5;
-            await this.scrambler.scramble(this.cube, randNumber, 1);
+            await scramble(this.cube, randNumber, 1);
             await this.solver.bottomCross(this.cube, 2);
             await this.solver.f2l(this.cube, 2);
             let permutation = await this.solver.oll(this.cube, 2);
@@ -110,7 +109,7 @@ export default class Tester {
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
             const randNumber = Math.floor( Math.random() * (15)) + 5;
-            await this.scrambler.scramble(this.cube, randNumber, 1);
+            await scramble(this.cube, randNumber, 1);
             await this.solver.bottomCross(this.cube, 2);
             await this.solver.f2l(this.cube, 2);
             await this.solver.oll(this.cube, 2);
@@ -132,7 +131,7 @@ export default class Tester {
             this.scene.remove(this.cube.cubeGroup);
             this.cube = new Cube(3);
             this.scene.add(this.cube.cubeGroup);
-            await this.scrambler.scramble(this.cube, 10);
+            await scramble(this.cube, 10);
             let permutation = await this.solver.bottomCross(this.cube);
             map.set( permutation, await this.greenYellowIsCorrect()
                     && await this.greenRedIsCorrect()
@@ -143,8 +142,7 @@ export default class Tester {
     }
 
     async testScrambleIntoSolve(speed) {
-        // await this.cube.parseRotations("l");
-        await this.scrambler.scramble(this.cube, 10, speed);
+        await scramble(this.cube, 10, speed);
         await this.solver.Solve(this.cube, speed);
     }
 

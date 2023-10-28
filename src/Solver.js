@@ -8,6 +8,7 @@ export default class Solver {
     }
 
     async Solve(cube, speed) {
+        await cube.parseRotations("");
         await this.bottomCross(cube, speed);
         console.log("finished cross");
         await this.f2l(cube, speed);
@@ -821,26 +822,8 @@ export default class Solver {
         let promises = [];
         for (let i = 0; !( await this.solved(cube) ) && i < 4; i++) {
             this.terminal.innerText = this.terminal.innerText + rotations + "\n";
-            await cube.parseRotations("U", 1);
+            await cube.parseRotations("U", speed);
         }
-        // await Promise.all(promises);
-        // console.log(numURotations);
-        // let uRotations ="";
-        // switch (numURotations) {
-        //     case 1:
-        //         uRotations += "U ";
-        //         break;
-        //     case 2:
-        //         uRotations += "U U ";
-        //         break;
-        //     case 3:
-        //         uRotations = "U' ";
-        //         break
-        //     default:
-        //         break;
-        // }
-        // console.log(uRotations, await this.solved(cube));
-        // await cube.parseRotations(uRotations, speed);
         return returnStatement;
     }
 

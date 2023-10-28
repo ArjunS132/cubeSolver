@@ -1,7 +1,7 @@
 import './style.css'
 import Cube from './src/cube.js'
 import TWEEN from '@tweenjs/tween.js'
-import Scrambler from './src/Scrambler.js'
+import { scramble } from './src/Scrambler.js'
 import Solver from './src/Solver.js'
 import Tester from './test.js'
 
@@ -24,7 +24,6 @@ camera.position.setX(5);
 camera.position.setY(5);
 
 renderer.render( scene, camera );
-
 
 const targetPoint = new THREE.Vector3(1, 1, 1);
 
@@ -61,9 +60,9 @@ animate()
 // tester.testlRotation();
 // tester.testlIRotation(3);
 // tester.testOLL();
-let scrambler = new Scrambler();
 let solver = new Solver();
 
+// implemented the buttons
 document.addEventListener("DOMContentLoaded", function () {
     const scrambleButton = document.getElementById("scrambleButton");
     const solveButton = document.getElementById("solveButton");
@@ -76,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listeners and implement functionality here
     scrambleButton.addEventListener("click", function () {
         // Add the functionality for the scramble button here
-        scrambler.scramble(cube, 10, speedValue.innerText);
+        scramble(cube, 10, speedValue.innerText);
     });
 
     solveButton.addEventListener("click", function () {

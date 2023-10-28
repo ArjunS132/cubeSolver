@@ -10,6 +10,7 @@ export default class Cube {
         this.yAxis = new THREE.Vector3( 0, 1, 0 );
         this.zAxis = new THREE.Vector3( 0, 0, 1 );
         this.cubeGroup = new THREE.Group();
+        this.tween = null;
         this.blocks = [];
         let index = 0;
         for( let i = 0; i < size; i++ ) {
@@ -1441,70 +1442,73 @@ export default class Cube {
             return splitArray;
         }
         let rotations = replaceAndSplit(str);
+        console.log(this.tween);
+        if( this.tween != null ) {
+            await until(_ => this.tween.isPlaying() === false );
+        }
         for( let i = 0; i < rotations.length; i++) {
             let rotation = rotations[i];
-            let tween;
             let playRotation = true;
             switch (rotation) {
                 case "F":
-                    tween = this.rotateFront(speed);
+                    this.tween = this.rotateFront(speed);
                     break;
                 case "F'":
-                    tween = this.rotateFrontInverted(speed);
+                    this.tween = this.rotateFrontInverted(speed);
                     break;
                 case "R":
-                    tween = this.rotateRight(speed);
+                    this.tween = this.rotateRight(speed);
                     break;
                 case "R'":
-                    tween = this.rotateRightInverted(speed);
+                    this.tween = this.rotateRightInverted(speed);
                     break;
                 case "L":
-                    tween = this.rotateLeft(speed);
+                    this.tween = this.rotateLeft(speed);
                     break;
                 case "L'":
-                    tween = this.rotateLeftInverted(speed);
+                    this.tween = this.rotateLeftInverted(speed);
                     break;
                 case "D":
-                    tween = this.rotateDown(speed);
+                    this.tween = this.rotateDown(speed);
                     break;
                 case "D'":
-                    tween = this.rotateDownInverted(speed);
+                    this.tween = this.rotateDownInverted(speed);
                     break;
                 case "U":
-                    tween = this.rotateUp(speed);
+                    this.tween = this.rotateUp(speed);
                     break;
                 case "U'":
-                    tween = this.rotateUpInverted(speed);
+                    this.tween = this.rotateUpInverted(speed);
                     break;
                 case "B":
-                    tween = this.rotateBack(speed);
+                    this.tween = this.rotateBack(speed);
                     break;
                 case "B'":
-                    tween = this.rotateBackInverted(speed);
+                    this.tween = this.rotateBackInverted(speed);
                     break;
                 case "y":
-                    tween = this.rotateY(speed);
+                    this.tween = this.rotateY(speed);
                     break;
                 case "y'":
-                    tween = this.rotateYInvert(speed);
+                    this.tween = this.rotateYInvert(speed);
                     break;
                 case "M":
-                    tween = this.rotateMiddle(speed);
+                    this.tween = this.rotateMiddle(speed);
                     break;
                 case "M'":
-                    tween = this.rotateMiddleInverted(speed);
+                    this.tween = this.rotateMiddleInverted(speed);
                     break;
                 case "r":
-                    tween = this.rotater(speed);
+                    this.tween = this.rotater(speed);
                     break;
                 case "r'":
-                    tween = this.rotaterI(speed);
+                    this.tween = this.rotaterI(speed);
                     break;
                 case "l":
-                    tween = this.rotatel(speed);
+                    this.tween = this.rotatel(speed);
                     break;
                 case "l'":
-                    tween = this.rotatelI(speed);
+                    this.tween = this.rotatelI(speed);
                     break;
                 case "":
                     playRotation = false;
@@ -1514,8 +1518,8 @@ export default class Cube {
                    console.log("unknown rotation",  rotations);
             }
             if( playRotation ) {
-                tween.start();
-                await until(_ => tween.isPlaying() === false );
+                this.tween.start();
+                await until(_ => this.tween.isPlaying() === false );
             }
         }
     }
