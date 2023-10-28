@@ -14,13 +14,14 @@ body {
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
 }
 
 header {
     width: 100%;
     text-align: center;
     font-size: 24px;
+    background-color: #333;
 }
 
 .content {
@@ -71,7 +72,7 @@ button:hover {
 .navigation button {
     margin: 5px;
     display: inline-block;
-    width: 45%;
+    width: 44%;
 }
 
 .console {
@@ -81,7 +82,7 @@ button:hover {
     border: 2px solid #444;
     margin-top: 20px;
     min-height: 150px;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
 }
 

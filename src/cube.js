@@ -1511,7 +1511,7 @@ export default class Cube {
                     break;
                 default:
                     playRotation = false;
-                    console.log("unknown rotation",  rotations);
+                   console.log("unknown rotation",  rotations);
             }
             if( playRotation ) {
                 tween.start();

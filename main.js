@@ -10,30 +10,35 @@ import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, ( window.innerWidth * 0.70) / window.innerHeight, 0.1, 1000);
-camera.lookAt(0, 0, 0);
+const camera = new THREE.PerspectiveCamera( 75, ( window.innerWidth * 0.80) / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#cube-canvas'),
 });
 
 renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth * 0.70, window.innerHeight );
+renderer.setSize( window.innerWidth * 0.80, window.innerHeight );
 
 camera.position.setZ(5);
 camera.position.setX(5);
 camera.position.setY(5);
-camera.rotation.x =  Math.PI / 6 ;
 
 renderer.render( scene, camera );
 
+
+const targetPoint = new THREE.Vector3(1, 1, 1);
+
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.copy(targetPoint);
+camera.lookAt(targetPoint);
+
 const cube = new Cube(3);
 const gridLines = new THREE.GridHelper(50, 50)
 
 const axesHelper = new THREE.AxesHelper(8);
 
-scene.add(gridLines, axesHelper);
+// scene.add(gridLines, axesHelper);
+scene.add(cube.cubeGroup);
 function animate(t) {
     requestAnimationFrame( animate );
     controls.update;
@@ -43,10 +48,10 @@ function animate(t) {
 
 animate()
 
-const tester = new Tester(scene);
+// const tester = new Tester(scene);
 // tester.testPll();
 // tester.testGreenYellow();
-tester.testScrambleIntoSolve(1);
+// tester.testScrambleIntoSolve(1);
 // tester.testYRotation();
 // tester.testMInvertedRotation(50);
 // tester.testF2LHelper();
@@ -56,3 +61,30 @@ tester.testScrambleIntoSolve(1);
 // tester.testlRotation();
 // tester.testlIRotation(3);
 // tester.testOLL();
+let scrambler = new Scrambler();
+let solver = new Solver();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const scrambleButton = document.getElementById("scrambleButton");
+    const solveButton = document.getElementById("solveButton");
+    const backButton = document.getElementById("backButton");
+    const forwardButton = document.getElementById("forwardButton");
+    const speedSlider = document.getElementById("speedSlider");
+    const speedValue = document.getElementById("speedValue");
+    const customScramble = document.getElementById("customScramble");
+
+    // Add event listeners and implement functionality here
+    scrambleButton.addEventListener("click", function () {
+        // Add the functionality for the scramble button here
+        scrambler.scramble(cube, 10, speedValue.innerText);
+    });
+
+    solveButton.addEventListener("click", function () {
+        solver.Solve(cube, speedValue.innerText);
+    });
+
+    speedSlider.addEventListener("change", function () {
+        speedValue.innerText = speedSlider.value;
+    });
+
+});
