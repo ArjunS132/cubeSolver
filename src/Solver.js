@@ -5,41 +5,38 @@ export default class Solver {
 
     constructor() {
         this.terminal = document.getElementById("console");
+        this.rotations = "";
     }
 
     async Solve(cube, speed) {
         // this is to make sure the scramble is done
-        const createLineBreak = () => {
-            return document.createElement("br");
-        };
 
         await cube.parseRotations("");
-        let crossTitle = document.createElement("b");
-        crossTitle.textContent = "Bottom Cross";
-        this.terminal.appendChild(crossTitle);
-        this.terminal.appendChild(createLineBreak());
         await this.bottomCross(cube, speed);
 
-        let f2lTitle = document.createElement("b");
-        f2lTitle.textContent = "First 2 layers";
-        this.terminal.appendChild(f2lTitle);
-        this.terminal.appendChild(createLineBreak());
         await cube.parseRotations("");
         await this.f2l(cube, speed);
 
-        let ollTitle = document.createElement("b");
-        ollTitle.textContent = "OLL";
-        this.terminal.appendChild(ollTitle);
-        this.terminal.appendChild(createLineBreak());
         await cube.parseRotations("");
         await this.oll(cube, speed);
 
-        let pllTitle = document.createElement("b");
-        pllTitle.textContent = "PLL";
-        this.terminal.appendChild(pllTitle);
-        this.terminal.appendChild(createLineBreak());
         await cube.parseRotations("");
         await this.pll(cube, speed);
+    }
+
+    async solveNextStep(cube, speed) {
+        console.log("in the function");
+        if(await this.solved(cube) ) {
+            return
+        } else if( await this.solvedOll(cube, speed) ) {
+            await this.pll(cube, speed);
+        } else if( await this.solvedF2L(cube, speed) ) {
+            await this.oll(cube, speed);
+        } else if( await this.solvedCross(cube, speed) ) {
+            await this.f2l(cube, speed);
+        } else {
+            await this.bottomCross(cube, speed)
+        }
     }
 
     async bottomCross(cube, speed) {
@@ -52,6 +49,11 @@ export default class Solver {
         let position = cube.findPiece([downColor, frontColor]);
         let blockColors = cube.getSides();
         let rotations = "";
+        // adding in the title
+        let crossTitle = document.createElement("b");
+        crossTitle.textContent = "Bottom Cross";
+        this.terminal.appendChild(crossTitle);
+        this.terminal.appendChild(document.createElement("br"));
         // fixing yellow green orientation
         switch (position) {
             case 1:
@@ -469,6 +471,10 @@ export default class Solver {
 
     async f2l(cube, speed) {
         // do all 4 pairs
+        let title = document.createElement("b");
+        title.textContent = "First Two Layers";
+        this.terminal.appendChild(title);
+        this.terminal.appendChild(document.createElement("br"));
         for (let i = 0; i < 4; i++) {
             await this.f2lHelper(cube, speed)
             await cube.parseRotations("y", speed);
@@ -772,6 +778,10 @@ export default class Solver {
     }
 
     async oll(cube, speed) {
+        let title = document.createElement("b");
+        title.textContent = "OLL";
+        this.terminal.appendChild(title);
+        this.terminal.appendChild(document.createElement("br"));
         let sides = cube.getSides();
         let returnStatement = [];
         let rotations = "";
@@ -796,6 +806,10 @@ export default class Solver {
     async pll(cube, speed) {
         // 0 blue, 1 red, 2 green, 3 orange
         // let pllCases = PLLCASES;
+        let title = document.createElement("b");
+        title.textContent = "PLL";
+        this.terminal.appendChild(title);
+        this.terminal.appendChild(document.createElement("br"));
         let rotations = "";
         let sides = cube.getSides();
         let returnStatement = [];
@@ -909,5 +923,25 @@ export default class Solver {
             && cube.getSides().get("right").every( (ele, index, arr) => ele === arr[0])
             && cube.getSides().get("front").every( (ele, index, arr) => ele === arr[0])
             && cube.getSides().get("back").every( (ele, index, arr) => ele === arr[0])
-     }
+    }
+
+    async solvedCross(cube) {
+        let down = cube.getSides().get("down");
+        return down[1] === down[4] && down[3] === down[4] && down[5] === down[4]
+            && down[7] === down[4];
+    }
+
+    async solvedF2L(cube) {
+        let front = cube.getSides().get("front");
+        let right = cube.getSides().get("right");
+        let back = cube.getSides().get("back");
+        let left = cube.getSides().get("left");
+        return front[3] === front[4] && front[5] === front[4] && front[6] === front[4]
+            && front[7] === front[4] && front[8] === front[4]
+            && cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0]);
+    }
+
+    async solvedOll(cube) {
+            return cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0]);
+    }
 }

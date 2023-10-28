@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const speedValue = document.getElementById("speedValue");
     const customScramble = document.getElementById("customScramble");
     const terminal = document.getElementById("console");
+    let stepCount = 0;
 
     // Add event listeners and implement functionality here
     scrambleButton.addEventListener("click", async function () {
@@ -94,5 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     speedSlider.addEventListener("change", function () {
         speedValue.innerText = speedSlider.value;
+    });
+
+    forwardButton.addEventListener("click", async function () {
+        console.log("button clicked");
+        solver.solveNextStep(cube, speedValue.innerText);
     });
 });
