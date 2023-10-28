@@ -13,7 +13,7 @@ export default class Cube {
         this.blocks = [];
         let index = 0;
         for( let i = 0; i < size; i++ ) {
-            for( let j = 0; j < size; j++ ) {
+            for( let j = 1; j < size + 1; j++ ) {
                 for( let k = 0; k < size; k++ ) {
                     this.blocks[index] = new Block(i, j, k);
                     index += 1;
