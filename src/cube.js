@@ -5,12 +5,12 @@ import TWEEN from '@tweenjs/tween.js'
 
 export default class Cube {
     constructor(size) {
-        // TODO add a this.tween so that tween can stop
         this.xAxis = new THREE.Vector3( 1, 0, 0 );
         this.yAxis = new THREE.Vector3( 0, 1, 0 );
         this.zAxis = new THREE.Vector3( 0, 0, 1 );
         this.cubeGroup = new THREE.Group();
         this.tween = null;
+        this.isRotating = false;
         this.blocks = [];
         let index = 0;
         for( let i = 0; i < size; i++ ) {
@@ -1442,10 +1442,10 @@ export default class Cube {
             return splitArray;
         }
         let rotations = replaceAndSplit(str);
-        console.log(this.tween);
         if( this.tween != null ) {
-            await until(_ => this.tween.isPlaying() === false );
+            await until(_ => this.isRotating === false && this.tween.isPlaying() === false );
         }
+        this.isRotating = true;
         for( let i = 0; i < rotations.length; i++) {
             let rotation = rotations[i];
             let playRotation = true;
@@ -1523,6 +1523,7 @@ export default class Cube {
                 await until(_ => this.tween.isPlaying() === false );
             }
         }
+        this.isRotating = false;
     }
 
     /*

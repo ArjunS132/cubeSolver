@@ -9,11 +9,11 @@ export default class Solver {
 
     async Solve(cube, speed) {
         // this is to make sure the scramble is done
-        await cube.parseRotations("");
         const createLineBreak = () => {
             return document.createElement("br");
         };
 
+        await cube.parseRotations("");
         let crossTitle = document.createElement("b");
         crossTitle.textContent = "Bottom Cross";
         this.terminal.appendChild(crossTitle);
@@ -24,18 +24,21 @@ export default class Solver {
         f2lTitle.textContent = "First 2 layers";
         this.terminal.appendChild(f2lTitle);
         this.terminal.appendChild(createLineBreak());
+        await cube.parseRotations("");
         await this.f2l(cube, speed);
 
         let ollTitle = document.createElement("b");
         ollTitle.textContent = "OLL";
         this.terminal.appendChild(ollTitle);
         this.terminal.appendChild(createLineBreak());
+        await cube.parseRotations("");
         await this.oll(cube, speed);
 
         let pllTitle = document.createElement("b");
         pllTitle.textContent = "PLL";
         this.terminal.appendChild(pllTitle);
         this.terminal.appendChild(createLineBreak());
+        await cube.parseRotations("");
         await this.pll(cube, speed);
     }
 
@@ -798,7 +801,6 @@ export default class Solver {
         let returnStatement = [];
         for( const index in PLLCASES ) {
             let currCase = PLLCASES[index];
-            console.log(currCase);
             let solution = this.findPll(sides, currCase);
             if(solution[0]) {
                 switch (solution[1]) {
@@ -817,10 +819,8 @@ export default class Solver {
                 rotations += currCase[1];
                 returnStatement[0] = index + currCase[1];
                 returnStatement[1] = cube.getSides();
-                console.log("found pll to apply");
             }
         }
-        console.log(rotations);
         await cube.parseRotations(rotations, speed);
         let numURotations = 0;
         let promises = [];
@@ -858,7 +858,6 @@ export default class Solver {
         return [match, numTurns];
     }
 
-    // TODO FIX THIS (maybe. might work now)
     findPll( cubeSides, searchSides) {
         let match = false;
         let frontColor = cubeSides.get("front")[4];
@@ -899,9 +898,10 @@ export default class Solver {
             conversionMap.set(backColor, conversionMap.get(leftColor) );
             conversionMap.set(leftColor, temp);
         }
-        console.log([match, numTurns]);
         return [match, numTurns];
     }
+
+    // checks if the cube is fully solved
     async solved(cube) {
         return cube.getSides().get("up").every( (ele, index, arr) => ele === arr[0])
             && cube.getSides().get("down").every( (ele, index, arr) => ele === arr[0])
