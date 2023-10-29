@@ -1,5 +1,6 @@
 
 import {PLLCASES, OLLCASES} from './constants'
+import {idaStar} from './IDACross.js'
 
 export default class Solver {
 
@@ -10,9 +11,15 @@ export default class Solver {
 
     async Solve(cube, speed) {
         // this is to make sure the scramble is done
+        const useAStar = document.getElementById("astarCheckbox");
 
         await cube.parseRotations("");
-        await this.bottomCross(cube, speed);
+        if( useAStar.checked ) {
+            await this.aStarBottomCross(cube, speed);
+        }
+        else {
+            await this.bottomCross(cube, speed);
+        }
 
         await cube.parseRotations("");
         await this.f2l(cube, speed);
@@ -25,7 +32,7 @@ export default class Solver {
     }
 
     async solveNextStep(cube, speed) {
-        console.log("in the function");
+        const useAStar = document.getElementById("astarCheckbox");
         if(await this.solved(cube) ) {
             return
         } else if( await this.solvedOll(cube, speed) ) {
@@ -35,8 +42,22 @@ export default class Solver {
         } else if( await this.solvedCross(cube, speed) ) {
             await this.f2l(cube, speed);
         } else {
-            await this.bottomCross(cube, speed)
+            if( useAStar.checked ) {
+                await this.aStarBottomCross(cube, speed);
+            }
+            else {
+                await this.bottomCross(cube, speed);
+            }
         }
+    }
+
+    async aStarBottomCross(cube, speed) {
+        let rotations = idaStar(cube.getSides() );
+        let title = document.createElement("b");
+        title.textContent = "Bottom Cross";
+        this.terminal.appendChild(title);
+        this.terminal.appendChild(document.createElement("br"));
+        await cube.parseRotations( rotations.join(' '), speed );
     }
 
     async bottomCross(cube, speed) {

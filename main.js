@@ -3,9 +3,6 @@ import Cube from './src/cube.js'
 import TWEEN from '@tweenjs/tween.js'
 import { scramble } from './src/Scrambler.js'
 import Solver from './src/Solver.js'
-import Tester from './test.js'
-import { idaStar, turnF, turnL, turnR, turnB, turnU, iterativeDeepeningAStar } from './src/IDACross.js'
-
 import * as THREE from 'three'
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
@@ -33,11 +30,7 @@ controls.target.copy(targetPoint);
 camera.lookAt(targetPoint);
 
 const cube = new Cube(3);
-const gridLines = new THREE.GridHelper(50, 50)
 
-const axesHelper = new THREE.AxesHelper(8);
-
-// scene.add(gridLines, axesHelper);
 scene.add(cube.cubeGroup);
 function animate(t) {
     requestAnimationFrame( animate );
@@ -48,22 +41,8 @@ function animate(t) {
 
 animate()
 
-// const tester = new Tester(scene);
-// tester.testPll();
-// tester.testGreenYellow();
-// tester.testScrambleIntoSolve(1);
-// tester.testYRotation();
-// tester.testMInvertedRotation(50);
-// tester.testF2LHelper();
-// tester.test2Rotation();
-// tester.testrRotation(300);
-// tester.testCase("r U R' U R U2 r'", 20);
-// tester.testlRotation();
-// tester.testlIRotation(3);
-// tester.testOLL();
 let solver = new Solver();
 
-// implemented the buttons
 document.addEventListener("DOMContentLoaded", function () {
     const scrambleButton = document.getElementById("scrambleButton");
     const solveButton = document.getElementById("solveButton");
@@ -99,10 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     forwardButton.addEventListener("click", async function () {
-        console.log( idaStar( cube.getSides() ));
-        // console.log( iterativeDeepeningAStar( cube.getSides(), 7));
-        console.log("finished search");
-        // console.log("button clicked");
-        // solver.solveNextStep(cube, speedValue.innerText);
+        solver.solveNextStep(cube, speedValue.innerText);
     });
 });

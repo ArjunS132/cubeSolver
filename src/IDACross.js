@@ -1,67 +1,12 @@
 
-// going to pass in cube.getSides from the solver
-export function iterativeDeepeningAStar(cube, depthLimit, heuristicFunction = whiteCrossHeuristic) {
-    for (let depth = 1; depth <= depthLimit; depth++) {
-        const result = depthLimitedSearch(cube, depth, heuristicFunction);
-        if (result !== null) {
-            return result;
-        }
-    }
-    return null;  // No solution found within the depth limit
-}
-
-function depthLimitedSearch(cube, depth, heuristicFunction) {
-    if (depth === 0) {
-        if (isSolved(cube)) {  // Implement this function to check if the white cross is solved
-            console.log(cube);
-            return [];  // Return an empty array to represent the solved state
-        } else {
-            return null;
-        }
-    }
-
-    for (const move of possibleMoves(cube)) {
-        // Apply the move to a copy of the cube
-        const newCube = applyMove(cube, move);
-
-        // Calculate the cost to reach the goal state using the heuristic function
-        const cost = depth + heuristicFunction(newCube);
-
-        const result = depthLimitedSearch(newCube, depth - 1, heuristicFunction);
-        if (result !== null) {
-            return [move, ...result];  // Found a solution, so add this move to the array
-        }
-    }
-
-    return null;  // No solution found at this depth
-}
-
-
-
-
-
-
-
-
-class Node {
-    constructor(state, parent, action, cost, heuristic) {
-        this.state = state;          // The current state
-        this.parent = parent;        // Reference to the parent node
-        this.action = action;        // Action that led to this state
-        this.cost = cost;            // Cost from the initial state to this node
-        this.heuristic = heuristic;  // Heuristic estimate of cost to reach the goal
-        this.totalCost = cost + heuristic;  // f(n) = g(n) + h(n)
-    }
-}
-
 export function idaStar(initialState, isGoalState = isSolved, actions = possibleMoves, transition = applyMove, heuristic = whiteCrossHeuristic) {
     let threshold = heuristic(initialState);
     let solution = [];
     while (true) {
-        const result = search(initialState, isGoalState, actions, transition, heuristic, 0, threshold);
+        const result = search(initialState, isGoalState, actions, transition, heuristic, 0, threshold, solution);
 
-        if (result === "FOUND") {
-            return threshold; // Solution found
+        if (Array.isArray(result)) {
+            return result; // Solution found
         } else if (result === Number.POSITIVE_INFINITY) {
             return null; // No solution
         }
@@ -70,7 +15,7 @@ export function idaStar(initialState, isGoalState = isSolved, actions = possible
     }
 }
 
-function search(state, isGoalState, actions, transition, heuristic, cost, threshold) {
+function search(state, isGoalState, actions, transition, heuristic, cost, threshold, solution) {
     const estimatedCost = cost + heuristic(state);
 
     if (estimatedCost > threshold) {
@@ -78,17 +23,17 @@ function search(state, isGoalState, actions, transition, heuristic, cost, thresh
     }
 
     if (isGoalState(state)) {
-        return "FOUND";
+        return solution;
     }
 
     let minCost = Number.POSITIVE_INFINITY;
 
     for (const action of actions(state)) {
         const nextState = transition(state, action);
-        const result = search(nextState, isGoalState, actions, transition, heuristic, cost + 1, threshold);
-
-        if (result === "FOUND") {
-            return "FOUND";
+        const result = search(nextState, isGoalState, actions, transition, heuristic, cost + 1, threshold, solution);
+        if (Array.isArray(result)) {
+            solution.unshift(action);
+            return solution;
         }
 
         if (result < minCost) {
@@ -99,29 +44,7 @@ function search(state, isGoalState, actions, transition, heuristic, cost, thresh
     return minCost;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function isSolved(cube) {
-    // Define your goal state check for the white cross here
     // Return true if the white cross is solved, false otherwise
     let down = cube.get("down");
     let front = cube.get("front");
@@ -134,11 +57,10 @@ function isSolved(cube) {
 }
 
 function possibleMoves(cube) {
-    // Generate all possible moves based on your cube notation
     // Return an array of possible moves
-
     let move = cube.get("previous");
     let moveList;
+    // if a move is done, then don't do moves that are on the same face as the last move
     switch (move) {
         case "F ":
                 moveList = ["R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
@@ -316,7 +238,7 @@ function applyMove(cube, move) {
     return returnCube
 }
 
-export function turnF(cube) {
+function turnF(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -365,7 +287,7 @@ function turnFPrime(cube) {
     return returnCube;
 }
 
-export function turnL(cube) {
+function turnL(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -415,7 +337,7 @@ function turnLPrime(cube) {
 }
 
 // turn right
-export function turnR(cube) {
+function turnR(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -464,7 +386,7 @@ function turnRPrime(cube) {
     return returnCube;
 }
 
-export function turnB(cube) {
+function turnB(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -513,7 +435,7 @@ function turnBPrime(cube) {
     return returnCube;
 }
 
-export function turnU(cube) {
+function turnU(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -562,7 +484,7 @@ function turnUPrime(cube) {
     return returnCube;
 }
 
-export function turnD(cube) {
+function turnD(cube) {
     let returnCube = new Map();
     let down = cube.get("down").slice(0);
     let front = cube.get("front").slice(0);
@@ -612,16 +534,9 @@ function turnDPrime(cube) {
 }
 
 function whiteCrossHeuristic(cube) {
-    // Define the white cross stickers and their expected positions.
-    // You'll need to adapt this based on the orientation of your cube.
-
-    // Initialize a counter for misplaced white edges.
+    // just counting how many pieces aren't white edges at the bottom
     let misplacedCount = 0;
     let down = cube.get("down");
-    let front = cube.get("front");
-    let right = cube.get("right");
-    let back = cube.get("back");
-    let left = cube.get("left");
 
     if(down[1] !== down[4]) {
         misplacedCount++;
@@ -635,18 +550,5 @@ function whiteCrossHeuristic(cube) {
     if(down[7] !== down[4]) {
         misplacedCount++;
     }
-    // if(front[4] !== front[7]) {
-    //     misplacedCount++;
-    // }
-    // if(right[4] !== right[7]) {
-    //     misplacedCount++;
-    // }
-    // if(back[4] !== back[7]) {
-    //     misplacedCount++;
-    // }
-    // if(left[4] !== back[7]) {
-    //     misplacedCount++;
-    // }
-
     return misplacedCount;
 }
