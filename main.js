@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     forwardButton.addEventListener("click", async function () {
-        console.log( iterativeDeepeningAStar( cube.getSides(), 5));
+        console.log( iterativeDeepeningAStar( cube.getSides(), 7));
         console.log("finished search");
         // console.log("button clicked");
         // solver.solveNextStep(cube, speedValue.innerText);

@@ -53,8 +53,101 @@ function isGoalState(cube) {
 function possibleMoves(cube) {
     // Generate all possible moves based on your cube notation
     // Return an array of possible moves
-    return ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+
+    let move = cube.get("previous");
+    let moveList;
+    switch (move) {
+        case "F ":
+                moveList = ["R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+
+        case "F' ":
+                moveList = ["R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+        case "F F ":
+                moveList = ["R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break
+
+        case "R ":
+                moveList = ["F ", "F' ", "F F ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+
+        case "R' ":
+                moveList = ["F ", "F' ", "F F ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+        case "R R ":
+                moveList = ["F ", "F' ", "F F ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break
+
+        case "L ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+
+        case "L' ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+        case "L L ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break
+
+        case "B ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+
+        case "B' ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break;
+        case "B B ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U ", "D ", "D' ", "D D "];
+            break
+
+        case "U ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "D ", "D' ", "D D "];
+            break;
+
+        case "U' ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "D ", "D' ", "D D "];
+            break;
+        case "U U ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "D ", "D' ", "D D "];
+            break
+
+        case "D ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U " ];
+            break;
+
+        case "D' ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U "];
+            break;
+        case "D D ":
+                moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
+                                "U ", "U' ", "U U "];
+            break
+
+        default:
+            moveList = ["F ", "F' ", "F F ", "R ", "R' ", "R R ", "B ", "B' ", "B B ", "L ", "L' ", "L L ",
                 "U ", "U' ", "U U ", "D ", "D' ", "D D "]
+            break;
+    }
+
+    return moveList;
 }
 
 function applyMove(cube, move) {
@@ -136,6 +229,7 @@ function applyMove(cube, move) {
         default:
             break;
     }
+    returnCube.set("previous", move);
     return returnCube
 }
 
