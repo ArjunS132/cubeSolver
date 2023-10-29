@@ -927,8 +927,13 @@ export default class Solver {
 
     async solvedCross(cube) {
         let down = cube.getSides().get("down");
+        let front = cube.getSides().get("front");
+        let right = cube.getSides().get("right");
+        let back = cube.getSides().get("back");
+        let left = cube.getSides().get("left");
         return down[1] === down[4] && down[3] === down[4] && down[5] === down[4]
-            && down[7] === down[4];
+            && down[7] === down[4] && front[4] === front[7] && right[4] === right[7]
+            && back[4] === back[7] && left[7] === left[4];
     }
 
     async solvedF2L(cube) {

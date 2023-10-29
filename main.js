@@ -4,6 +4,7 @@ import TWEEN from '@tweenjs/tween.js'
 import { scramble } from './src/Scrambler.js'
 import Solver from './src/Solver.js'
 import Tester from './test.js'
+import { turnF, turnL, turnR, turnB, turnU, iterativeDeepeningAStar } from './src/IDACross.js'
 
 import * as THREE from 'three'
 
@@ -98,7 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     forwardButton.addEventListener("click", async function () {
-        console.log("button clicked");
-        solver.solveNextStep(cube, speedValue.innerText);
+        console.log( iterativeDeepeningAStar( cube.getSides(), 5));
+        console.log("finished search");
+        // console.log("button clicked");
+        // solver.solveNextStep(cube, speedValue.innerText);
     });
 });
