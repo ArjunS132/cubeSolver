@@ -1,4 +1,3 @@
-import Solver from './Solver.js'
 
 // going to pass in cube.getSides from the solver
 export function iterativeDeepeningAStar(cube, depthLimit, heuristicFunction = whiteCrossHeuristic) {
@@ -13,7 +12,7 @@ export function iterativeDeepeningAStar(cube, depthLimit, heuristicFunction = wh
 
 function depthLimitedSearch(cube, depth, heuristicFunction) {
     if (depth === 0) {
-        if (isGoalState(cube)) {  // Implement this function to check if the white cross is solved
+        if (isSolved(cube)) {  // Implement this function to check if the white cross is solved
             console.log(cube);
             return [];  // Return an empty array to represent the solved state
         } else {
@@ -37,7 +36,91 @@ function depthLimitedSearch(cube, depth, heuristicFunction) {
     return null;  // No solution found at this depth
 }
 
-function isGoalState(cube) {
+
+
+
+
+
+
+
+class Node {
+    constructor(state, parent, action, cost, heuristic) {
+        this.state = state;          // The current state
+        this.parent = parent;        // Reference to the parent node
+        this.action = action;        // Action that led to this state
+        this.cost = cost;            // Cost from the initial state to this node
+        this.heuristic = heuristic;  // Heuristic estimate of cost to reach the goal
+        this.totalCost = cost + heuristic;  // f(n) = g(n) + h(n)
+    }
+}
+
+export function idaStar(initialState, isGoalState = isSolved, actions = possibleMoves, transition = applyMove, heuristic = whiteCrossHeuristic) {
+    let threshold = heuristic(initialState);
+    let solution = [];
+    while (true) {
+        const result = search(initialState, isGoalState, actions, transition, heuristic, 0, threshold);
+
+        if (result === "FOUND") {
+            return threshold; // Solution found
+        } else if (result === Number.POSITIVE_INFINITY) {
+            return null; // No solution
+        }
+
+        threshold = result;
+    }
+}
+
+function search(state, isGoalState, actions, transition, heuristic, cost, threshold) {
+    const estimatedCost = cost + heuristic(state);
+
+    if (estimatedCost > threshold) {
+        return estimatedCost;
+    }
+
+    if (isGoalState(state)) {
+        return "FOUND";
+    }
+
+    let minCost = Number.POSITIVE_INFINITY;
+
+    for (const action of actions(state)) {
+        const nextState = transition(state, action);
+        const result = search(nextState, isGoalState, actions, transition, heuristic, cost + 1, threshold);
+
+        if (result === "FOUND") {
+            return "FOUND";
+        }
+
+        if (result < minCost) {
+            minCost = result;
+        }
+    }
+
+    return minCost;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function isSolved(cube) {
     // Define your goal state check for the white cross here
     // Return true if the white cross is solved, false otherwise
     let down = cube.get("down");
@@ -496,27 +579,27 @@ export function turnD(cube) {
                             down[8], down[5], down[2]] );
     // setting right
     returnCube.set("front", front.slice(0));
-    returnCube.get("front")[6] = right[6];
-    returnCube.get("front")[7] = right[7];
-    returnCube.get("front")[8] = right[8];
+    returnCube.get("front")[6] = left[6];
+    returnCube.get("front")[7] = left[7];
+    returnCube.get("front")[8] = left[8];
 
     // setting down
-    returnCube.set("right", right.slice(0));
-    returnCube.get("right")[6] = back[6];
-    returnCube.get("right")[7] = back[7];
-    returnCube.get("right")[8] = back[8];
+    returnCube.set("left", left.slice(0));
+    returnCube.get("left")[6] = back[6];
+    returnCube.get("left")[7] = back[7];
+    returnCube.get("left")[8] = back[8];
 
     // setting left
     returnCube.set("back", back.slice(0));
-    returnCube.get("back")[6] = left[6];
-    returnCube.get("back")[7] = left[7];
-    returnCube.get("back")[8] = left[8];
+    returnCube.get("back")[6] = right[6];
+    returnCube.get("back")[7] = right[7];
+    returnCube.get("back")[8] = right[8];
 
     // setting up
-    returnCube.set("left", left.slice(0));
-    returnCube.get("left")[6] = front[6];
-    returnCube.get("left")[7] = front[7];
-    returnCube.get("left")[8] = front[8];
+    returnCube.set("right", right.slice(0));
+    returnCube.get("right")[6] = front[6];
+    returnCube.get("right")[7] = front[7];
+    returnCube.get("right")[8] = front[8];
 
     return returnCube;
 }
@@ -552,18 +635,18 @@ function whiteCrossHeuristic(cube) {
     if(down[7] !== down[4]) {
         misplacedCount++;
     }
-    if(front[4] !== front[7]) {
-        misplacedCount++;
-    }
-    if(right[4] !== right[7]) {
-        misplacedCount++;
-    }
-    if(back[4] !== back[7]) {
-        misplacedCount++;
-    }
-    if(left[4] !== back[7]) {
-        misplacedCount++;
-    }
+    // if(front[4] !== front[7]) {
+    //     misplacedCount++;
+    // }
+    // if(right[4] !== right[7]) {
+    //     misplacedCount++;
+    // }
+    // if(back[4] !== back[7]) {
+    //     misplacedCount++;
+    // }
+    // if(left[4] !== back[7]) {
+    //     misplacedCount++;
+    // }
 
     return misplacedCount;
 }
