@@ -13,8 +13,7 @@ export function iterativeDeepeningAStar(cube, depthLimit, heuristicFunction = wh
 
 function depthLimitedSearch(cube, depth, heuristicFunction) {
     if (depth === 0) {
-        if (isGoalState(cube)) {  // Implement this function to check if the white cross is solved
-            console.log(cube);
+        if (isGoalState(cube)) {
             return [];  // Return an empty array to represent the solved state
         } else {
             return null;
@@ -275,7 +274,7 @@ export function turnF(cube) {
     return returnCube;
 }
 
-function turnFPrime(cube) {
+export function turnFPrime(cube) {
     let returnCube = turnF(cube);
     returnCube = turnF(returnCube);
     returnCube = turnF(returnCube);
@@ -324,7 +323,7 @@ export function turnL(cube) {
     return returnCube;
 }
 
-function turnLPrime(cube) {
+export function turnLPrime(cube) {
     let returnCube = turnL(cube);
     returnCube = turnL(returnCube);
     returnCube = turnL(returnCube);
@@ -374,7 +373,7 @@ export function turnR(cube) {
     return returnCube;
 }
 
-function turnRPrime(cube) {
+export function turnRPrime(cube) {
     let returnCube = turnR(cube);
     returnCube = turnR(returnCube);
     returnCube = turnR(returnCube);
@@ -423,7 +422,7 @@ export function turnB(cube) {
     return returnCube;
 }
 
-function turnBPrime(cube) {
+export function turnBPrime(cube) {
     let returnCube = turnB(cube);
     returnCube = turnB(returnCube);
     returnCube = turnB(returnCube);
@@ -472,7 +471,7 @@ export function turnU(cube) {
     return returnCube;
 }
 
-function turnUPrime(cube) {
+export function turnUPrime(cube) {
     let returnCube = turnU(cube);
     returnCube = turnU(returnCube);
     returnCube = turnU(returnCube);
@@ -496,32 +495,32 @@ export function turnD(cube) {
                             down[8], down[5], down[2]] );
     // setting right
     returnCube.set("front", front.slice(0));
-    returnCube.get("front")[6] = right[6];
-    returnCube.get("front")[7] = right[7];
-    returnCube.get("front")[8] = right[8];
+    returnCube.get("front")[6] = left[6];
+    returnCube.get("front")[7] = left[7];
+    returnCube.get("front")[8] = left[8];
 
     // setting down
-    returnCube.set("right", right.slice(0));
-    returnCube.get("right")[6] = back[6];
-    returnCube.get("right")[7] = back[7];
-    returnCube.get("right")[8] = back[8];
+    returnCube.set("left", left.slice(0));
+    returnCube.get("left")[6] = back[6];
+    returnCube.get("left")[7] = back[7];
+    returnCube.get("left")[8] = back[8];
 
     // setting left
     returnCube.set("back", back.slice(0));
-    returnCube.get("back")[6] = left[6];
-    returnCube.get("back")[7] = left[7];
-    returnCube.get("back")[8] = left[8];
+    returnCube.get("back")[6] = right[6];
+    returnCube.get("back")[7] = right[7];
+    returnCube.get("back")[8] = right[8];
 
     // setting up
-    returnCube.set("left", left.slice(0));
-    returnCube.get("left")[6] = front[6];
-    returnCube.get("left")[7] = front[7];
-    returnCube.get("left")[8] = front[8];
+    returnCube.set("right", right.slice(0));
+    returnCube.get("right")[6] = front[6];
+    returnCube.get("right")[7] = front[7];
+    returnCube.get("right")[8] = front[8];
 
     return returnCube;
 }
 
-function turnDPrime(cube) {
+export function turnDPrime(cube) {
     let returnCube = turnD(cube);
     returnCube = turnD(returnCube);
     returnCube = turnD(returnCube);
@@ -552,18 +551,18 @@ function whiteCrossHeuristic(cube) {
     if(down[7] !== down[4]) {
         misplacedCount++;
     }
-    if(front[4] !== front[7]) {
-        misplacedCount++;
-    }
-    if(right[4] !== right[7]) {
-        misplacedCount++;
-    }
-    if(back[4] !== back[7]) {
-        misplacedCount++;
-    }
-    if(left[4] !== back[7]) {
-        misplacedCount++;
-    }
+    // if(front[4] !== front[7]) {
+    //     misplacedCount++;
+    // }
+    // if(right[4] !== right[7]) {
+    //     misplacedCount++;
+    // }
+    // if(back[4] !== back[7]) {
+    //     misplacedCount++;
+    // }
+    // if(left[4] !== back[7]) {
+    //     misplacedCount++;
+    // }
 
     return misplacedCount;
 }
