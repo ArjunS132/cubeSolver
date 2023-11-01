@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubik's Cube Solver</title>
+    
+  <script type="module" crossorigin src="/cubeSolver/assets/index-8105063b.js"></script>
+  <link rel="stylesheet" href="/cubeSolver/assets/index-2b75ac5b.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rubik's Cube Solver</h1>
+        </header>
+        <div class="content">
+            <div class="project">
+                <canvas id="cube-canvas"></canvas>
+            </div>
+            <div class="menu">
+                <button id="scrambleButton" class="wide-button">Scramble</button>
+                <button id="solveButton" class="wide-button">Solve</button>
+                <label for="astarCheckbox">Use A*:</label>
+                <input type="checkbox" id="astarCheckbox">
+                <div class="navigation">
+                    <button id="backButton">Back</button>
+                    <button id="forwardButton">Next</button>
+                </div>
+                <label for="speedSlider">Animation Time (ms): <span id="speedValue">500</span></label>
+                <input type="range" id="speedSlider" min="100" max="2000" step="10" value="500">
+                <br>
+                <label for="customScramble">Custom Scramble Algorithm:</label>
+                <textarea id="customScramble" rows="4" class="custom-scramble-input"></textarea>
+                <div class="console" id="console">
+                    <!-- This is your console output area. You can append content here using JavaScript. -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
